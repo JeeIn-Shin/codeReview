@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  },
+  "name": "codereview",
+  "version": "1.0.0",
+  "description": "Code Review Matching Site API",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeeIn-Shin/codeReview.git"
+  },
+  "author": "Jin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JeeIn-Shin/codeReview/issues"
+  },
+  "homepage": "https://github.com/JeeIn-Shin/codeReview#readme"
+}
