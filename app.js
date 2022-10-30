@@ -13,6 +13,8 @@ app.get('/', (req, res) =>{
     res.send("test");
 });
 
+require("router/user.js")(app);
+
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), "빈 포트에서 대기");
 });
