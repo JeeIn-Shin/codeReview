@@ -1,7 +1,7 @@
 const sql = require("../cofing/database.js");
 
-const user = function (user_setting) {
-    this.studentID = user_setting.studentID;
+const User = function (user_setting) {
+    this.student_id = user_setting.student_id;
     this.password = user_setting.password;
     this.name = user_setting.name;
     this.email = user_setting.email;
@@ -10,7 +10,7 @@ const user = function (user_setting) {
 
 //사용자 회원가입
 //student id, email, nickname UQ
-user.create = (newUser, result) => {
+User.create = (newUser, result) => {
     sql.query("INSERT INTO user SET ?", newUser, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -22,8 +22,8 @@ user.create = (newUser, result) => {
     });
 };
 
-user.getAll = result =>{
-    sql.query('SELECT * FROM user', (err, res)=>{
+User.get_specific_user = (studentID, result) =>{
+    sql.query(`SELECT * FROM user WHERE student_id likes '${studentID}'`, (err, res)=>{
         if(err){
             console.log("error: ", err);
             result(err, null);
@@ -36,5 +36,4 @@ user.getAll = result =>{
 };
 
 
-
-module.exports = user;
+module.exports = User;
