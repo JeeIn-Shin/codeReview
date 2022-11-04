@@ -1,11 +1,12 @@
 const mysql = require('mysql');
+require('dotenv').config();
 
 const dbInfo = {
     host: process.env.host,
     port: '3306',
     user: process.env.user,
     password: process.env.password,
-    datebase: 'codeReview'
+    datebase: 'codereview'
 };
 
 module.exports = {
