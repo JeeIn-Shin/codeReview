@@ -1,0 +1,1 @@
+const Interest = require('../model/Interest.js');

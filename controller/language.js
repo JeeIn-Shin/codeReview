@@ -1,0 +1,1 @@
+const Language = require('../model/language.js');

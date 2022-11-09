@@ -1,4 +1,4 @@
-const sql = require("../cofing/database.js");
+const sql = require("../config/database.js");
 
 const User = function (user_setting) {
     this.student_id = user_setting.student_id;
