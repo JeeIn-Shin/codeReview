@@ -6,19 +6,24 @@ const dbInfo = {
     port: '3306',
     user: process.env.user,
     password: process.env.password,
-    datebase: 'codereview'
+    database: 'codereview'
 };
 
-module.exports = {
-    init: function () {
-        return mysql.createConnection(dbInfo);
-    },
-    connect: function(connect)  {
-        connect.connect(function(err) {
-            if(err)
-                console.error('mysql connection error' + err);
-            else
-                console.log('mysql connection success');
-        })
-    }
-};
+let db = {
+	init:function() {
+		return mysql.createConnection(dbInfo);
+	},
+	connection:function(con) {
+		con.connect(function(err){
+			if(err) {
+				console.log("mysql connection error :"+err);
+				setTimeout(init, 2000);
+
+			} else {
+				console.log("mysql connection sucessfully");
+			}
+		})
+	}
+}
+
+module.exports = db;

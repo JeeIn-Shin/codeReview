@@ -1,4 +1,4 @@
-const sql = require("../cofing/database.js");
+const sql = require("../config/database.js");
 
 const Language = function (language_setting) {
     this.studentID = language_setting.studentID;

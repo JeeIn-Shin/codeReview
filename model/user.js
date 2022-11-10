@@ -1,4 +1,4 @@
-const sql = require("../config/database.js");
+const db = require("../config/database.js");
 
 const User = function (user_setting) {
     this.student_id = user_setting.student_id;
@@ -11,19 +11,21 @@ const User = function (user_setting) {
 //사용자 회원가입
 //student id, email, nickname UQ
 User.create = (newUser, result) => {
-    sql.query("INSERT INTO user SET ?", newUser, (err, res) => {
+    db.init().query("INSERT INTO codereview.user SET ?", newUser, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
-        console.log("created user: ", { id: res.insertId, ...newUser });
-        result(null, { id: res.insertId, ...newUser });
+        console.log("created user: ", { id: res.student_id, ...newUser });
+        result(null, { id: res.student_id, ...newUser });
     });
 };
 
-User.get_specific_user = (studentID, result) =>{
-    sql.query(`SELECT * FROM user WHERE student_id likes '${studentID}'`, (err, res)=>{
+User.findById = (student_id, result) =>{
+
+    let search_by_id = `SELECT * FROM user WHERE student_id like ${student_id}`;
+    db.init().query((search_by_id), (err, res) => {
         if(err){
             console.log("error: ", err);
             result(err, null);
