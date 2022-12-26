@@ -8,7 +8,9 @@ const router = express.Router();
 // }
 
 // http://localhost:8080/language/init
-//최초 정보 설정
+
+
+// 회원가입 시 자동으로 이뤄지는 부분임 지금 건들기 XXXXXX 최초 정보 설정
 router.post('/init', async(req, res) => {
 
     //해당 ID가 DB에 있는지 체크
@@ -57,7 +59,8 @@ router.post('/init', async(req, res) => {
 // }
 
 // http://localhost:8080/language/set/:studentID
-// 언어 관련 정보 수정시
+// 언어 변경 버튼 눌렀을 때 화면 전환이 이뤄지면서
+// 전체적으로 한번 다 누르고 수정 버튼이 눌러질 때 이 부분이 호출됨
 router.put('/set/:adminID', async(req, res) => {
     
     //1. 로그인 되어있는게 맞는지
@@ -90,6 +93,8 @@ router.put('/set/:adminID', async(req, res) => {
 })
 
 // http://localhost:8080/language/:studentID
+// 개인정보 설정 페이지로 이동했을 경우
+// 이 부분을 호출함으로써 로그인한 사람의 프로그래밍 언어 선호도가 보여짐
 router.get('/:studentID', async(req, res) => {
     
     //로그인 확인

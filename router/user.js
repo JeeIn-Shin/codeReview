@@ -43,6 +43,7 @@ router.post('/create', async(req, res) => {
 })
 
 
+// http
 router.get('/:student_id', (req, res) => {
     User.findById(req.params.student_id, (err, data) => {
         if (err) {
