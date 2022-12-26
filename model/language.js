@@ -1,3 +1,4 @@
+const db = require("../config/database.js");
 const sql = require("../config/database.js");
 
 const Language = function (language_setting) {
@@ -13,29 +14,102 @@ const Language = function (language_setting) {
 };
 
 //회원가입시 기본설정으로 자동기입됨
-Language.create = (User_language_setting, result) => {
-    sql.query("INSERT INTO user SET ?", User_language_setting, (err, res) => {
-        if (err) {
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
-        console.log("created user_language_steeing: ", { id: res.insertId, ...User_language_setting });
-        result(null, { id: res.insertId, ...User_language_setting });
-    });
-};
+//싹 다 0으로?
+//일단은 회원가입 구현 XXXXXX
+Language.initial = (adminID, init, result) => {
 
-Language.getLanguage_specific_user = (studentID, result) =>{
-    sql.query(`SELECT * FROM user WHERE user_student_id likes '${studentID}'`, (err, res)=>{
-        if(err){
-            console.log("error: ", err);
-            result(err, null);
-            return;
-        }
+    console.log(adminID);
 
-        console.log("user_language: ", res);
-        result(null, res);
-    });
-};
+    let setting_value = Object.values(init);
+    console.log(setting_value);
+    
+    db.getConnection(function(err, connection ) {
+        if(!err) {
+            // join 어떻게 사용하지?
+            let SQL = `INSERT INTO set_language VALUES ( "${adminID}", ? )`;
+
+            connection.query(SQL, [setting_value], (err, res) => {
+                connection.release();
+
+                if(err) {
+                    console.log("error: ", err);
+					result(null, err);
+					return ;
+                }
+
+                result(null, res);
+                return ;
+            })
+        }
+        else    {
+            console.error('INITIAL LANGUAGE SQL ERROR ' + err);
+            throw err;
+        }
+    })
+}
+
+//개인정보(?) 중, language 업뎃시
+Language.set = (adminID, input_values, result) => {
+    
+    console.log(adminID);
+    let setting_value = Object.values(input_values);
+
+    
+    db.getConnection(function(err, connection) {
+        if(!err) {
+            let SQL = `UPDATE set_language SET
+                       C = ?, Cplus = ?, Csharp = ?, Java = ?, Kotlin = ?, Swift = ?,
+                       Python = ?, Go = ?, JavaScript = ?, Rust = ?, Ruby = ?
+                       WHERE user_student_id like ${adminID}`;
+
+            connection.query(SQL, setting_value, (err, res) =>{
+                connection.release();
+    
+                if(err) {
+                    console.log("error ", + err);
+                    result(null, err);
+                    return ;
+                }
+                
+                result(null, res);
+                return ;
+            })
+
+        }
+        else    {
+            console.error('UPDATE LANGUAGE SQL ERROR ' + err);
+            throw err;
+        }
+    })
+}
+
+//이건 언제쓸려나
+//로그인 한 사람이 자신의 개인정보설정 페이지에서 확인할 수 있게끔
+//음!
+Language.getbyID = (adminID, result) => {
+
+    db.getConnection(function(err, connection) {
+        if(!err) {
+            let SQL = `SELECT C, Cplus, Csharp, Java, Kotlin, Swift, Python, Go, Javascript, Rust, Ruby FROM set_language 
+                       WHERE user_student_id like ${adminID}`
+
+            connection.query(SQL, (err, res) => {
+                connection.release();
+
+                if(err) {
+                    console.log("error" + err);
+                    result(null, err);
+                    return ;
+                }
+
+                result(null, res);
+                return ;
+            })
+        }
+        else    {
+
+        }
+    })
+}
 
 module.exports = Language;

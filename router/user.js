@@ -16,7 +16,7 @@ router.post('/create', async(req, res) => {
     //position 은 기본값 0으로 설정
     //position은 추후 수정될 가능성 농후
     //positon X , column이 reviewee, reviewer로 쪼개진다던가..
-    const newUser = new User({
+    const user = new User({
         student_id: req.body.student_id,
         password: req.body.password,
         name: req.body.name,
@@ -25,8 +25,14 @@ router.post('/create', async(req, res) => {
         positon: 0    // default(0), reviewee(1), reviewer(2)
     });
 
+    //let input_user_data = await User.create(user)
+
     // Save User in the database
-    User.create(newUser, (err, data) => {
+    User.create(input_user_data, (err, data) => {
+        
+        //문제 발생, 값이 입력받아지지않음
+        //어째서..!
+        console.log(input_user_data.student_id);
         if (err)
             res.status(500).send({
                 message:
@@ -49,7 +55,7 @@ router.get('/:student_id', (req, res) => {
                     message: "Error retrieving student with id " + req.params.student_id
                 });
             }
-        } else res.send(data);
+        } else res.json(data);
     });
 });
 

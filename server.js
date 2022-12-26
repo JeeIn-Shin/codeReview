@@ -1,11 +1,9 @@
 const express = require('express');
-const DBconfig = require(__dirname + '/config/database.js');
-const connect = DBconfig.init();
 const bodyParser = require("body-parser");
 
 const userRouter= require('./router/user');
+const languageRouter = require("./router/language");
 
-DBconfig.connection(connect);
 
 const app = express();
 
@@ -18,9 +16,11 @@ app.get('/', (req, res) =>{
     res.json({ test : "test"});
 });
 
-app.use('/user', userRouter);
+app.use(bodyParser.json());
 
-//require("./router/user.js")(app);
+app.use('/user', userRouter);
+app.use('/language', languageRouter);
+
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), "빈 포트에서 대기");
