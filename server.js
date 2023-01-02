@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 
-const userRouter= require('./router/user');
+const userRouter= require('./router/profile');
 const languageRouter = require("./router/language");
 const InterestRouter = require("./router/interest");
 

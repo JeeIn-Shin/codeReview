@@ -1,5 +1,4 @@
 .env
-.gitignore
 
 ./history
 /.history
@@ -10,8 +9,3 @@ history/.
 node_modules/.
 node_modules/
 
-/view
-./view
-view
-view/
-view/.

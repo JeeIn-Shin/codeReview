@@ -13,8 +13,8 @@ const router = express.Router();
 // 회원가입 시 자동으로 이뤄지는 부분임 지금 건들기 XXXXXX 최초 정보 설정
 router.post('/init', async(req, res) => {
 
-    //해당 ID가 DB에 있는지 체크
-    let adminID = req.body.user_student_id;
+    //???로그인 되어있는지????
+    //어떤걸 검사해줘야하지..
 
     //가입시 자동 설정
     let init = {
@@ -46,8 +46,8 @@ router.post('/init', async(req, res) => {
 
 // {
 //     "C": 2,
-//     "C-plus": 2,
-//     "C-sharp": 3,
+//     "Cplus": 2,
+//     "Csharp": 3,
 //     "Java": 3,
 //     "Kotlin": 2,
 //     "Swift": 3,
@@ -65,7 +65,7 @@ router.put('/set/:adminID', async(req, res) => {
     
     //1. 로그인 되어있는게 맞는지
 
-    //2. 현재 로그인 된 아이디가 DB에 있는지 -- ?????????
+    //0~3외의 숫자가 들어간건 아닌지
 
 
     let setting_language = {
@@ -87,7 +87,7 @@ router.put('/set/:adminID', async(req, res) => {
             res.json(data);
         }
         catch(err) {
-            console.error();
+            console.error(err);
         }
     })
 })

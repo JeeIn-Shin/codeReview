@@ -48,14 +48,14 @@ Interest.set = (adminID, input_values, result) => {
         
         if(!err) {
             
-            let SQL = `UPDATE set_interset SET code_revie = ? , refactoring = ?, QA = ?, implementation = ?, design = ?
+            let SQL = `UPDATE set_interset SET code_review = ? , refactoring = ?, QA = ?
                        WHERE user_student_id LIKE ${adminID}`;
 
             connection.query(SQL, setting_value, (err, res) => {
                 connection.release();
 
                 if(err) {
-                    console.log("error", + err);
+                    console.log("1error", + err);
                     result(null, err);
                     return ;
                 }
@@ -65,7 +65,7 @@ Interest.set = (adminID, input_values, result) => {
             })
         }
         else    {
-            console.log("interest set error ", + err);
+            console.log("2interest set error ", + err);
             throw err;
         }
     })
@@ -77,7 +77,7 @@ Interest.getbyID = (adminID, result) => {
     db.getConnection(function(err, connection) {
         
         if(!err)    {
-            let SQL = `SELECT code_revie, refactoring, QA, implementation, design FROM set_interest
+            let SQL = `SELECT code_review, refactoring, QA FROM set_interest
                        WHERE user_student_id LIKE ${adminID}`;
 
             connection.query(SQL, (err, res) => {

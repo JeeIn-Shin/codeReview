@@ -7,8 +7,7 @@ const router = express.Router();
 // 회원가입 시 자동으로 이뤄지는 부분임 지금 건들기 XXXXXX 최초 정보 설정
 router.post('/init', async(req, res) => {
 
-    //해당 ID가 DB에 있는지 체크
-    let adminID = req.body.user_student_id;
+    //로그인 되어있는지
 
     //가입시 자동 설정
     let init = {
@@ -30,6 +29,14 @@ router.post('/init', async(req, res) => {
 })
 
 
+// {
+//     "code_review": 2,
+//     "refactoring": 2,
+//     "QA": 2,
+//     "implementation": 2,
+//     "design": 2
+// }
+
 // http://localhost:8080/interest/set/:studentID
 // 관심활동 변경 버튼 눌렀을 때 화면 전환이 이뤄지면서
 // 전체적으로 한번 다 누르고 수정 버튼이 눌러질 때 이 부분이 호출됨
@@ -37,7 +44,7 @@ router.put('/set/:adminID', async(req, res) => {
     
     //1. 로그인 되어있는게 맞는지
 
-    //2. 현재 로그인 된 아이디가 DB에 있는지 -- ?????????
+    //2. 0~2 외의 숫자가 들어가지 않았는지
 
 
     let setting_language = {
@@ -49,11 +56,18 @@ router.put('/set/:adminID', async(req, res) => {
     }
 
     await Interest.set(req.params.adminID, setting_language, (err, data) => {
+        
         try {
-            res.json(data);
+            let result= {
+                msg:"Ok",
+                code:"200",
+                data:"수정완료"
+            };
+
+            res.json(result);
         }
         catch(err) {
-            console.error();
+            console.error(3);
         }
     })
 })

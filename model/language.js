@@ -50,8 +50,7 @@ Language.initial = (adminID, init, result) => {
 
 //개인정보(?) 중, language 업뎃시
 Language.set = (adminID, input_values, result) => {
-    
-    console.log(adminID);
+
     let setting_value = Object.values(input_values);
 
     
