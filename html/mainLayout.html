@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>mainLayout</title>
+
+        <link rel="stylesheet" href="../css/mainLayout.css" />
+        <script src="https://code.jquery.com/jquery-3.6.3.js"></script>
+        <script src="../js/mainLayout.js"></script>
+        <!-- <script type="text/javascript">
+            $(document).ready(function () {
+                $("#bodys").load("test.html");
+            });
+        </script> -->
+    </head>
+    <body>
+        <!-- 메인 헤더 부분 -->
+        <header id="headers">
+            <!-- 학교 로고, 클릭 시 메인화면으로 이동하게 만들기(아직 안 만듬) -->
+            <div id="logoBox">
+                <img src="../img/hansung-character/상상부기 PNG 파일/상상부기 10.png" alt="클릭 시 메인 페이지로 이동" />
+                <p>한성 코드 리뷰</p>
+            </div>
+
+            <!-- 클릭 시 로그인 페이지로 이동하며, 로그인 성공시
+            간단 프로필 나오게 만들기 (아직 못 만듬) -->
+            <div id="profileBox">
+                <a href="/">로그인하러 가기</a>
+            </div>
+        </header>
+
+        <div id="bodyWrap">
+            <!-- 네비게이션, 사이드 메뉴바 -->
+            <div id="nav">
+                <p id="toProfile">프로필</p>
+                <p id="toCommu">커뮤니티</p>
+                <p id="toMeet">만나러 가기</p>
+                <p id="toChat">채팅</p>
+            </div>
+
+            <!-- 메인 바디 부분,
+                이곳에 다른 html의 바디를 불러온다 -->
+            <div id="bodys">이거 보이면 불러오기 실패다 슈펄</div>
+        </div>
+    </body>
+</html>
