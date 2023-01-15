@@ -1,81 +1,5 @@
-const { getConnection } = require("../config/database.js");
-const db = require("../config/database.js");
+const DB = require("../config/database.js");
 
-const User = function (input_user_data) {
-    this.student_id = input_user_data.student_id;
-    this.password = input_user_data.password;
-    this.git_hub = input_user_data.git_hub;
-    this.profile_img = input_user_data.profile_img;
-};
-
-//사용자 회원가입
-//student id, email, nickname UQ
-//input_user_data => 사용자로부터 입력받은 객체
-
-//회원가입하고 아무것도 안하면 그냥 기본 이미지인거지
-//오 이게 좋은거 같음
-User.create = (init, result) => {
-    
-    let setting_value = Object.values(init);
-
-    db.getConnection((err, connection) => {
-        if(!err) {
-            let SQL = `INSERT INTO user VALUES ( ?, '../view/img/profile/0.png' )`;
-            connection.query(SQL, [setting_value], (err, res) => {
-                connection.release();
-
-                if(err) {
-                    console.log("error " + err);
-                    result(null, err);
-                    return ;
-                }
-
-                result(null, res);
-                return ;
-            })
-        }
-        else    {
-            console.error();
-            throw err;
-        }
-    })
-};
-
-
-//해당 사용자의 정보 불러오기
-User.findById = (adminID, result) =>{
-
-    db.getConnection((err, connection) => {
-        if(!err) {
-            
-            let SQL = `SELECT git_hub, nickname, profile_img FROM user 
-                       WHERE student_id like ${adminID}`;
-
-            connection.query(SQL, (err, res) => {
-                connection.release();
-
-                if(err) {
-                    console.log("error " + err);
-                    result(null, err);
-                    return ;
-                }
-                result(null, res);
-                return ;
-            })
-        }
-        else    {
-            console.error();
-            throw err;
-        }
-    })
-
-};
-
-//사용자의 정보 변경
-//프로필 사진 제외
-//할려고 했는데 그러지 말고 함수로 따로 빼버리는건 어떨까?
-//**ㅈㅁ 이거 고민 좀 해보자..
-//비밀번호 변경을 따로 둬야하지 않을까?
 
 let setProfileImage = (imageUpdateValue) => {
     switch(imageUpdateValue)  {
@@ -103,76 +27,199 @@ let setProfileImage = (imageUpdateValue) => {
     }
 }
 
-
-User.update = (adminID, inputValues, result) => {
-
-    //???? 이걸 이렇게 해줘야하나?
-    //더 좋은 방법없을까..
-    let updateValue = Object.values(inputValues);
-    let imgValue = setProfileImage(updateValue[0]);
-    updateValue[0] = imgValue;
-
-    db.getConnection(function(err, connection) {
-        
-        if(!err) {
-            let SQL = `UPDATE user SET
-                       profile_img = ?, nickname = ?, email = ?, git_hub = ?
-                       WHERE student_id LIKE "${adminID}"`;
-            
+const PROFILE = {
+    //사용자 정보 불러오기
+    getByLoginInfo : function(id, result) {
+        DB.getConnection((err, connection) => {
+            if(!err) {
                 
-            connection.query(SQL, updateValue, (err, res) => {
-                connection.release();
-
-                if(err) {
-                    console.log("error " + err);
-                    result(null, err);
+                let sql = `SELECT GITHUB, NICKNAME, PROFILE_IMG FROM USER_TB 
+                           WHERE ID_PK like ${id}`;
+    
+                connection.query(sql, (err, res) => {
+                    connection.release();
+    
+                    if(err) {
+                        console.log("error " + err);
+                        result(null, err);
+                        return ;
+                    }
+                    result(null, res);
                     return ;
-                }
-                result(null, res);
-                return ;
-            })
-        }
-        else    {
-            console.error(err);
-            throw err;
-        }
-    })
-}
+                })
+            }
+            else    {
+                console.error();
+                throw err;
+            }
+        })
+    }, 
 
+    //프로필 이미지, 닉네임, 이메일, 깃허브 주소 변경
+    //이메일 변경을 따로 두는게 맞을까?
+    //대부분은 이메일 변경을 따로 두는구나ㅇㅋ
+    updateInfo : function(id, updateData, result) {
+        
+        let data = Object.values(updateData);
+        let imgData = setProfileImage(data[0]);
+        data[0] = imgData;
+    
+        DB.getConnection(function(err, connection) {
+            
+            if(!err) {
+                let SQL = `UPDATE USER_TB SET
+                           PROFILE_IMG = ?, NICKNAME = ?, GITHUB = ?
+                           WHERE student_id LIKE ${id}`;                
+                    
+                connection.query(SQL, data, (err, res) => {
+                    connection.release();
+    
+                    if(err) {
+                        console.log("error " + err);
+                        result(null, err);
+                        return ;
+                    }
+                    result(null, res);
+                    return ;
+                })
+            }
+            else    {
+                console.error(err);
+                throw err;
+            }
+        })
+    },
 
-//사용자의 프로필 사진 변경
-// User.update_profile = (adminID, result) => {
-//     db.getConnection(function(err, connection) {
-//         if(!err) {
+    //사용자 비밀번호 변경
+    //메일링 서비스 연동
+    //나중에 구현
+    updatePassword : function (result)  {
 
-//             let SQL = ``;
+    },
 
-//             connection.query(SQL, (err, res) => {
-//                 connection.release();
+    updateEmail : function (result) {
 
-//                 if(err) {
-//                     console.log("error " + err);
-//                     result(null, err);
-//                     return ;
-//                 }
+    },
+
+    /**  프로그래밍 언어 관련 정보 불러오기 */
+    getUserLanguage : function(id, result)    {
+        DB.getConnection((err, connection) => {
+            if(!err) {
                 
-//                 result(null, res);
-//                 return ;
-//             })
-//         }
-//         else    {
-//             console.error();
-//             throw err;
-//         }
-//     })
-// }
+                let sql = `SELECT C, CPLUS, CSHARP, JAVA, KOTLIN, SWIFT, PYTHON, GO, JAVASCRIPT, RUST, RUBY
+                           FROM LANGUAGE_TB 
+                           WHERE ID_PK like ${id}`;
+    
+                connection.query(sql, (err, res) => {
+                    connection.release();
+    
+                    if(err) {
+                        console.log("query error " + err);
+                        result(null, err);
+                        return ;
+                    }
+                    result(null, res);
+                    return ;
+                })
+            }
+            else    {
+                console.error("connection error " + err);
+                throw err;
+            }
+        })
+    },
 
-//사용자 비밀번호 변경
-//근데 암호화 되어있는데 이걸 어떻게?
-//메일링 서비스 연동
-//나중에 구현
-User.update_password = () => {
+    /** 프로그래밍 언어 관련 정보 수정하기 */ 
+    updateLanguage : function (id, data, result)    {
+        let updateData = Object.values(data);
+    
+        DB.getConnection(function(err, connection) {
+            
+            if(!err) {
+                let SQL = `UPDATE LANGUAGE_TB SET
+                           C = ?, CPLUS = ?, CSHARP = ?, JAVA = ?, 
+                           KOTLIN = ?, SWIFT = ?, PYTHON = ?, GO = ? 
+                           JAVASCRIPT = ?, RUST = ?, RUBY = ?
+                           WHERE ID_PK LIKE ${id}`;                
+                    
+                connection.query(SQL, [updateData], (err, res) => {
+                    connection.release();
+    
+                    if(err) {
+                        console.log("error " + err);
+                        result(null, err);
+                        return ;
+                    }
+                    result(null, res);
+                    return ;
+                })
+            }
+            else    {
+                console.error(err);
+                throw err;
+            }
+        })
+    },
 
+    /** 관심 활동 관련 정보 불러오기 */
+    getUserActivity : function(id, result)    {
+        DB.getConnection((err, connection) => {
+            if(!err) {
+                
+                let sql = `SELECT CODEREVIEW, REFACTORING, QA
+                           FROM ACTIVITY_TB 
+                           WHERE ID_PK like ${id}`;
+    
+                connection.query(sql, (err, res) => {
+                    connection.release();
+    
+                    if(err) {
+                        console.log("query error " + err);
+                        result(null, err);
+                        return ;
+                    }
+                    result(null, res);
+                    return ;
+                })
+            }
+            else    {
+                console.error("connection error " + err);
+                throw err;
+            }
+        })
+    },
+
+    /** 관심 활동 관련 정보 수정하기 */
+    updateActivity : function (id, data, result)    {
+        let updateData = Object.values(data);
+    
+        DB.getConnection(function(err, connection) {
+            
+            if(!err) {
+                let SQL = `UPDATE LANGUAGE_TB SET
+                           CODEREVIEW = ?, REFACTORING = ?, QA = ?
+                           WHERE student_id LIKE ${id}`;                
+                    
+                connection.query(SQL, [updateData], (err, res) => {
+                    connection.release();
+    
+                    if(err) {
+                        console.log("query error " + err);
+                        result(null, err);
+                        return ;
+                    }
+                    result(null, res);
+                    return ;
+                })
+            }
+            else    {
+                console.error("connection error " + err);
+                throw err;
+            }
+        })        
+    }
 }
 
-module.exports = User;
+PROFILE.getUserLanguage
+
+module.exports = PROFILE;

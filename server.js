@@ -1,9 +1,8 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 
-const userRouter= require('./router/profile');
-const languageRouter = require("./router/language");
-const InterestRouter = require("./router/interest");
+const PROFILEROUTER = require('./router/profile');
+const SIGNUPROUTER = require("./router/signup");
 
 
 const app = express();
@@ -19,9 +18,8 @@ app.get('/', (req, res) =>{
 
 app.use(bodyParser.json());
 
-app.use('/user', userRouter);
-app.use('/language', languageRouter);
-app.use('/interest', InterestRouter);
+app.use('/profile', PROFILEROUTER);
+app.use('/signup', SIGNUPROUTER);
 
 
 app.listen(app.get('port'), () => {
