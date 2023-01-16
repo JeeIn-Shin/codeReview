@@ -1,0 +1,60 @@
+.back_sang {
+    width: 1000px;
+    height: 1000px;
+    background: url("../image/상상부기.png");
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+.labelid {
+    width: 100px;
+    text-align: left;
+    padding-right: 10px;
+}
+
+.fieldid input {
+    margin: 10px;
+    width: 400px;
+    height: 30px;
+}
+
+.fieldpass input{
+    margin: 10px;
+    width: 400px;
+    height: 30px;
+
+}
+
+.fieldname input{
+    margin: 10px;
+    width: 400px;
+    height: 30px;
+}
+
+.fieldnumber input{
+    margin: 10px;
+    width: 70px;
+}
+
+.fieldnumber select{
+    margin: 10px;
+    width: 70px;
+
+}
+
+.fieldname2 input{
+    margin: 10px;
+    width: 400px;
+    height: 30px;
+}
+
+.fieldjoin {
+    margin: 10px;
+}
+
+.fieldemail input{
+    margin: 5px;
+    width: 150px;
+    height: 30px;
+}
