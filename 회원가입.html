@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="CSS/style.css" />
+    
+
+</head>
+
+
+<body>
+    <main>
+        <form name="joinus" method="post" enctype="multipart/form-data" action="">
+        <div class="labelid"> <label for="joinnum">아이디(학번)</label></div> <!--아이디 및 학번 입력칸 중복확인 칸-->
+        <div class="fieldid"> <input type="text" oninput="this.value=this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+        id="joinnum" name="joinnum" placeholder="ex) 2071018"  maxlength="7" autocomplete="on"> <button type="button">중복확인</button>
+        </div>
+
+        <div class="labelid"> <label for=joinname>이름</label></div> <!--이름 입력칸-->
+        <div class="fieldname"> <input type="text" id="joinname" name="joinid" placeholder="홍길동"
+        maxlength="10" autocomplete="off"> </div>
+          
+
+        <div class="labelid"> <label for="joinpa">비밀번호</label></div> <!--비밀번호 입력칸 유효성 검사-->
+        <div class="fieldpass"> <input type="password" id=joinpa name="joinpa" placeholder="최대 10글자 이내 (숫자,영문 필수)"
+        maxlength="10" autocomplete="off"></div>
+        
+        <div class="labelid"> <label for=checkps>비밀번호확인</label></div> <!--비밀번호 확인 칸 유효성 검사-->
+        <div class="fieldpass"> <input type="password" id=checkps name="checkps" placeholder="정확하게 입력해주세요"
+        maxlength="10" autocomplete="off"> </div>
+       
+
+        <div class="labelid"> <label for="jointel1">휴대폰번호</label></div> <!--휴대폰번호 확인칸 인증X-->
+        <div class="fieldnumber">
+            <select id="jointel1" name="jointel1">
+                <option value="010" selected>010</option>
+                <option value="011">011</option>
+                <option value="016">016</option>
+                <option value="017">017</option>
+                <option value="018">018</option>
+                <option value="019">019</option>
+                <option value="02">02</option>
+            </select> -
+                <input id="jointel2" name="jointel2" type="text" 
+                oninput="this.value=this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" size="2" maxlength="4" autocomplete="off"> - <!--숫자만 입력가능-->
+                <input id="jointel3" name="jointel3" type="text" 
+                oninput="this.value=this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" size="2" maxlength="4" autocapitalize="off">
+                <button type="button">중복확인</button>
+        </div>
+
+        <div class="labelid"> <label for="joinnick">닉네임</label></div> <!--닉네임 입력칸 중복확인 유효성검사-->
+            <div class="fieldname2"> <input type="text" id="joinnick name" placeholder="별명은 한글, 숫자, 영어 10글자 이하로 입력해주세요"
+            maxlength="8" autocomplete="off"> <button type="button">중복확인</button>
+        </div>
+
+
+        
+        <div class="labelid"> <label for="joinemail">이메일</label></div> <!--이메일 입력칸 유효성 검사 및 이메일 인증받기-->
+            <div class="fieldemail"><input type="text" id="joinemail" name="joinemail" placeholder="codereivew" 
+                maxlength="10" autocomplete="off"> <span>@</span>
+            <input id="joinemail2" name="joinemail2" list="domains" placeholder="도메인 입력/선택">
+            <datalist id="domains">
+                <option value="naver.com"></option>
+                <option value="daum.net"></option>
+                <option value="gmail.com"></option>       
+            </datalist>
+            </div>         
+        
+
+
+            <div class="fieldjoin">
+            <button type="button">회원가입</button>
+
+            <span class="joinback"></span>
+                <button type="button" onclick="location.href='코드리뷰.html'">돌아가기</button>
+            </div>
+
+        </form>
+
+    </main>
+
+
+</body>
+
+
+</html>
