@@ -220,6 +220,4 @@ const PROFILE = {
     }
 }
 
-PROFILE.getUserLanguage
-
 module.exports = PROFILE;

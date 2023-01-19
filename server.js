@@ -1,9 +1,8 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 
-const PROFILEROUTER = require('./router/profile');
-const SIGNUPROUTER = require("./router/signup");
-
+const PROFILEROUTER = require('./routers/profile');
+const SIGNUPROUTER = require("./routers/signup");
 
 const app = express();
 
@@ -12,9 +11,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('port', process.env.PORT || 8080);
 
-app.get('/', (req, res) =>{
-    res.json({ test : "test"});
-});
+//view engine 설정 이렇게 하는게 맞나..?
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'html');
+// app.get('/', (req, res) =>{
+//     res.json({ test : "test"});
+// });
 
 app.use(bodyParser.json());
 

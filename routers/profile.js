@@ -1,6 +1,6 @@
 const EXPRESS = require('express');
 const ROUTER = EXPRESS.Router();
-const PROFILE = require('../model/profile');
+const PROFILE = require('../models/profile');
 // const multer = require('multer');
 // const path = require('path');
 // const fs = require('fs');
@@ -24,7 +24,7 @@ ROUTER.get('/info', async(req, res) => {
     })
 })
 
-// http://localhost:8080/user/profile/info
+// http://localhost:8080/profile/info
 ROUTER.put('/info', async(req, res) => {
     
     //로그인 된게 맞는지

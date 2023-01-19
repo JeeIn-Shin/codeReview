@@ -1,6 +1,6 @@
 const EXPRESS = require('express');
 const ROUTER = EXPRESS.Router();
-const USER = require('../model/user');
+const USER = require('../models/user');
 
 //회원가입
 //이메일 인증은 어떻게 구현하지?
