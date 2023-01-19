@@ -27,42 +27,22 @@
               height="50px"
               alt="내 프로필 사진 없음"
               style="top: 10px; left: 10px"
-            /><!--사진 추가, 삭제, 변경 가능. 사진 여러개 삽입 기능 추가해야함-->
+            /><!--사진 추가, 삭제, 변경 가능. 사진 0~6-->
           </td>
           <td>
-            <form>
+            <form action="8080/profile/info" method="get">
               <a href="c:\project\project1\profile\private.html"
                 ><button type="button">개인정보 설정 변경</button></a
               >
             </form>
           </td>
         </tr>
-        <!--photo 밑에 닉네임, 레벨, 경험치 정보 표시-->
-        <tr>
-          <td>level/exp</td>
-          <td>
-            <form>
-              <a href="C:\project\project1\profile\comment.html"
-                ><button type="button">코멘트 작성하러 가기</button></a
-              >
-            </form>
-          </td>
-        </tr>
         <tr>
           <td>
-            <a href="C:\project\project1\profile\service.html"
-              ><form
-                name="prefor service"
-                ,
-                method="post"
-                ,
-                action="/:studentID"
-              >
-                <button type="button">원하는 서비스</button>
-              </form></a
+            <a href=""
+              ><form><button type="button">프로필 사진 변경</button></form></a
             >
           </td>
-          <td></td>
         </tr>
       </tbody>
     </table>
