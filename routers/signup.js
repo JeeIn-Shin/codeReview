@@ -1,10 +1,16 @@
 const EXPRESS = require('express');
 const ROUTER = EXPRESS.Router();
 const USER = require('../models/user');
+const path = require('path');
 
 //회원가입
 //이메일 인증은 어떻게 구현하지?
 //일단 나중에 고려하자
+
+// 얠 어떻게 하지?;;;;;;;;;;;;
+ROUTER.get('/', async(req, res) => {
+    res.sendFile(path.join(__dirname, '../views/signup/signup.html'));
+})
 
 // http://localhost:8080/signup
 ROUTER.post('/', async(req, res) => {
