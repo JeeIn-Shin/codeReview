@@ -6,7 +6,7 @@ const DB = require('../config/database');
 const MATCHING = {
 
     //대기열 등록
-    enrollQueue : (data, result) => {
+    registerQueue : (data, result) => {
 
         const queueInfo = Object.values(data)
 
@@ -33,7 +33,7 @@ const MATCHING = {
     },
 
     //대기열 등록 후 일정 등록//
-    setSchedule : (data, result) => {
+    setPlan : (data, result) => {
 
         const scheduleInfo = Object.values(data)
 
@@ -59,8 +59,37 @@ const MATCHING = {
         })
     },
 
-    //일정 수정
-    updateSchedule : (data, result) => {
+    //두개의 테이블에 값을 동시에 넣을 수 있나???
+    //찾아봐야함
+    //그리고 그게 좋은 방법인가??? 도 고민해봐야함
+    PlanAndPrefer : (data, result) => {
+
+        const scheduleInfo = Object.values(data)
+
+        DB.getConnection((err, connection) => {
+            if(!err)    {
+                let sql = ``;
+                connection.query(sql, [scheduleInfo], (err, res) => {
+                    connection.release();
+
+                    if(err) {
+                        console.log("sql error " + err);
+                        result(null, err);
+                        return ;
+                    }
+                    result(null, res);
+                    return ;
+                })
+            }
+            else    {
+                console.log("mysql connection error " + err);
+                throw err;
+            }
+        })
+    },
+
+    //일정 수정 --리뷰어
+    updatePlan : (id, data, result) => {
 
         const scheduleInfo = Object.values(data)
 
@@ -87,15 +116,22 @@ const MATCHING = {
         })
     },
 
-    //리뷰이라면 추가적으로 정보를 입력해야함
-    setAdditionalInfoFromReviewee : (info, result) => {
+    //일정 및 선택 부분 수정 --리뷰이
+    updatePlanAndPrefer : (id, data, result) => {
 
-        let addInfo = Object.values(info);
+        const scheduleInfo = Object.values(data)
 
         DB.getConnection((err, connection) => {
             if(!err)    {
-                let sql = `INSERT INTO REVIEWEE_PREFER_TB VALUES ( ? )`;
-                connection.query(sql, [addInfo], (err, res) => {
+                let sql = `UPDATE SCHEDULE_TB
+                           INNER JOIN REVIEWEE_PREFER_TB
+                           ON SCHEDULE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
+                           SET
+                           SCHEDULE_TB.MON = ?, SCHEDULE_TB.TUE = ?, SCHEDULE_TB.WED = ?, SCHEDULE_TB.THURS = ?, SCHEDULE_TB.FRI = ?,
+                           REVIEWEE_PREFER_TB.LANGUAGE = ?, REVIEWEE_PREFER_TB.ACTIVITY = ?
+                           WHERE SCHEDULE_TB.ID_PK LIKE ${id};`;
+                
+                    connection.query(sql, scheduleInfo, (err, res) => {
                     connection.release();
 
                     if(err) {
@@ -113,6 +149,33 @@ const MATCHING = {
             }
         })
     },
+
+    //리뷰이라면 추가적으로 정보를 입력해야함 --> 이 부분은 PlanAndPrefer로 들어감
+    // setAdditionalInfoFromReviewee : (info, result) => {
+
+    //     let addInfo = Object.values(info);
+
+    //     DB.getConnection((err, connection) => {
+    //         if(!err)    {
+    //             let sql = `INSERT INTO REVIEWEE_PREFER_TB VALUES ( ? )`;
+    //             connection.query(sql, [addInfo], (err, res) => {
+    //                 connection.release();
+
+    //                 if(err) {
+    //                     console.log("sql error " + err);
+    //                     result(null, err);
+    //                     return ;
+    //                 }
+    //                 result(null, res);
+    //                 return ;
+    //             })
+    //         }
+    //         else    {
+    //             console.log("mysql connection error " + err);
+    //             throw err;
+    //         }
+    //     })
+    // },
 
     //리뷰이들의 입력값을 가지고 있는 리뷰어들의 정보로 대기열을 구성해야함
     getMatchingPriorityFromReviwers : (data, result) => {
