@@ -6,6 +6,7 @@ const USER = require('../models/user');
 //이메일 인증은 어떻게 구현하지?
 //일단 나중에 고려하자
 
+// http://localhost:8080/signup
 ROUTER.post('/', async(req, res) => {
 
     //유효성 체크 꼭 해야함
