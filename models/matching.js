@@ -62,7 +62,7 @@ const MATCHING = {
     //두개의 테이블에 값을 동시에 넣을 수 있나???
     //찾아봐야함
     //그리고 그게 좋은 방법인가??? 도 고민해봐야함
-    PlanAndPrefer : (data, result) => {
+    setPlanAndPrefer : (data, result) => {
 
         const scheduleInfo = Object.values(data)
 
@@ -150,32 +150,64 @@ const MATCHING = {
         })
     },
 
-    //리뷰이라면 추가적으로 정보를 입력해야함 --> 이 부분은 PlanAndPrefer로 들어감
-    // setAdditionalInfoFromReviewee : (info, result) => {
+    //대기열에서 리뷰어로 신청한 사람들만 가져옴
+    getReviewer : (result) => {
+        DB.getConnection((err, connection) => {
+            if(!err)    {
+                let sql = `SELECT ID_PK, CREATEDAT FROM QUEUE_TB 
+                           WHERE POSITION = 0;`;
+                connection.query(sql,(err, res) => {
+                    connection.release();
 
-    //     let addInfo = Object.values(info);
+                    if(err) {
+                        console.log("sql error " + err);
+                        result(null, err);
+                        return ;
+                    }
+                    result(null, res);
+                    return ;
+                })
+            }
+            else    {
+                console.log("mysql connection error " + err);
+                throw err;
+            }
+        })
+    },
 
-    //     DB.getConnection((err, connection) => {
-    //         if(!err)    {
-    //             let sql = `INSERT INTO REVIEWEE_PREFER_TB VALUES ( ? )`;
-    //             connection.query(sql, [addInfo], (err, res) => {
-    //                 connection.release();
+    getReviewee : (result) => {
+        DB.getConnection((err, connection) => {
+            if(!err)    {
+                // ????????????????????????????????????
+                let sql = `SELECT
+                           QUEUE_TB.ID_PK, QUEUE_TB.CREATEDAT, QUEUE_TB.POSITION,
+                           REVIEWEE_PREFER_TB.LANGUAGE, REVIEWEE_PREFER_TB.ACTIVITY,
+                           SCHEDULE_TB.MON, SCHEDULE_TB.TUE, SCHEDULE_TB.WED, SCHEDULE_TB.THURS, SCHEDULE_TB.FRI
+                           FROM QUEUE_TB
+                           INNER JOIN  REVIEWEE_PREFER_TB
+                           ON QUEUE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
+                           INNER JOIN SCHEDULE_TB
+                           ON REVIEWEE_PREFER_TB.REVIEWEE_ID_FK = SCHEDULE_TB.ID_PK
+                           WHERE QUEUE_TB.POSITION = 1`;
+                           
+                connection.query(sql,(err, res) => {
+                    connection.release();
 
-    //                 if(err) {
-    //                     console.log("sql error " + err);
-    //                     result(null, err);
-    //                     return ;
-    //                 }
-    //                 result(null, res);
-    //                 return ;
-    //             })
-    //         }
-    //         else    {
-    //             console.log("mysql connection error " + err);
-    //             throw err;
-    //         }
-    //     })
-    // },
+                    if(err) {
+                        console.log("sql error " + err);
+                        result(null, err);
+                        return ;
+                    }
+                    result(null, res);
+                    return ;
+                })
+            }
+            else    {
+                console.log("mysql connection error " + err);
+                throw err;
+            }
+        })
+    },
 
     //리뷰이들의 입력값을 가지고 있는 리뷰어들의 정보로 대기열을 구성해야함
     getMatchingPriorityFromReviwers : (data, result) => {
@@ -194,7 +226,8 @@ const MATCHING = {
                 
                 //나중에 테스트
                 let sql = [[mainQuery], [subQuery]].join();
-                           connection.query(sql, (err, res) => {
+                    
+                    connection.query(sql, (err, res) => {
                     connection.release();
 
                     if(err) {
