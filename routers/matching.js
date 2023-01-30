@@ -156,40 +156,16 @@ ROUTER.put('/update', async(req, res) => {
 ROUTER.post('/review-groups', async(req, res) => {
     
     let minHeap = new PRIORITYQUEUE();
-    let revieweeInfo = null;
 
-    try {
-
-        //근데 이렇게하면 ............ 그... revieweeInfo에 getReviewee 함수의 결과를 넣는게 아니라
-        //revieweeInfo는 그냥 getReviewee 함수를 실행시키는 하나의 함수가 되는거 아님? 자스 공부 열심히 할껄
-        //근데 나는 함수의 결과값을 가지고 그걸 가공해서 다음 함수의 매개변수로 넣어줘야하는데
-        // ?????????????????
-        await MATCHING.getReviewee((err, data) => {
-            //애초에 두 개의 응답을 보내는건 안되고, -> 에러뜸
-            //거기다가 메서드 내에서 선언된 data를 {} 밖에서도 사용할 수 없음 -> 이건 그냥 당연함
-            //그럼 {} 안에서 getReviewer 를 선언하는건? -> 될리가 없음 await 한번만.
-
-            //그래서 {} 에서 data로 재할당해줌
-            revieweeInfo = data;
-
-            console.log(revieweeInfo);
+        MATCHING.getRevieweesInfo()
+        .then((result) => {
+            MATCHING.getReviwersInfo(result);
         })
-        // ????????????????????????????????????????????????? 어딜 뜯어고쳐야하는건지도 모르겠음
-        
-        // 어어 ㅋ null;;;;;;
-        // 아니 왜 null ?????????
-        // 예상결과는 data가 나와야는데
-        // 그렇다고 data가 null 인건 또 아님
-        // ????????????????????????????????????????????????????????
-        console.log(revieweeInfo);
-        res.json(revieweeInfo);
+        .catch((err) => {
+            console.log(err);
+        })
+        res.json("success");
 
-        // console.log(revieweeInfo);
-        // console.log(reviewerInfo);
-    }
-    catch(err) {
-
-    }
 })
 
 module.exports = ROUTER;

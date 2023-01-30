@@ -1,4 +1,8 @@
+const Promise = require('bluebird');
+const { resolve } = require('path');
+const { getConnection } = require('../config/database');
 const DB = require('../config/database');
+const SUBQUERY = require('../others/aboutSql');
 
 //매칭의 시작과
 
@@ -151,99 +155,147 @@ const MATCHING = {
     },
 
     //대기열에서 리뷰어로 신청한 사람들만 가져옴
-    getReviewer : (result) => {
-        DB.getConnection((err, connection) => {
-            if(!err)    {
-                let sql = `SELECT ID_PK, CREATEDAT FROM QUEUE_TB 
-                           WHERE POSITION = 0;`;
-                connection.query(sql,(err, res) => {
-                    connection.release();
+    getRevieweesInfo : () => {
 
-                    if(err) {
-                        console.log("sql error " + err);
-                        result(null, err);
-                        return ;
-                    }
-                    result(null, res);
-                    return ;
-                })
-            }
-            else    {
-                console.log("mysql connection error " + err);
-                throw err;
-            }
+        return new Promise((resolve, reject) => {
+
+            DB.getConnection((err, connection) => {
+                if (!err) {
+                    let sql = `SELECT
+                    QUEUE_TB.ID_PK, QUEUE_TB.CREATEDAT, QUEUE_TB.POSITION,
+                    REVIEWEE_PREFER_TB.LANGUAGE, REVIEWEE_PREFER_TB.ACTIVITY,
+                    SCHEDULE_TB.MON, SCHEDULE_TB.TUE, SCHEDULE_TB.WED, SCHEDULE_TB.THURS, SCHEDULE_TB.FRI
+                    FROM QUEUE_TB
+                    INNER JOIN  REVIEWEE_PREFER_TB
+                    ON QUEUE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
+                    INNER JOIN SCHEDULE_TB
+                    ON REVIEWEE_PREFER_TB.REVIEWEE_ID_FK = SCHEDULE_TB.ID_PK
+                    WHERE QUEUE_TB.POSITION = 1`;
+
+                    connection.query(sql, (err, data) => {
+                        connection.release();
+
+                        if(err) {
+                            reject(err);
+                        }
+                        else    {
+                            resolve(data);
+                        }
+                    })
+                }
+                else    {
+                    console.log("mysql connection error" + err);
+                }
+            });
         })
-    },
-
-    getReviewee : (result) => {
-        DB.getConnection((err, connection) => {
-            if(!err)    {
-                // ????????????????????????????????????
-                let sql = `SELECT
-                           QUEUE_TB.ID_PK, QUEUE_TB.CREATEDAT, QUEUE_TB.POSITION,
-                           REVIEWEE_PREFER_TB.LANGUAGE, REVIEWEE_PREFER_TB.ACTIVITY,
-                           SCHEDULE_TB.MON, SCHEDULE_TB.TUE, SCHEDULE_TB.WED, SCHEDULE_TB.THURS, SCHEDULE_TB.FRI
-                           FROM QUEUE_TB
-                           INNER JOIN  REVIEWEE_PREFER_TB
-                           ON QUEUE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
-                           INNER JOIN SCHEDULE_TB
-                           ON REVIEWEE_PREFER_TB.REVIEWEE_ID_FK = SCHEDULE_TB.ID_PK
-                           WHERE QUEUE_TB.POSITION = 1`;
+        // DB.getConnection((err, connection) => {
+        //     if(!err)    {
+        //         // ????????????????????????????????????
+        //         let sql = `SELECT
+        //                    QUEUE_TB.ID_PK, QUEUE_TB.CREATEDAT, QUEUE_TB.POSITION,
+        //                    REVIEWEE_PREFER_TB.LANGUAGE, REVIEWEE_PREFER_TB.ACTIVITY,
+        //                    SCHEDULE_TB.MON, SCHEDULE_TB.TUE, SCHEDULE_TB.WED, SCHEDULE_TB.THURS, SCHEDULE_TB.FRI
+        //                    FROM QUEUE_TB
+        //                    INNER JOIN  REVIEWEE_PREFER_TB
+        //                    ON QUEUE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
+        //                    INNER JOIN SCHEDULE_TB
+        //                    ON REVIEWEE_PREFER_TB.REVIEWEE_ID_FK = SCHEDULE_TB.ID_PK
+        //                    WHERE QUEUE_TB.POSITION = 1`;
                            
-                connection.query(sql,(err, res) => {
-                    connection.release();
-
-                    if(err) {
-                        console.log("sql error " + err);
-                        result(null, err);
-                        return ;
-                    }
-                    result(null, res);
-                    return ;
-                })
-            }
-            else    {
-                console.log("mysql connection error " + err);
-                throw err;
-            }
-        })
+        //         return new Promise((resolve, reject) => {
+        //             connection.query(sql, (err, result) => {
+        //                 if(err)
+        //                     data = reject(new Error());
+        //                 else
+        //                     data = resolve(result);
+        //             });
+        //         })
+        //     }
+        //     else    {
+        //         console.log("mysql connection error " + err);
+        //         throw err;
+        //     }
+        // })
+        // console.log(data);
     },
 
     //리뷰이들의 입력값을 가지고 있는 리뷰어들의 정보로 대기열을 구성해야함
-    getMatchingPriorityFromReviwers : (data, result) => {
-        DB.getConnection((err, connection) => {
-            if(!err)    {
-                let mainQuery = `SELECT  LANGUAGE_TB.ID_PK, LANGUAGE_TB.${LANGUAGE}, ACTIVITY_TB.${ACTIVITY}, QUEUE_TB.CREATEDAT FROM  LANGUAGE_TB 
-                                 INNER JOIN ACTIVITY_TB 
-                                 ON LANGUAGE_TB.ID_PK = ACTIVITY_TB.ID_PK
-                                 INNER JOIN QUEUE_TB
-                                 ON ACTIVITY_TB.ID_PK = QUEUE_TB.ID_PK
-                                 INNER JOIN SCHEDULE_TB
-                                 ON QUEUE_TB.ID_PK = SCHEDULE_TB.ID_PK'`;
-                
-                //WHERE SCHEDULE_TB.${weekday} REGEXP '${string} OR ~
-                let subQuery = ``;
-                
-                //나중에 테스트
-                let sql = [[mainQuery], [subQuery]].join();
+    getReviwersInfo : (data) => {
+        let revieweesInfo = data;
+        console.log(revieweesInfo);
+        return new Promise((resolve, reject) => {
+            DB.getConnection((err, connection) => {
+                if(!err)    {
+                    let mainQuery = `SELECT  LANGUAGE_TB.ID_PK, LANGUAGE_TB.JAVA, ACTIVITY_TB.CODEREVIEW, QUEUE_TB.CREATEDAT FROM  LANGUAGE_TB 
+                                     INNER JOIN ACTIVITY_TB 
+                                     ON LANGUAGE_TB.ID_PK = ACTIVITY_TB.ID_PK
+                                     INNER JOIN QUEUE_TB
+                                     ON ACTIVITY_TB.ID_PK = QUEUE_TB.ID_PK
+                                     INNER JOIN SCHEDULE_TB
+                                     ON QUEUE_TB.ID_PK = SCHEDULE_TB.ID_PK
+                                     WHERE QUEUE_TB.POSITION = 0
+                                     AND SCHEDULE_TB.WED REGEXP ('7')`;
                     
-                    connection.query(sql, (err, res) => {
-                    connection.release();
-
-                    if(err) {
-                        console.log("sql error " + err);
-                        result(null, err);
-                        return ;
-                    }
-                    result(null, res);
-                    return ;
-                })
-            }
-            else    {
-                console.log("mysql connection error " + err);
-                throw err;
-            }
+                    //WHERE SCHEDULE_TB.${weekday} REGEXP '${string} OR ~
+                    //이 부분은 리뷰이로부터 받아오는 정보로 구성되어야하거든?
+                    //어허,,,
+                    //findSameTimeZone 구현해야함
+                    let subQuery = SUBQUERY.findSameTimeZone(revieweesInfo);
+                    
+                    //나중에 테스트
+                    let sql = [[mainQuery], [subQuery]].join();
+                        
+                    connection.query(mainQuery, (err, res) => {
+                        connection.release();
+                        
+                        if(err) {
+                            reject(err);
+                        }
+                        else    {
+                            resolve(data);
+                        }
+                    })
+                }
+                else
+                    console.log("mysql connection error" + err);
+            })
         })
+        // let revieweesInfo = data;
+        // DB.getConnection((err, connection) => {
+        //     if(!err)    {
+        //         let mainQuery = `SELECT  LANGUAGE_TB.ID_PK, LANGUAGE_TB.JAVA, ACTIVITY_TB.CODEREVIEW, QUEUE_TB.CREATEDAT FROM  LANGUAGE_TB 
+        //                          INNER JOIN ACTIVITY_TB 
+        //                          ON LANGUAGE_TB.ID_PK = ACTIVITY_TB.ID_PK
+        //                          INNER JOIN QUEUE_TB
+        //                          ON ACTIVITY_TB.ID_PK = QUEUE_TB.ID_PK
+        //                          INNER JOIN SCHEDULE_TB
+        //                          ON QUEUE_TB.ID_PK = SCHEDULE_TB.ID_PK
+        //                          WHERE QUEUE_TB.POSITION = 0
+        //                          AND SCHEDULE_TB.WED REGEXP ('7')`;
+                
+        //         //WHERE SCHEDULE_TB.${weekday} REGEXP '${string} OR ~
+        //         //이 부분은 리뷰이로부터 받아오는 정보로 구성되어야하거든?
+        //         //어허,,,
+        //         //
+        //         let subQuery = SUBQUERY.findSameTimeZone(revieweesInfo);
+                
+        //         //나중에 테스트
+        //         let sql = [[mainQuery], [subQuery]].join();
+                    
+        //         connection.query(mainQuery, (err, res) => {
+        //             connection.release();
+                    
+        //             if(err) {
+        //                 return err;
+        //             }
+        //             return res;
+        //         })
+        //     }
+        //     else    {
+        //         console.log("mysql connection error " + err);
+        //         throw err;
+        //     }
+        // })
     },
 
     //대기열을 구성해서 우선순위를 뽑았으면,
