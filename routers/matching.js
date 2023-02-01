@@ -154,7 +154,6 @@ ROUTER.put('/update', async (req, res) => {
 
 // http://localhost:8080/walk-thru/review-groups
 ROUTER.post('/review-groups', async (req, res) => {
-
     let minHeap = new PRIORITYQUEUE();
     let language = [];
     let activity = [];
@@ -164,48 +163,25 @@ ROUTER.post('/review-groups', async (req, res) => {
             let data = result;
             let dataLength = result.length - 1; //1
             let count = 0;
-            
-            let revieweeInfo = {
-                language : [],
-                activity : [],
-                mon : [],
-                tue : [],
-                wed : [],
-                thrus : [],
-                fri : []
-            }
+            let revieweeInfo = [];
 
-            while (count <= dataLength) { //1, 0
+            while (count <= dataLength) { // 0, 1
 
-                //근데 push로 하면 배열 요소 추가잖아
-                //배열 요소를 추가하는 방향으로 꼭 짜야할 필요가 있을까?
-                //그냥 값만 넘겨주면 되는건데?
-                //어차피 result는 값이 변하지 않잖아.
-                //그러게.. 배열 요소를 추가할 필요가 없지
-                //자고 일어나서 수정하기
-                revieweeInfo.language.push(Object.values(result[count])[3]);
-                revieweeInfo.activity.push(Object.values(result[count])[4]);
-                revieweeInfo.mon.push(Object.values(result[count])[5]);
-                revieweeInfo.tue.push(Object.values(result[count])[6]);
-                revieweeInfo.wed.push(Object.values(result[count])[7]);
-                revieweeInfo.thrus.push(Object.values(result[count])[8]);
-                revieweeInfo.fri.push(Object.values(result[count])[9]);
-                // preferInfo.language = Object.values(result[dataLength])[3];
-                // preferInfo.activity = Object.values(result[dataLength])[4];
+                revieweeInfo = data[count]
 
-                console.log(revieweeInfo);
-                MATCHING.getReviwersInfo(revieweeInfo[count])
-                .then
+                MATCHING.getReviewersInfo(revieweeInfo)
+                .then((result) => {
+                    //console.log(result);
+                })
+
                 count++;
             }
-
+            res.json("success");
 
         })
         .catch((err) => {
             console.log(err);
         })
-    res.json("success");
-
 })
 
 module.exports = ROUTER;

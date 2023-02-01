@@ -220,14 +220,14 @@ const MATCHING = {
     },
 
     //리뷰이들의 입력값을 가지고 있는 리뷰어들의 정보로 대기열을 구성해야함
-    getReviwersInfo : (language, activity, plan) => {
+    getReviewersInfo : (data) => {
 
-        let revieweesPlan;
+        let revieweesInfo = data;
 
         return new Promise((resolve, reject) => {
             DB.getConnection((err, connection) => {
                 if(!err)    {
-                    let mainQuery = `SELECT  LANGUAGE_TB.ID_PK, LANGUAGE_TB.${language}, ACTIVITY_TB.${activity}, QUEUE_TB.CREATEDAT FROM  LANGUAGE_TB 
+                    let mainQuery = `SELECT  LANGUAGE_TB.ID_PK, LANGUAGE_TB.${Object.values(revieweesInfo)[3]}, ACTIVITY_TB.${Object.values(revieweesInfo)[4]}, QUEUE_TB.CREATEDAT FROM  LANGUAGE_TB 
                                      INNER JOIN ACTIVITY_TB 
                                      ON LANGUAGE_TB.ID_PK = ACTIVITY_TB.ID_PK
                                      INNER JOIN QUEUE_TB
@@ -241,7 +241,7 @@ const MATCHING = {
                     //이 부분은 리뷰이로부터 받아오는 정보로 구성되어야하거든?
                     //어허,,,
                     //findSameTimeZone 구현해야함
-                    let subQuery = SUBQUERY.findSameTimeZone(revieweesPlan);
+                    let subQuery = SUBQUERY.findSameTimeZone(revieweesInfo);
                     
                     //나중에 테스트
                     let sql = [[mainQuery], [subQuery]].join();
