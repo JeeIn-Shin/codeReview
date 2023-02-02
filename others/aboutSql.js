@@ -16,6 +16,7 @@ const subQuery = {
         //   '1,2,3,4,5,6,7,8,9'
         // ]
         let revieweesInfo = Object.values(data);
+        let test;
 
         // revieweesInfo.forEach((value, index, array) => {
         //     if(typeof(value) === "string")  {
@@ -23,7 +24,6 @@ const subQuery = {
         //         revieweesInfo = value;
         //     }
         // })
-        // foreach는 나쁜건 아닌데, 뭐랄까 index, array를 사용할 게 아니라서 굳이? 오히려 낭비인 느낌
 
         // for ... of 로는 못하나?
         // for (let scheduleInfo of revieweesInfo) {
@@ -35,6 +35,17 @@ const subQuery = {
         //     }
 
         // }
+        ///흠...
+
+        //이것도 방법이긴한데, 으음.
+        // for (let index = 0; index < revieweesInfo.length; index++) {
+        //     if(typeof(revieweesInfo[index]) === "string")
+        //         revieweesInfo[index] = revieweesInfo[index].replace(/,/g, '|');   
+        // }
+        
+        // for, for...of, foreach의 차이는? 언제 써야 적재적소에 사용했다는 평을 받을 수 있을까?
+        // 추가로 map 도
+
 
 
         console.log(revieweesInfo);
