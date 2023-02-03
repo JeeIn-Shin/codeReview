@@ -2,7 +2,7 @@ const Promise = require('bluebird');
 const { resolve } = require('path');
 const { getConnection } = require('../config/database');
 const DB = require('../config/database');
-const SUBQUERY = require('../others/aboutSql');
+const THINGABOUTSUBQUERY = require('../others/aboutSql');
 
 //매칭의 시작과
 
@@ -234,19 +234,18 @@ const MATCHING = {
                                      ON ACTIVITY_TB.ID_PK = QUEUE_TB.ID_PK
                                      INNER JOIN SCHEDULE_TB
                                      ON QUEUE_TB.ID_PK = SCHEDULE_TB.ID_PK
-                                     WHERE QUEUE_TB.POSITION = 0
-                                     AND SCHEDULE_TB.WED REGEXP ('7')`;
+                                     WHERE QUEUE_TB.POSITION = 0`;
                     
                     //WHERE SCHEDULE_TB.${weekday} REGEXP '${string} OR ~
                     //이 부분은 리뷰이로부터 받아오는 정보로 구성되어야하거든?
                     //어허,,,
                     //findSameTimeZone 구현해야함
-                    let subQuery = SUBQUERY.findSameTimeZone(revieweesInfo);
+                    let subQuery = THINGABOUTSUBQUERY.findSameTimeZone(revieweesInfo);
                     
                     //나중에 테스트
-                    let sql = [[mainQuery], [subQuery]].join();
+                    let sql = [[mainQuery], [subQuery]].join(' AND (') + ')';
                         
-                    connection.query(mainQuery, (err, res) => {
+                    connection.query(sql, (err, res) => {
                         connection.release();
                         
                         if(err) {

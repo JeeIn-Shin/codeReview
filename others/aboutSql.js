@@ -1,22 +1,37 @@
 //SQL 작성시 필요한 모든 문자열, 혹은 서브쿼리에 대한 함수를 정의하는 곳
 
-const subQuery = {
+const aboutSubQuery = {
     findSameTimeZone: (data) => {
-        //data의 5부터 9까지의 값을 써야함
-        // [
-        //   '2071111',
-        //   1674642311111,
-        //   1,
-        //   'C',
-        //   'QA',
-        //   '1,2,3,4,5,6,7,8,9',
-        //   '1,2,3,4,5,6,7,8,9',
-        //   '1,2,3,4,5,6,7,8,9',
-        //   '1,2,3,4,5,6,7,8,9',
-        //   '1,2,3,4,5,6,7,8,9'
-        // ]
-        let revieweesInfo = Object.values(data);
-        let test;
+        //key, value 그리고 순서도 보장이 되어야해서 Map을 쓴건데
+        //이게 최선일까? ... 이건 나중에 고민해보자
+        let revieweesInfo = new Map(Object.entries(data));
+        let scheduleInfo = new Map();
+        let subquery = [];
+
+        for (let weekday of revieweesInfo.keys()) {
+            // map => (string, any)
+            // 아니 그래도 any에서 문자열이면 문자열이 될 줄 알았는데...
+
+            //any string 형태로 바꿔주기 위해 '' 추가해줌 아니 근데 이렇게까지 해야해?
+            let str = (revieweesInfo.get(weekday)) + ''; 
+
+            //무조건 , 가 존재한다는 가정 그리고 ,가 들어가있다면 weekday에 대한 정보일 것
+            if(str.includes(',') === true) {
+                //console.log(`test [${weekday} : ${str}]`);
+                
+                str = str.replace(/,/g, '|');
+                scheduleInfo.set(weekday, str);
+            }
+        }
+
+        for(let entries of scheduleInfo)
+            subquery.push(`SCHEDULE_TB.${entries[0]} REGEXP ('${entries[1]}')`);
+        // OR로 연결되어야함
+        subquery = subquery.join(' OR ');
+
+        return subquery;
+
+        //console.log(ScheduleInfo);
 
         // revieweesInfo.forEach((value, index, array) => {
         //     if(typeof(value) === "string")  {
@@ -45,11 +60,7 @@ const subQuery = {
         
         // for, for...of, foreach의 차이는? 언제 써야 적재적소에 사용했다는 평을 받을 수 있을까?
         // 추가로 map 도
-
-
-
-        console.log(revieweesInfo);
     }
 }
 
-module.exports = subQuery;
+module.exports = aboutSubQuery;
