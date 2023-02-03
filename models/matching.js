@@ -244,7 +244,7 @@ const MATCHING = {
                     
                     //나중에 테스트
                     let sql = [[mainQuery], [subQuery]].join(' AND (') + ')';
-                        
+
                     connection.query(sql, (err, res) => {
                         connection.release();
                         
@@ -260,42 +260,6 @@ const MATCHING = {
                     console.log("mysql connection error" + err);
             })
         })
-        // let revieweesInfo = data;
-        // DB.getConnection((err, connection) => {
-        //     if(!err)    {
-        //         let mainQuery = `SELECT  LANGUAGE_TB.ID_PK, LANGUAGE_TB.JAVA, ACTIVITY_TB.CODEREVIEW, QUEUE_TB.CREATEDAT FROM  LANGUAGE_TB 
-        //                          INNER JOIN ACTIVITY_TB 
-        //                          ON LANGUAGE_TB.ID_PK = ACTIVITY_TB.ID_PK
-        //                          INNER JOIN QUEUE_TB
-        //                          ON ACTIVITY_TB.ID_PK = QUEUE_TB.ID_PK
-        //                          INNER JOIN SCHEDULE_TB
-        //                          ON QUEUE_TB.ID_PK = SCHEDULE_TB.ID_PK
-        //                          WHERE QUEUE_TB.POSITION = 0
-        //                          AND SCHEDULE_TB.WED REGEXP ('7')`;
-                
-        //         //WHERE SCHEDULE_TB.${weekday} REGEXP '${string} OR ~
-        //         //이 부분은 리뷰이로부터 받아오는 정보로 구성되어야하거든?
-        //         //어허,,,
-        //         //
-        //         let subQuery = SUBQUERY.findSameTimeZone(revieweesInfo);
-                
-        //         //나중에 테스트
-        //         let sql = [[mainQuery], [subQuery]].join();
-                    
-        //         connection.query(mainQuery, (err, res) => {
-        //             connection.release();
-                    
-        //             if(err) {
-        //                 return err;
-        //             }
-        //             return res;
-        //         })
-        //     }
-        //     else    {
-        //         console.log("mysql connection error " + err);
-        //         throw err;
-        //     }
-        // })
     },
 
     //대기열을 구성해서 우선순위를 뽑았으면,
@@ -327,24 +291,50 @@ const MATCHING = {
         })
     },
 
-    //매칭 성공시 대기열에서 삭제되는데,
-    //최소 한 사람, 최대 두 사람이 동시에 삭제되어야하고
-    //최소 2, 최대 3 테이블에서 데이터가 삭제되어야함
-    //이건 어떻게 구현하지?
-    deleteQueue : (result) => {
+    deleteRevieweeFromQueue : (id) => {
         DB.getConnection((err, connection) => {
             if(!err)    {
-                let sql = ``;
+                let sql = `DELETE FROM queue, schedule, prefer
+                           USING SCHEDULE_TB AS schedule
+                           INNER JOIN REVIEWEE_PREFER_TB AS prefer
+                           ON schedule.ID_PK = prefer.REVIEWEE_ID_FK
+                           INNER JOIN QUEUE_TB AS queue
+                           ON prefer.REVIEWEE_ID_FK = queue.ID_PK
+                           WHERE schedule.ID_PK LIKE ${id}`;
                 connection.query(sql, (err, res) => {
                     connection.release();
 
                     if(err) {
                         console.log("sql error " + err);
-                        result(null, err);
-                        return ;
+                        return err;
                     }
-                    result(null, res);
-                    return ;
+                    return res;
+                })
+            }
+            else    {
+                console.log("mysql connection error " + err);
+                throw err;
+            }
+        })
+    },
+
+    deleteReviewerFromQueue : (id) => {
+        DB.getConnection((err, connection) => {
+            if(!err)    {
+                let sql = `DELETE FROM queue, schedule
+                           USING QUEUE_TB AS queue
+                           INNER JOIN SCHEDULE_TB AS schedule
+                           ON queue.ID_PK = schedule.ID_PK
+                           WHERE schedule.ID_PK = ${id}`;
+
+                connection.query(sql, (err, res) => {
+                    connection.release();
+
+                    if(err) {
+                        console.log("sql error " + err);
+                        return err;
+                    }
+                    return res;
                 })
             }
             else    {

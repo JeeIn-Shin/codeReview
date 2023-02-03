@@ -153,31 +153,68 @@ ROUTER.put('/update', async (req, res) => {
 })
 
 // http://localhost:8080/walk-thru/review-groups
-ROUTER.post('/review-groups', async (req, res) => {
-    let minHeap = new PRIORITYQUEUE();
-    let language = [];
-    let activity = [];
+ROUTER.post('/review-groups', async(req, res) => {
+    //얘네들은 왜 선언한거지?
+    // let language = [];
+    // let activity = [];
 
     MATCHING.getRevieweesInfo()
-        .then((result) => {
-            let data = result;
-            let dataLength = result.length - 1; //1
+        .then((revieweesResult) => {
+
+            let data = revieweesResult;
+            let dataLength = revieweesResult.length - 1; //1
             let count = 0;
             let revieweeInfo = [];
 
-            while (count <= dataLength) { // 0, 1
-
-                revieweeInfo = data[count]
-
+            //생각을 잘못했음 datalength 가 계속 줄어들어야하는데..
+            while (count <= dataLength) { // 1, 0
+                console.log(dataLength);
+                revieweeInfo = data[count];
+                // console.log(count);
+                // console.log(revieweeInfo.ID_PK);
+                
+                //
                 MATCHING.getReviewersInfo(revieweeInfo)
-                .then((result) => {
-                    //console.log(result);
+                .then(async(reviewersList) => {
+
+                    let heap = new PRIORITYQUEUE();
+                    let root = null;
+                    let data = reviewersList;
+
+                    //1. for문 안에서
+                    //2중 for문만이 답인가?????????
+                    //[0][1][2] ... 
+                    //데이터 맞는지 나중에 검증해야함 아...
+                    for(let index = 0; index < data.length; index++) {
+                        
+                        let weight = 0;
+                        let id;
+                        
+                        for (let key in data[index])    {
+                            if (key !== "ID_PK")
+                                weight += data[index][key];
+                            else {
+                                id = data[index][key];
+                            }
+                        }
+                        //2. heap에 넣어야함
+                        heap.push(id, weight);
+
+                    }
+                    //pop된 값을 다른 테이블에 넣어줘야함 --> 어떤 테이블?
+                    //CODEREVIEW_ACT_INFO_TB !!
+                    //여기서부터 시작하기
+                    root = heap.pop();
+
+                    //데이터 잘 지워짐 ㅇㅋ
+                    //다른 문제는 생길게 없을까?
+                    await MATCHING.deleteReviewerFromQueue(root.id);
+                    await MATCHING.deleteRevieweeFromQueue(revieweeInfo.ID_PK);
                 })
 
-                count++;
+                dataLength--;
             }
             res.json("success");
-
         })
         .catch((err) => {
             console.log(err);
