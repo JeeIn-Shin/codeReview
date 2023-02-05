@@ -9,18 +9,111 @@
   <body>
     <h3>개인정보 설정</h3>
     <hr />
-    가장 잘하는 언어
-    <form name="best" action="8080/profile/language" method="post" value="1">
-      <input type="text" , value="" /><button type="submit">저장</button>
+    <script>
+      let radio1 = [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5",
+        "a6",
+        "a7",
+        "a8",
+        "a9",
+        "a10",
+        "a11",
+        "a12",
+      ];
+      let radio2 = [
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10",
+        "b11",
+        "b12",
+      ];
+      let radio3 = [
+        "c1",
+        "c2",
+        "c3",
+        "c4",
+        "c5",
+        "c6",
+        "c7",
+        "c8",
+        "c9",
+        "c10",
+        "c11",
+        "c12",
+      ];
+    </script>
+    잘하는 언어
+    <form name="good" action="/profile/info" method="post" value="1">
+      <input type="radio" name="java1" value="1" id="a1" />java
+      <input type="radio" name="c1" value="2" id="a2" />c
+      <input type="radio" name="html1" value="3" id="a3" />html
+      <input type="radio" name="css1" value="4" id="a4" />css
+      <input type="radio" name="javascript1" value="5" id="a5" />javascript
+      <input type="radio" name="python1" value="6" id="a6" />python
+      <input type="radio" name="kotlin1" value="7" id="a7" />kotlin
+      <input type="radio" name="c++1" value="8" id="a8" />c++
+      <input type="radio" name="PHP1" value="9" id="a9" />PHP
+      <input type="radio" name="Ruby1" value="10" id="a10" />Ruby
+      <input type="radio" name="TypeScript1" value="11" id="a11" />TypeScript
+      <input type="radio" name="Go1" value="12" id="a12" />Go
+      <button type="submit">저장</button>
     </form>
-    가장 못하는 언어
-    <form
-      name="worse"
-      action="c:\project\project1\profile\server.js"
-      method="post"
-      value="3"
-    >
-      <input type="text" , value="" /><button type="submit">저장</button>
+    적당히 하는 언어
+    <form name="midlle" action="/profile/info" method="post" value="2">
+      <input type="radio" name="java2" value="1" id="b1" />java
+      <input type="radio" name="c2" value="2" id="b2" />c
+      <input type="radio" name="html2" value="3" id="b3" />html
+      <input type="radio" name="css2" value="4" id="b4" />css
+      <input type="radio" name="javascript2" value="5" id="b5" />javascript
+      <input type="radio" name="python2" value="6" id="b6" />python
+      <input type="radio" name="kotlin2" value="7" id="b7" />kotlin
+      <input type="radio" name="c++2" value="8" id="b8" />c++
+      <input type="radio" name="PHP2" value="9" id="b9" />PHP
+      <input type="radio" name="Ruby2" value="10" id="b10" />Ruby
+      <input type="radio" name="TypeScript2" value="11" id="b11" />TypeScript
+      <input type="radio" name="Go2" value="12" id="b12" />Go
+      <button type="submit">저장</button>
     </form>
+    못하는 언어
+    <form name="bad" action="/profile/info" method="post" value="3">
+      <input type="radio" name="java3" value="1" id="c1" />java
+      <input type="radio" name="c3" value="2" id="c2" />c
+      <input type="radio" name="html3" value="3" id="c3" />html
+      <input type="radio" name="css3" value="4" id="c4" />css
+      <input type="radio" name="javascript3" value="5" id="c5" />javascript
+      <input type="radio" name="python3" value="6" id="c6" />python
+      <input type="radio" name="kotlin3" value="7" id="c7" />kotlin
+      <input type="radio" name="c++3" value="8" id="c8" />c++
+      <input type="radio" name="PHP3" value="9" id="c9" />PHP
+      <input type="radio" name="Ruby3" value="10" id="c10" />Ruby
+      <input type="radio" name="TypeScript3" value="11" id="c11" />TypeScript
+      <input type="radio" name="Go3" value="12" id="c12" />Go
+      <button type="submit">저장</button>
+    </form>
+    <script>
+      for (i = 0; i < 12; i++) {
+        if ((radio1[i] = true)) {
+          radio2[i] = false;
+          radio3[i] = false;
+        } else if ((radio2[i] = true)) {
+          radio1[i] = false;
+          radio3[i] = false;
+        } else if ((radio3[i] = true)) {
+          radio1[i] = false;
+          radio2[i] = false;
+        }
+      }
+    </script>
   </body>
 </html>
