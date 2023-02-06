@@ -1,6 +1,4 @@
 const Promise = require('bluebird');
-const { resolve } = require('path');
-const { getConnection } = require('../config/database');
 const DB = require('../config/database');
 const THINGABOUTSUBQUERY = require('../others/aboutSql');
 
@@ -188,35 +186,6 @@ const MATCHING = {
                 }
             });
         })
-        // DB.getConnection((err, connection) => {
-        //     if(!err)    {
-        //         // ????????????????????????????????????
-        //         let sql = `SELECT
-        //                    QUEUE_TB.ID_PK, QUEUE_TB.CREATEDAT, QUEUE_TB.POSITION,
-        //                    REVIEWEE_PREFER_TB.LANGUAGE, REVIEWEE_PREFER_TB.ACTIVITY,
-        //                    SCHEDULE_TB.MON, SCHEDULE_TB.TUE, SCHEDULE_TB.WED, SCHEDULE_TB.THURS, SCHEDULE_TB.FRI
-        //                    FROM QUEUE_TB
-        //                    INNER JOIN  REVIEWEE_PREFER_TB
-        //                    ON QUEUE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
-        //                    INNER JOIN SCHEDULE_TB
-        //                    ON REVIEWEE_PREFER_TB.REVIEWEE_ID_FK = SCHEDULE_TB.ID_PK
-        //                    WHERE QUEUE_TB.POSITION = 1`;
-                           
-        //         return new Promise((resolve, reject) => {
-        //             connection.query(sql, (err, result) => {
-        //                 if(err)
-        //                     data = reject(new Error());
-        //                 else
-        //                     data = resolve(result);
-        //             });
-        //         })
-        //     }
-        //     else    {
-        //         console.log("mysql connection error " + err);
-        //         throw err;
-        //     }
-        // })
-        // console.log(data);
     },
 
     //리뷰이들의 입력값을 가지고 있는 리뷰어들의 정보로 대기열을 구성해야함
@@ -236,10 +205,6 @@ const MATCHING = {
                                      ON QUEUE_TB.ID_PK = SCHEDULE_TB.ID_PK
                                      WHERE QUEUE_TB.POSITION = 0`;
                     
-                    //WHERE SCHEDULE_TB.${weekday} REGEXP '${string} OR ~
-                    //이 부분은 리뷰이로부터 받아오는 정보로 구성되어야하거든?
-                    //어허,,,
-                    //findSameTimeZone 구현해야함
                     let subQuery = THINGABOUTSUBQUERY.findSameTimeZone(revieweesInfo);
                     
                     //나중에 테스트
