@@ -5,6 +5,7 @@ const path = require('path');
 const PROFILEROUTER = require('./routers/profile');
 const SIGNUPROUTER = require("./routers/signup");
 const MATCHINGROUTER = require("./routers/matching");
+const CHATROUTER = require("./routers/chat");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/profile', PROFILEROUTER);
 app.use('/signup', SIGNUPROUTER);
 app.use('/walk-thru', MATCHINGROUTER);
+app.use('/direct', CHATROUTER);
 
 
 app.listen(app.get('port'), () => {

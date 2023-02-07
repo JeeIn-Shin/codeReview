@@ -1,23 +1,25 @@
 const DB = require('../config/database');
 
 const CHAT = {
-    setChatUser : (data) => {
 
-        let userInfo = data;
+    //로그인한 사람이 참여하고 있는 채팅방 리스트를 다 불러옴
+    getChatRoomsList : (id, result) => {
 
         DB.getConnection((err, connection) => {
             if(!err)    {
-                let sql = `INSERT INTO CHAT_USER_TB VALUES (?)`;
+                let sql = `SELECT CHAT_ROOM_TB_ID_PK
+                           FROM CHAT_USER_TB
+                           WHERE ID_PK LIKE ${id}`;
 
-                connection.query(sql, userInfo, (err, res) => {
+                connection.query(sql, userInfo, (err, data) => {
                     connection.release();
 
                     if(err) {
                         console.log("sql error" + err);
-                        return err;
+                        return result(null, err);
                     }
                     else
-                        return res;
+                        return result(null, data);
                 })
             }
             else
@@ -25,21 +27,20 @@ const CHAT = {
         })
     },
 
-    getChatUser : (roomId) => {
+    seneMessagetoSpecificChatRoom : (id, result) => {
         DB.getConnection((err, connection) => {
             if(!err)    {
+                let sql = `INSERT INTO CHAT_MESSAGE_TB ( ? )`;
 
-                let sql = `SELECT USER_ID FROM CHAT_USER_TB WHERE ROOM_ID = ${roomId}`;
-
-                connection.query(sql, (err, res) => {
+                connection.query(sql, userInfo, (err, data) => {
                     connection.release();
 
                     if(err) {
                         console.log("sql error" + err);
-                        return err;
+                        return result(null, err);
                     }
                     else
-                        return res;
+                        return result(null, data);
                 })
             }
             else
@@ -47,12 +48,17 @@ const CHAT = {
         })
     },
 
-    setChatRoomInfo : () => {
+    getSpecificChatRoomMessage : (roomId) => {
+
         DB.getConnection((err, connection) => {
             if(!err)    {
-                let sql = ``;
+                let sql = `SELECT CHAT_USER_ID, MESSAGE, DATE, TIME
+                           FROM CHAT_USER_TB
+                           WHERE CHAT_ROOM_ID LIKE ${roomId}
+                           ORDER BY DATE ASC
+                           AND TIME ASC`;
 
-                connection.query(sql, (err, res) => {
+                connection.query(sql, userInfo, (err, data) => {
                     connection.release();
 
                     if(err) {
@@ -60,97 +66,14 @@ const CHAT = {
                         return err;
                     }
                     else
-                        return res;
+                        return data;
                 })
             }
-            else
+            else    {
                 console.log("connection error" + err);
-        })
-    },
-
-    getChatRoomInfo : () => {
-        DB.getConnection((err, connection) => {
-            if(!err)    {
-                let sql = ``;
-
-                connection.query(sql, (err, res) => {
-                    connection.release();
-
-                    if(err) {
-                        console.log("sql error" + err);
-                        return err;
-                    }
-                    else
-                        return res;
-                })
+                return err;
             }
-            else
-                console.log("connection error" + err);
-        })
-    },
 
-    deleteChatRoomInfo : () => {
-        DB.getConnection((err, connection) => {
-            if(!err)    {
-                
-                let sql = `DELETE FROM `;
-
-                connection.query(sql, (err, res) => {
-                    connection.release();
-
-                    if(err) {
-                        console.log("sql error" + err);
-                        return err;
-                    }
-                    else
-                        return res;
-                })
-            }
-            else
-                console.log("connection error" + err);
-        })
-    },
-
-    //어떤 방에서, 누가, 어떤 메세지를 보냈는지
-    setChatMessage : () => {
-        DB.getConnection((err, connection) => {
-            if(!err)    {
-                let sql = ``;
-
-                connection.query(sql, (err, res) => {
-                    connection.release();
-
-                    if(err) {
-                        console.log("sql error" + err);
-                        return err;
-                    }
-                    else
-                        return res;
-                })
-            }
-            else
-                console.log("connection error" + err);
-        })
-    },
-
-    getChatMessage : () => {
-        DB.getConnection((err, connection) => {
-            if(!err)    {
-                let sql = ``;
-
-                connection.query(sql, (err, res) => {
-                    connection.release();
-
-                    if(err) {
-                        console.log("sql error" + err);
-                        return err;
-                    }
-                    else
-                        return res;
-                })
-            }
-            else
-                console.log("connection error" + err);
         })
     },
 }
