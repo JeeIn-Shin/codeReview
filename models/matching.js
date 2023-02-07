@@ -1,4 +1,4 @@
-const Promise = require('bluebird');
+//const Promise = require('bluebird');
 const DB = require('../config/database');
 const THINGABOUTSUBQUERY = require('../others/aboutSql');
 
@@ -8,26 +8,26 @@ const THINGABOUTSUBQUERY = require('../others/aboutSql');
 const MATCHING = {
 
     //대기열 등록
-    registerQueue : (data, result) => {
+    registerQueue: (data, result) => {
 
         const queueInfo = Object.values(data)
 
         DB.getConnection((err, connection) => {
-            if(!err)    {
+            if (!err) {
                 let sql = `INSERT INTO QUEUE_TB VALUES ( ? )`;
                 connection.query(sql, [queueInfo], (err, res) => {
                     connection.release();
 
-                    if(err) {
+                    if (err) {
                         console.log("sql error " + err);
                         result(null, err);
-                        return ;
+                        return;
                     }
                     result(null, res);
-                    return ;
+                    return;
                 })
             }
-            else    {
+            else {
                 console.log("mysql connection error " + err);
                 throw err;
             }
@@ -35,26 +35,26 @@ const MATCHING = {
     },
 
     //대기열 등록 후 일정 등록//
-    setPlan : (data, result) => {
+    setPlan: (data, result) => {
 
         const scheduleInfo = Object.values(data)
 
         DB.getConnection((err, connection) => {
-            if(!err)    {
+            if (!err) {
                 let sql = `INSERT INTO SCHEDULE_TB VALUES ( ? )`;
                 connection.query(sql, [scheduleInfo], (err, res) => {
                     connection.release();
 
-                    if(err) {
+                    if (err) {
                         console.log("sql error " + err);
                         result(null, err);
-                        return ;
+                        return;
                     }
                     result(null, res);
-                    return ;
+                    return;
                 })
             }
-            else    {
+            else {
                 console.log("mysql connection error " + err);
                 throw err;
             }
@@ -64,26 +64,26 @@ const MATCHING = {
     //두개의 테이블에 값을 동시에 넣을 수 있나???
     //찾아봐야함
     //그리고 그게 좋은 방법인가??? 도 고민해봐야함
-    setPlanAndPrefer : (data, result) => {
+    setPlanAndPrefer: (data, result) => {
 
         const scheduleInfo = Object.values(data)
 
         DB.getConnection((err, connection) => {
-            if(!err)    {
+            if (!err) {
                 let sql = ``;
                 connection.query(sql, [scheduleInfo], (err, res) => {
                     connection.release();
 
-                    if(err) {
+                    if (err) {
                         console.log("sql error " + err);
                         result(null, err);
-                        return ;
+                        return;
                     }
                     result(null, res);
-                    return ;
+                    return;
                 })
             }
-            else    {
+            else {
                 console.log("mysql connection error " + err);
                 throw err;
             }
@@ -91,27 +91,27 @@ const MATCHING = {
     },
 
     //일정 수정 --리뷰어
-    updatePlan : (id, data, result) => {
+    updatePlan: (id, data, result) => {
 
         const scheduleInfo = Object.values(data)
 
         DB.getConnection((err, connection) => {
-            if(!err)    {
+            if (!err) {
                 let sql = `UPDATE SCHEDULE_TB SET MON = ?, TUE = ?, WED = ?, THURS = ?, FRI = ?
                            WHERE ID_PK LIKE ${id}`;
                 connection.query(sql, scheduleInfo, (err, res) => {
                     connection.release();
 
-                    if(err) {
+                    if (err) {
                         console.log("sql error " + err);
                         result(null, err);
-                        return ;
+                        return;
                     }
                     result(null, res);
-                    return ;
+                    return;
                 })
             }
-            else    {
+            else {
                 console.log("mysql connection error " + err);
                 throw err;
             }
@@ -119,12 +119,12 @@ const MATCHING = {
     },
 
     //일정 및 선택 부분 수정 --리뷰이
-    updatePlanAndPrefer : (id, data, result) => {
+    updatePlanAndPrefer: (id, data, result) => {
 
         const scheduleInfo = Object.values(data)
 
         DB.getConnection((err, connection) => {
-            if(!err)    {
+            if (!err) {
                 let sql = `UPDATE SCHEDULE_TB
                            INNER JOIN REVIEWEE_PREFER_TB
                            ON SCHEDULE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
@@ -132,20 +132,20 @@ const MATCHING = {
                            SCHEDULE_TB.MON = ?, SCHEDULE_TB.TUE = ?, SCHEDULE_TB.WED = ?, SCHEDULE_TB.THURS = ?, SCHEDULE_TB.FRI = ?,
                            REVIEWEE_PREFER_TB.LANGUAGE = ?, REVIEWEE_PREFER_TB.ACTIVITY = ?
                            WHERE SCHEDULE_TB.ID_PK LIKE ${id};`;
-                
-                    connection.query(sql, scheduleInfo, (err, res) => {
+
+                connection.query(sql, scheduleInfo, (err, res) => {
                     connection.release();
 
-                    if(err) {
+                    if (err) {
                         console.log("sql error " + err);
                         result(null, err);
-                        return ;
+                        return;
                     }
                     result(null, res);
-                    return ;
+                    return;
                 })
             }
-            else    {
+            else {
                 console.log("mysql connection error " + err);
                 throw err;
             }
@@ -153,7 +153,7 @@ const MATCHING = {
     },
 
     //대기열에서 리뷰어로 신청한 사람들만 가져옴
-    getRevieweesInfo : () => {
+    getRevieweesInfo: () => {
 
         return new Promise((resolve, reject) => {
 
@@ -173,15 +173,15 @@ const MATCHING = {
                     connection.query(sql, (err, data) => {
                         connection.release();
 
-                        if(err) {
+                        if (err) {
                             reject(err);
                         }
-                        else    {
+                        else {
                             resolve(data);
                         }
                     })
                 }
-                else    {
+                else {
                     console.log("mysql connection error" + err);
                 }
             });
@@ -189,13 +189,13 @@ const MATCHING = {
     },
 
     //리뷰이들의 입력값을 가지고 있는 리뷰어들의 정보로 대기열을 구성해야함
-    getReviewersInfo : (data) => {
+    getReviewersInfo: (data) => {
 
         let revieweesInfo = data;
 
         return new Promise((resolve, reject) => {
             DB.getConnection((err, connection) => {
-                if(!err)    {
+                if (!err) {
                     let mainQuery = `SELECT  LANGUAGE_TB.ID_PK, LANGUAGE_TB.${Object.values(revieweesInfo)[3]}, ACTIVITY_TB.${Object.values(revieweesInfo)[4]}, QUEUE_TB.CREATEDAT FROM  LANGUAGE_TB 
                                      INNER JOIN ACTIVITY_TB 
                                      ON LANGUAGE_TB.ID_PK = ACTIVITY_TB.ID_PK
@@ -204,19 +204,19 @@ const MATCHING = {
                                      INNER JOIN SCHEDULE_TB
                                      ON QUEUE_TB.ID_PK = SCHEDULE_TB.ID_PK
                                      WHERE QUEUE_TB.POSITION = 0`;
-                    
+
                     let subQuery = THINGABOUTSUBQUERY.findSameTimeZone(revieweesInfo);
-                    
+
                     //나중에 테스트
                     let sql = [[mainQuery], [subQuery]].join(' AND (') + ')';
 
                     connection.query(sql, (err, res) => {
                         connection.release();
-                        
-                        if(err) {
+
+                        if (err) {
                             reject(err);
                         }
-                        else    {
+                        else {
                             resolve(res);
                         }
                     })
@@ -230,82 +230,80 @@ const MATCHING = {
     //대기열을 구성해서 우선순위를 뽑았으면,
     //리뷰이랑 리뷰어의 시간대가 언제 맞는지를 알려줘야함
     //이건 CODEREVIEW_ACT_INFO_TB 에서 저장 하는게 좋을거 같다.
-    setReviewActInfo : (data, result) => {
+    setReviewActInfo: (data, result) => {
 
         let matchingData = Object.values(data);
 
         DB.getConnection((err, connection) => {
-            if(!err)    {
+            if (!err) {
                 let sql = `INSERT INTO CODEREVIEW_ACT_INFO_TB VALUES ( ? )`;
                 connection.query(sql, [matchingData], (err, res) => {
                     connection.release();
 
-                    if(err) {
+                    if (err) {
                         console.log("sql error " + err);
                         result(null, err);
-                        return ;
+                        return;
                     }
                     result(null, res);
-                    return ;
+                    return;
                 })
             }
-            else    {
+            else {
                 console.log("mysql connection error " + err);
                 throw err;
             }
         })
     },
 
-    deleteRevieweeFromQueue : (id) => {
-        DB.getConnection((err, connection) => {
-            if(!err)    {
-                let sql = `DELETE FROM queue, schedule, prefer
-                           USING SCHEDULE_TB AS schedule
-                           INNER JOIN REVIEWEE_PREFER_TB AS prefer
-                           ON schedule.ID_PK = prefer.REVIEWEE_ID_FK
-                           INNER JOIN QUEUE_TB AS queue
-                           ON prefer.REVIEWEE_ID_FK = queue.ID_PK
-                           WHERE schedule.ID_PK LIKE ${id}`;
-                connection.query(sql, (err, res) => {
-                    connection.release();
+    deleteRevieweeFromQueue: (id) => {
+        return new Promise((resolve, reject) => {
+            DB.getConnection((err, connection) => {
+                if (!err) {
+                    let sql = `DELETE FROM queue, schedule, prefer
+                               USING SCHEDULE_TB AS schedule
+                               INNER JOIN REVIEWEE_PREFER_TB AS prefer
+                               ON schedule.ID_PK = prefer.REVIEWEE_ID_FK
+                               INNER JOIN QUEUE_TB AS queue
+                               ON prefer.REVIEWEE_ID_FK = queue.ID_PK
+                               WHERE schedule.ID_PK LIKE ${id}`;
 
-                    if(err) {
-                        console.log("sql error " + err);
-                        return err;
-                    }
-                    return res;
-                })
-            }
-            else    {
-                console.log("mysql connection error " + err);
-                throw err;
-            }
+                    connection.query(sql, (err, res) => {
+                        connection.release();
+
+                        if (err)
+                            reject(err);
+                        else
+                            resolve(res);
+                    })
+                }
+                else
+                    console.log("mysql connection error" + err);
+            })
         })
     },
 
-    deleteReviewerFromQueue : (id) => {
-        DB.getConnection((err, connection) => {
-            if(!err)    {
-                let sql = `DELETE FROM queue, schedule
-                           USING QUEUE_TB AS queue
-                           INNER JOIN SCHEDULE_TB AS schedule
-                           ON queue.ID_PK = schedule.ID_PK
-                           WHERE schedule.ID_PK = ${id}`;
+    deleteReviewerFromQueue: (id) => {
+        return new Promise((resolve, reject) => {
+            DB.getConnection((err, connection) => {
+                if (!err) {
+                    let sql = `DELETE FROM queue, schedule
+                               USING QUEUE_TB AS queue
+                               INNER JOIN SCHEDULE_TB AS schedule
+                               ON queue.ID_PK = schedule.ID_PK
+                               WHERE schedule.ID_PK = ${id}`
+                    connection.query(sql, (err, res) => {
+                        connection.release();
 
-                connection.query(sql, (err, res) => {
-                    connection.release();
-
-                    if(err) {
-                        console.log("sql error " + err);
-                        return err;
-                    }
-                    return res;
-                })
-            }
-            else    {
-                console.log("mysql connection error " + err);
-                throw err;
-            }
+                        if (err)
+                            reject(err);
+                        else
+                            resolve(res);
+                    })
+                }
+                else
+                    console.log("mysql connection error" + err);
+            })
         })
     }
 }

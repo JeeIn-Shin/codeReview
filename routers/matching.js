@@ -154,41 +154,41 @@ ROUTER.put('/update', async (req, res) => {
 
 // http://localhost:8080/walk-thru/review-groups
 ROUTER.post('/review-groups', async(req, res) => {
-    //얘네들은 왜 선언한거지?
-    // let language = [];
-    // let activity = [];
 
+
+    // 1. 대기열에 등록된 리뷰이 리스트를 가져와서
     MATCHING.getRevieweesInfo()
-        .then((revieweesResult) => {
+        .then(async(revieweesResult) => {
 
             let data = revieweesResult;
             let dataLength = revieweesResult.length - 1; //1
             let count = 0;
             let revieweeInfo = [];
+            let root = null;
+            let weight = 0;
+            //학생 아이디
+            let id;
 
-            //생각을 잘못했음 datalength 가 계속 줄어들어야하는데..
+
+            // 2. 리뷰이 리스트 길이만큼 loop를 돕니다.
             while (count <= dataLength) { // 1, 0
-                console.log(dataLength);
+
                 revieweeInfo = data[count];
-                // console.log(count);
-                // console.log(revieweeInfo.ID_PK);
-                
-                //
-                MATCHING.getReviewersInfo(revieweeInfo)
+
+                // 3. 리뷰이 리스트에서 0번째 인덱스가 가지고 있는 정보(언어 활동 등)를 토대로 (이하 리뷰이로만 통칭)
+                // 4. 대기열에 등록된 리뷰어들을 모두 가져옴
+                await MATCHING.getReviewersInfo(revieweeInfo)
                 .then(async(reviewersList) => {
-
+                    console.log(`${dataLength}`);
                     let heap = new PRIORITYQUEUE();
-                    let root = null;
                     let data = reviewersList;
-
-                    //1. for문 안에서
-                    //2중 for문만이 답인가?????????
-                    //[0][1][2] ... 
+                    
                     //데이터 맞는지 나중에 검증해야함 아...
+
+                    // 5. 리뷰어 리스트만큼 순회하면서 리뷰이가 가지고 있는 정보와 일치하는 데이터만 합산해서 가중치를 계산함
                     for(let index = 0; index < data.length; index++) {
                         
-                        let weight = 0;
-                        let id;
+                        weight = 0;
                         
                         for (let key in data[index])    {
                             if (key !== "ID_PK")
@@ -197,21 +197,29 @@ ROUTER.post('/review-groups', async(req, res) => {
                                 id = data[index][key];
                             }
                         }
-                        //2. heap에 넣어야함
+                        //6. 계산된 리뷰어 데이터를 heap에 넣어야함
                         heap.push(id, weight);
-
-                    }
-                    //pop된 값을 다른 테이블에 넣어줘야함 --> 어떤 테이블?
-                    //CODEREVIEW_ACT_INFO_TB !!
-                    //여기서부터 시작하기
+                    }                    
+                    // 7. 힙으로부터 리뷰이와 가장 잘 맞는 사람(리뷰어 중 가중치가 가장 높은 사람)을 뽑아냄 ==> 이를 리뷰이와 리뷰어를 매칭시켰다고 칭하겠음
                     root = heap.pop();
+                    console.log(root);
 
-                    //데이터 잘 지워짐 ㅇㅋ
-                    //다른 문제는 생길게 없을까?
-                    await MATCHING.deleteReviewerFromQueue(root.id);
-                    await MATCHING.deleteRevieweeFromQueue(revieweeInfo.ID_PK);
                 })
 
+                console.log(root.id);
+                console.log(revieweeInfo.ID_PK);
+                //////// 왜 어째서 revieweeInfo.ID_PK가 헛돌지.............
+
+                // 8. ***************매칭된 두 사람(리뷰이와, 리뷰어)은 대기열 목록에서 지워짐******************** 문제가 발생함
+                //await Promise.all([MATCHING.deleteRevieweeFromQueue(revieweeInfo.ID_PK), MATCHING.deleteReviewerFromQueue(root.id)]); 
+                // 리뷰어는 목록에서 잘 삭제가 되는데, 리뷰이는 제대로 삭제되지 않음
+                // 현재 데이터에서 리뷰어는 3명, 리뷰이는 2명 밖에 없어서
+                // 예상은 리뷰어 1명, 리뷰이 0명이 대기열에 남아야하는데
+                // 실제로는 리뷰어 1명, 리뷰이 1명이 남음
+                // 왜? 이 부분이 해결되지 않아서 다음 상황으로 넘어갈 수가 없음........
+
+                // 9. 그런 다음 CODEREVIEW_ACT_INFO_TB에 두 사람의 데이터를 집어야함
+                
                 dataLength--;
             }
             res.json("success");
