@@ -15,14 +15,10 @@ app.set('port', process.env.PORT || 8080);
 
 //view engine 설정 이렇게 하는게 맞나..?
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+app.set('view engine','ejs');
+app.engine('html', require('ejs').__express);
 
-// app.get('/', (req, res) =>{
-//     res.json({ test : "test"});
-// });
-
-app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.use('/profile', PROFILEROUTER);
 app.use('/signup', SIGNUPROUTER);
