@@ -160,7 +160,7 @@ const MATCHING = {
             DB.getConnection((err, connection) => {
                 if (!err) {
                     let sql = `SELECT
-                               QUEUE_TB.ID_PK, QUEUE_TB.CREATEDAT, QUEUE_TB.POSITION,
+                               QUEUE_TB.ID_PK, QUEUE_TB.CREATEDAT,
                                REVIEWEE_PREFER_TB.LANGUAGE, REVIEWEE_PREFER_TB.ACTIVITY,
                                SCHEDULE_TB.MON, SCHEDULE_TB.TUE, SCHEDULE_TB.WED, SCHEDULE_TB.THURS, SCHEDULE_TB.FRI
                                FROM QUEUE_TB
@@ -197,7 +197,9 @@ const MATCHING = {
         return new Promise((resolve, reject) => {
             DB.getConnection((err, connection) => {
                 if (!err) {
-                    let mainQuery = `SELECT  LANGUAGE_TB.ID_PK, LANGUAGE_TB.${Object.values(revieweesInfo)[3]}, ACTIVITY_TB.${Object.values(revieweesInfo)[4]}, QUEUE_TB.CREATEDAT FROM  LANGUAGE_TB 
+                    let mainQuery = `SELECT  LANGUAGE_TB.ID_PK, LANGUAGE_TB.${Object.values(revieweesInfo)[2]}, 
+                                     ACTIVITY_TB.${Object.values(revieweesInfo)[3]}, QUEUE_TB.CREATEDAT, 
+                                     SCHEDULE_TB.MON, SCHEDULE_TB.TUE, SCHEDULE_TB.WED, SCHEDULE_TB.THURS, SCHEDULE_TB.FRI FROM  LANGUAGE_TB 
                                      INNER JOIN ACTIVITY_TB 
                                      ON LANGUAGE_TB.ID_PK = ACTIVITY_TB.ID_PK
                                      INNER JOIN QUEUE_TB
@@ -206,7 +208,7 @@ const MATCHING = {
                                      ON QUEUE_TB.ID_PK = SCHEDULE_TB.ID_PK
                                      WHERE QUEUE_TB.POSITION = 0`;
 
-                    let subQuery = THINGABOUTSUBQUERY.findSameTimeZone(revieweesInfo);
+                    let subQuery = THINGABOUTSUBQUERY.findSameTimeZonePeople(revieweesInfo);
 
                     //나중에 테스트
                     let sql = [[mainQuery], [subQuery]].join(' AND (') + ')';
@@ -231,7 +233,7 @@ const MATCHING = {
     //대기열을 구성해서 우선순위를 뽑았으면,
     //리뷰이랑 리뷰어의 시간대가 언제 맞는지를 알려줘야함
     //이건 CODEREVIEW_ACT_INFO_TB 에서 저장 하는게 좋을거 같다.
-    setReviewActInfo: (data, result) => {
+    setReviewActInfo: (data) => {
 
         let matchingData = Object.values(data);
 
@@ -243,11 +245,9 @@ const MATCHING = {
 
                     if (err) {
                         console.log("sql error " + err);
-                        result(null, err);
-                        return;
+                        return err;
                     }
-                    result(null, res);
-                    return;
+                    return res;
                 })
             }
             else {
