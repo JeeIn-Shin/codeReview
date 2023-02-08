@@ -160,15 +160,16 @@ const MATCHING = {
             DB.getConnection((err, connection) => {
                 if (!err) {
                     let sql = `SELECT
-                    QUEUE_TB.ID_PK, QUEUE_TB.CREATEDAT, QUEUE_TB.POSITION,
-                    REVIEWEE_PREFER_TB.LANGUAGE, REVIEWEE_PREFER_TB.ACTIVITY,
-                    SCHEDULE_TB.MON, SCHEDULE_TB.TUE, SCHEDULE_TB.WED, SCHEDULE_TB.THURS, SCHEDULE_TB.FRI
-                    FROM QUEUE_TB
-                    INNER JOIN  REVIEWEE_PREFER_TB
-                    ON QUEUE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
-                    INNER JOIN SCHEDULE_TB
-                    ON REVIEWEE_PREFER_TB.REVIEWEE_ID_FK = SCHEDULE_TB.ID_PK
-                    WHERE QUEUE_TB.POSITION = 1`;
+                               QUEUE_TB.ID_PK, QUEUE_TB.CREATEDAT, QUEUE_TB.POSITION,
+                               REVIEWEE_PREFER_TB.LANGUAGE, REVIEWEE_PREFER_TB.ACTIVITY,
+                               SCHEDULE_TB.MON, SCHEDULE_TB.TUE, SCHEDULE_TB.WED, SCHEDULE_TB.THURS, SCHEDULE_TB.FRI
+                               FROM QUEUE_TB
+                               INNER JOIN  REVIEWEE_PREFER_TB
+                               ON QUEUE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
+                               INNER JOIN SCHEDULE_TB
+                               ON REVIEWEE_PREFER_TB.REVIEWEE_ID_FK = SCHEDULE_TB.ID_PK
+                               WHERE QUEUE_TB.POSITION = 1
+                               ORDER BY QUEUE_TB.CREATEDAT DESC`;
 
                     connection.query(sql, (err, data) => {
                         connection.release();
@@ -291,7 +292,8 @@ const MATCHING = {
                                USING QUEUE_TB AS queue
                                INNER JOIN SCHEDULE_TB AS schedule
                                ON queue.ID_PK = schedule.ID_PK
-                               WHERE schedule.ID_PK = ${id}`
+                               WHERE schedule.ID_PK LIKE ${id}`;
+
                     connection.query(sql, (err, res) => {
                         connection.release();
 

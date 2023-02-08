@@ -173,8 +173,8 @@ ROUTER.post('/review-groups', async(req, res) => {
             // 2. 리뷰이 리스트 길이만큼 loop를 돕니다.
             while (count <= dataLength) { // 1, 0
 
-                revieweeInfo = data[count];
-
+                revieweeInfo = data[dataLength];
+                console.log(revieweeInfo.ID_PK);
                 // 3. 리뷰이 리스트에서 0번째 인덱스가 가지고 있는 정보(언어 활동 등)를 토대로 (이하 리뷰이로만 통칭)
                 // 4. 대기열에 등록된 리뷰어들을 모두 가져옴
                 await MATCHING.getReviewersInfo(revieweeInfo)
@@ -202,16 +202,18 @@ ROUTER.post('/review-groups', async(req, res) => {
                     }                    
                     // 7. 힙으로부터 리뷰이와 가장 잘 맞는 사람(리뷰어 중 가중치가 가장 높은 사람)을 뽑아냄 ==> 이를 리뷰이와 리뷰어를 매칭시켰다고 칭하겠음
                     root = heap.pop();
-                    console.log(root);
-
                 })
 
-                console.log(root.id);
-                console.log(revieweeInfo.ID_PK);
                 //////// 왜 어째서 revieweeInfo.ID_PK가 헛돌지.............
+                //해결함 revieweeinfo (176번 라인)에서 들어오는 값이 이상하게 오고있어서
+                //근데 이렇게 되면 마지막에 들어온 사람대로 되는거 아닌가?
+                //그렇다면 데베로부터 값을 받아올때 정렬해서 가져오면 되는거지!
 
                 // 8. ***************매칭된 두 사람(리뷰이와, 리뷰어)은 대기열 목록에서 지워짐******************** 문제가 발생함
-                //await Promise.all([MATCHING.deleteRevieweeFromQueue(revieweeInfo.ID_PK), MATCHING.deleteReviewerFromQueue(root.id)]); 
+                await Promise.all([MATCHING.deleteRevieweeFromQueue(revieweeInfo.ID_PK), MATCHING.deleteReviewerFromQueue(root.id)])
+                .catch((err) => {
+                    console.log(err);
+                })
                 // 리뷰어는 목록에서 잘 삭제가 되는데, 리뷰이는 제대로 삭제되지 않음
                 // 현재 데이터에서 리뷰어는 3명, 리뷰이는 2명 밖에 없어서
                 // 예상은 리뷰어 1명, 리뷰이 0명이 대기열에 남아야하는데
