@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="hiyoka">
+
+    <title>공지사항</title>
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+    <header><a href="게시판.html"><img src="../image/6.png" alt="공통 부분"></a></header>
+    <main>
+    <h1>공지사항</h1>
+    <br>
+    <div class="container">
+        <form id ="select" action="../html/example.php" method="post">
+            <fieldset>
+                <select name="combox1" id="combox1">
+                    <optgroup>
+                        <option value="제목">제목</option>
+                        <option value="작성자">작성자</option>
+                        <option value="내용">내용</option>
+                    </optgroup>
+                </select>
+                <input type="text" id="scontent" name="scontent">
+                <input type="submit" value="검색" id="search"></input>
+            </fieldset>
+        </form>
+    </div>
+    <div class="container">
+
+        <div class="notice_board">
+            <!-- title 열 -->
+            <ul class="board_row title_row ">
+                <li class="w70">번호</li>
+                <li class="w500">제목</li>
+                <li class="w120">작성자</li>
+                <li class="w100">작성일</li>
+                <li class="w100">조회수</li>
+                <li class="w100">첨부파일</li>
+            </ul>
+            <!-- 게시글 추가로 들어오는 위치 -->
+        </div>
+
+        <!-- 페이지 블럭 -->
+        <div class="pagination">
+            <button class="first_move" onclick="first()" title="최신 페이지로 갑니다">최신</button>
+            <button class="before_move" onclick="before()" title="이전">이전</button>
+            <div class="block">
+                <!-- 블럭 추가로 들어오는 위치 -->
+            </div>
+            <button class="next_move" onclick="next()" tiletle="다음">다음</button>
+            <button class="last_move" onclick="last()" title="마지막 페이지로 갑니다">마지막</button>
+        </div>
+        <a href="글쓰기.html" target="_parent" title="관리자 글쓰기">  <button>글쓰기</button></a>
+    </div>
+
+
+</main>
+<section id="equal"><a href="게시판.html"><img src="../image/상상부기.png" alt="공통 부분"></section>
+    <script src="../js/notice.js"></script>
+</body>
+</html>

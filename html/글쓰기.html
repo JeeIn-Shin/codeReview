@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="hiyoka">
+
+    <title>공지사항 글쓰기</title>
+    <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+    <header><a href="공지게시판.html"><img src="../image/6.png" alt="공통 부분"></a></header>
+    <main>
+    <h1>공지사항 글쓰기</h1>
+    <br>
+    
+    <div class="container2">
+        <form id ="write" action="../html/example.php" method="post">
+        <label for="userName">작성자
+            <input type="text" id="userName" name="userName">
+        </label>
+        <br>
+        <label for="title">제목
+            <input type="text" id="title" name="title">
+        </label>
+        <br>
+        <label for="content">
+            <textarea id="content" name="content" cols="30" rows="10" placeholder="내용 입력"></textarea>
+        </label>    
+        <br>
+        <label for="file">첨부파일
+            <input type="file" id = "file" name="file" />
+        </label>
+        <br>
+        <input type="submit" id="submit" value="게시">
+    </form>
+    <a href="게시판.html" target="_parent" title="게시판"><button class="list">목록</button></a>
+    </div>
+</main>
+<section id="equal"><a href="공지게시판.html"><img src="../image/상상부기.png" alt="공통 부분"></section>
+    <script src="../js/write.js"></script>
+</body>
+</html>
