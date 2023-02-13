@@ -176,6 +176,7 @@ ROUTER.post('/review-groups', async(req, res) => {
             // 2. 리뷰이 리스트 길이만큼 loop를 돕니다.
             while (count <= dataLength) { // 1, 0
 
+                //수정된 부분
                 revieweeInfo = data[dataLength];
                 // 3. 리뷰이 리스트에서 0번째 인덱스가 가지고 있는 정보(언어 활동 등)를 토대로 (이하 리뷰이로만 통칭)
                 // 4. 대기열에 등록된 리뷰어들을 모두 가져옴

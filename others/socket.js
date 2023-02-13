@@ -32,6 +32,10 @@ io.on('connection', (socket) => {
             username: socket.username,
             message: data
         });
+
+        //breaodcast 이거 전체로 보내는거니까
+        //to
+        socket.broadcast.emit()
     });
 
     // when the client emits 'typing', we broadcast it to others
@@ -64,4 +68,6 @@ io.on('connection', (socket) => {
     });
 });
 
+
+// 이렇게 보내는걸로 연결이 되나?
 module.exports = io;
