@@ -15,6 +15,15 @@
     <main>
         <form name="joinus" method="post" enctype="multipart/form-data" action="">
         
+       
+
+        <div class="profile"> <!--가입 정보 이미지 등록-->
+            <p>프로필 사진</p>
+            <img id="previewImg" width="200px" height="200px" alt="이미지 영역" />
+            <br>
+            <input type="file" id="fileUpload" accept='image/*' />   
+        </div>
+
         <div class="labelid"> 
             <label for="joinnum">아이디(학번)</label>
         </div> <!--아이디 및 학번 입력칸 중복확인 칸-->
@@ -29,7 +38,7 @@
         </div> <!--비밀번호 입력칸 유효성 검사-->
 
         <div class="fieldpass"> 
-            <input type="password" id=joinpa name="joinpa" placeholder="최대 10글자 이내 (숫자,영문 필수)"maxlength="10" autocomplete="off">
+            <input type="password" id=joinpa name="joinpa" onchange="check_pw()" placeholder="최대 20글자 이내 (숫자, 영문,특수문자 필수)"maxlength="20" autocomplete="off">
         </div>
         
         <div class="labelid"> 
@@ -37,7 +46,7 @@
         </div> <!--비밀번호 확인 칸 유효성 검사-->
 
         <div class="fieldpass">
-            <input type="password" id=checkps name="checkps" placeholder="정확하게 입력해주세요" maxlength="10" autocomplete="off">
+            <input type="password" id=checkps name="checkps" onchange="check_pw()" placeholder="정확하게 입력해주세요" maxlength="10" autocomplete="off">
         </div>
        
         <div class="labelid"> 
@@ -58,7 +67,6 @@
             <button type="button">중복확인</button>
         </div> 
         
-
         <div class="labelid">
             <label for="joinemail">이메일</label>
             </div> <!--이메일 입력칸 유효성 검사 및 이메일 인증받기-->
@@ -84,10 +92,15 @@
 
             </div>
 
+            <div class="back_sang2"></div> 
         </form>
+
+        
 
     </main>
 
+
+    <script src="singupJS.js"></script>
 
 </body>
 

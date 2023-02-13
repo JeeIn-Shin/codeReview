@@ -7,6 +7,25 @@
 
 }
 
+.back_sang2 {
+    width: 500px;
+    height: 500px;
+    background: url("../image/가입부기.png");
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+.back_sang3 {
+    width: 500px;
+    height: 500px;
+    background: url("../image/비번부기.png");
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+
 .labelid {
     width: 100px;
     text-align: left;
@@ -44,8 +63,16 @@
 }
 
 .fieldgit input {
-     margin: 10px;
+    margin: 10px;
     width: 400px;
     height: 30px;
 }
 
+.profile {
+    width: 250px;
+    height: 300px;
+    margin : 20px; 
+    padding : 20px;
+    border : 1px solid black;
+    border-radius : 5px;
+}
