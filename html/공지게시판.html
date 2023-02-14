@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../css/style-hiyoka.css" />
 </head>
 <body>
-    <header><a href="공지게시판.html"><img src="../image/6.png" alt="공통 부분"></a></header>
+    <header class="equal"><a href="공지게시판.html"><img src="../image/6.png" alt="공통 부분"></a></header>
     <main>
     <h1>공지사항</h1>
     <br>
@@ -40,6 +40,8 @@
                 <li class="w100">작성일</li>
                 <li class="w100">조회수</li>
                 <li class="w100">첨부파일</li>
+                <li id="modify" class="w100">수정</li>
+                <li id="delete" class="w100">삭제</li>
             </ul>
             <!-- 게시글 추가로 들어오는 위치 -->
         </div>
@@ -54,7 +56,7 @@
             <button class="next_move" onclick="next()" tiletle="다음">다음</button>
             <button class="last_move" onclick="last()" title="마지막 페이지로 갑니다">마지막</button>
         </div>
-        <a href="글쓰기.html" target="_parent" title="관리자 글쓰기">  <button>글쓰기</button></a>
+        <a href="글쓰기.html" target="_parent" title="관리자 글쓰기">  <button id="write">글쓰기</button></a>
     </div>
 
 

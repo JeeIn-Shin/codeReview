@@ -6,20 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="hiyoka">
 
-    <title>공지사항 글쓰기</title>
+    <title>어떠한 공지사항 제목 수정</title>
     <link rel="stylesheet" href="../css/style-hiyoka.css" />
 </head>
 <body>
     <header class="equal"><a href="공지게시판.html"><img src="../image/6.png" alt="공통 부분"></a></header>
     <main>
-    <h1>공지사항 글쓰기</h1>
+    <h1>어떠한 공지사항 수정</h1>
     <br>
     
     <div class="container2">
+        <p>작성자 <strong id="adminName">땡땡땡</strong></p>
         <form id ="write" action="../html/example.php" method="post">
-        <label for="userName">작성자
-            <input type="text" id="userName" name="userName">
-        </label>
         <br>
         <label for="title">제목
             <input type="text" id="title" name="title">
@@ -33,12 +31,12 @@
             <input type="file" id = "file" name="file" />
         </label>
         <br>
-        <input type="submit" id="submit" value="게시">
+        <input type="submit" id="modify" value="수정">
     </form>
     <a href="공지게시판.html" target="_parent" title="게시판"><button class="list">목록</button></a>
     </div>
 </main>
 <section class="equal"><a href="공지게시판.html"><img src="../image/상상부기.png" alt="공통 부분"></section>
-    <script src="../js/write.js"></script>
+    <script src="../js/modify.js"></script>
 </body>
 </html>
