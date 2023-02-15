@@ -14,7 +14,6 @@
     <main>
     <h1>공지사항 글쓰기</h1>
     <br>
-    
     <div class="container2">
         <form id ="write" action="../html/example.php" method="post">
         <label for="userName">작성자
@@ -25,20 +24,38 @@
             <input type="text" id="title" name="title">
         </label>
         <br>
-        <label for="content">
-            <textarea id="content" name="content" cols="30" rows="10" placeholder="내용 입력"></textarea>
-        </label>    
         <br>
+        <button id="left_btn">좌측 정렬</button>
+        <button id="center_btn">중앙 정렬</button>
+        <button id="right_btn">우측 정렬</button>
+        <button id="bold_btn">굵게</button>
+        <button id="italic_btn">기울임</button>
+        <button id="underline_btn">밑줄</button>
+        <button id="strike_btn">취소선</button>
+        <button id="link_btn">링크</button>
+        <br>
+        <br id="content_before">
+        <label for="content">
+            <textarea id="content" name="content" cols="205" rows="20" style="display: none;" placeholder="내용 입력"></textarea>
+        </label>    
+        <br id="content_next">
         <label for="file">첨부파일
             <input type="file" id = "file" name="file" />
         </label>
         <br>
+        <button id="edit_btn">편집</button>
+        <button id="tarea_btn">HTML</button>
+        <button id="preview_btn">미리보기</button>
+        <br>
         <input type="submit" id="submit" value="게시">
     </form>
+    <br>
+    <br>
     <a href="공지게시판.html" target="_parent" title="게시판"><button class="list">목록</button></a>
+    <br>
     </div>
 </main>
-<section class="equal"><a href="공지게시판.html"><img src="../image/상상부기.png" alt="공통 부분"></section>
+<footer class="equal2"><a href="공지게시판.html"><img src="../image/상상부기.png" alt="공통 부분"></footer>
     <script src="../js/write.js"></script>
 </body>
 </html>

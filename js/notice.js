@@ -41,6 +41,13 @@ let last_block = total_block - ((total_block - 1) % 10);
 // 관리자인지 판단하기
 let isAdmin = true;
 //let isAdmin = false;
+
+let date = new Date(); // ex) 2021-10-07 15:30:00
+let year = date.getFullYear();
+let month = date.getMonth() + 1;
+let day = date.getDate();
+let YearMonthDate = year + "-" + month + "-" + day; // ex) 2021-10-07
+
 /*
         게시글 데이터를 담고 있는 객체 배열
         번호 : data[게시글 번호].notice_num
@@ -58,9 +65,9 @@ for (let i = 1; i <= totalPage; i++) {
     notice_num: i,
     title: "제목" + i,
     writer: "작성자" + i,
-    date_created: "2022-10-07",
+    date_created: YearMonthDate,
     Lookkup_num: i,
-    attachment_num: 0,
+    attachment_num: undefined,
     Modify: "수정",
     Delete: "삭제",
   };
@@ -173,6 +180,7 @@ function post_data_print(block) {
           btn.addEventListener("click", function () {
             if (confirm("정말 삭제하시겠습니까?")) {
               alert("삭제되었습니다.");
+              //서버로 삭제한 게시글의 번호를 보내주기
               a.setAttribute("href", "공지사항삭제.html");
               a.setAttribute("target", "_parent");
             } else {
@@ -204,15 +212,19 @@ function block_print(front_block) {
 
   // 이전으로 갈 블럭이 없으면
   if (front_block <= 1) {
+    document.querySelector(".first_move").style.visibility = "hidden";
     document.querySelector(".before_move").style.visibility = "hidden";
   } else {
+    document.querySelector(".first_move").style.visibility = "visible";
     document.querySelector(".before_move").style.visibility = "visible";
   }
 
   // 다음으로 갈 블럭이 없으면
   if (front_block + block_num >= total_block) {
+    document.querySelector(".last_move").style.visibility = "hidden";
     document.querySelector(".next_move").style.visibility = "hidden";
   } else {
+    document.querySelector(".last_move").style.visibility = "visible";
     document.querySelector(".next_move").style.visibility = "visible";
   }
 
