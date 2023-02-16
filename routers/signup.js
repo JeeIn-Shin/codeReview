@@ -30,7 +30,7 @@ ROUTER.post('/', async (req, res) => {
 
     let userInfo = {
         id,
-        password,
+        encryptPwd,
         profileImg,
         nickname,
         email,
@@ -53,7 +53,7 @@ ROUTER.post('/', async (req, res) => {
 
 ROUTER.get('/email', (req, res) => {
     //페이지 렌더링
-    res.redirect('');
+    res.render('');
 })
 
 ROUTER.post('/email', async (req, res) => {
