@@ -100,7 +100,6 @@ ROUTER.put('/update', async (req, res) => {
 
     // 0이 reviewer
     if (classification === 0) {
-
         let reviewerUpdateData = {
             //ID_PK 부분은 로그인 정보가 들어가야함
             ID_PK: req.body.ID_PK,
@@ -155,8 +154,6 @@ ROUTER.put('/update', async (req, res) => {
 
 // http://localhost:8080/walk-thru/review-groups
 ROUTER.post('/review-groups', async(req, res) => {
-
-
     // 1. 대기열에 등록된 리뷰이 리스트를 가져와서
     MATCHING.getRevieweesInfo()
         .then(async(revieweesResult) => {

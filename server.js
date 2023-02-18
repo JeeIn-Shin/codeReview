@@ -26,7 +26,6 @@ app.use('/signup', SIGNUPROUTER);
 app.use('/walk-thru', MATCHINGROUTER);
 app.use('/direct', CHATROUTER);
 
-
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), "빈 포트에서 대기");
 });
