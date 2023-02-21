@@ -1,13 +1,16 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const path = require('path');
+const methodOverride = require('method-override');
+
+const app = express();
+app.use(methodOverride('_method'));
 
 const PROFILEROUTER = require('./routers/profile');
 const SIGNUPROUTER = require("./routers/signup");
 const MATCHINGROUTER = require("./routers/matching");
 const CHATROUTER = require("./routers/chat");
-
-const app = express();
+const NOTICEROUTER = require('./routers/noticeBoard');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -25,6 +28,7 @@ app.use('/profile', PROFILEROUTER);
 app.use('/signup', SIGNUPROUTER);
 app.use('/walk-thru', MATCHINGROUTER);
 app.use('/direct', CHATROUTER);
+app.use('/notice', NOTICEROUTER);
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), "빈 포트에서 대기");
