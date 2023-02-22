@@ -9,35 +9,22 @@ post_data_print(block) : 게시글 데이터 출력하기 / 매개변수 : 선�
 block_print(front_block) : 블럭 출력하기 / 매개변수 : 가장 앞에 오는 블럭
 */
 
-//검색 내용이 들어갈 때만 검색이 되게 합니다.
-const searchbtn = document.getElementById("search");
-
-searchbtn.addEventListener("click", function (searchevent) {
-  const scontent = document.getElementById("scontent");
-
-  if (scontent.value == "") {
-    alert("내용을 입력해주세요.");
-    scontent.focus();
-    searchevent.preventDefault();
-  } else {
-  }
-});
-
+// 게시글 데이터를 담고 있는 객체 배열
+let data = new Array();
 //    총 게시글 수
-let totalPage = 2;
+let totalPage;
+
 //  한 페이지 당 출력되는 게시글 갯수
 let page_num = 20;
 //   한번에 출력될 수 있는 최대 블록 수
 // ex ) [1][2][3][4][5] -> 블록
 let block_num = 10;
-// 블록의 총 수를 계산한다.
-let total_block = totalPage % 20 == 0 ? totalPage / 20 : totalPage / 20 + 1;
+
 // 현재 블록 위치를 알려준다
 let current_block = 1;
 // 첫 째 블록
 const first_block = 1;
-// 마지막 블록 그룹에서 첫 째 블록
-let last_block = total_block - ((total_block - 1) % 10);
+
 // 관리자인지 판단하기
 let isAdmin = true;
 //let isAdmin = false;
@@ -48,7 +35,6 @@ let month = date.getMonth() + 1;
 let day = date.getDate();
 let YearMonthDate = year + "-" + month + "-" + day; // ex) 2021-10-07
 
-let data = new Array();
 /*
         게시글 데이터를 담고 있는 객체 배열
         번호 : data[게시글 번호].notice_num
@@ -72,7 +58,7 @@ function post_data_print(block) {
   // 게시글 출력 공간
   let notice_board = document.querySelector(".notice_board");
   // 출력 첫 페이지 번호
-  let start = totalPage - page_num * (block - 1);
+  let start = data.length - page_num * (block - 1);
 
   for (let i = start; i >= 1 && i > start - page_num; i--) {
     // 게시글 데이터 가져와서 게시글 요소 생성 및 추가
@@ -141,6 +127,9 @@ function post_data_print(block) {
           a.setAttribute("href", "공지사항.html");
           a.setAttribute("target", "_parent");
           a.textContent = post_data[j];
+          a.onclick = function () {
+            localStorage.setItem("post_num", i);
+          };
           li.appendChild(a);
         }
         //수정 버튼을 눌렀을 때 공지사항수정.html
@@ -164,11 +153,8 @@ function post_data_print(block) {
           li.appendChild(a);
           //삭제 버튼을 눌렀을 때 삭제 확인창 띄우기
           btn.addEventListener("click", function () {
-            if (confirm("정말 삭제하시겠습니까?")) {
-              alert("삭제되었습니다.");
-              //서버로 삭제한 게시글의 번호를 보내주기
-              a.setAttribute("href", "공지사항삭제.html");
-              a.setAttribute("target", "_parent");
+            if (confirm(i + "번째 공지사항 정말 삭제하시겠습니까?")) {
+              post_delete(i);
             } else {
               alert("취소되었습니다.");
             }
@@ -189,6 +175,10 @@ function post_data_print(block) {
 // 블럭 출력하기
 // 매개변수 : 가장 앞에 오는 블럭
 function block_print(front_block) {
+  // 블록의 총 수를 계산한다.
+  let total_block =
+    data.length % 20 == 0 ? data.length / 20 : data.length / 20 + 1;
+
   /*
             1. 이전, 다음 블럭 속성 처리
             2. 기존 블럭 모두 삭제
@@ -239,6 +229,17 @@ function block_print(front_block) {
     // 블럭에 추가한다.
     block_box.appendChild(button);
   }
+
+  //관리자만 글쓰기 기능을 이용하게 하기
+  const writebutton = document.getElementById("write");
+  if (isAdmin === true) {
+    writebutton.style.display = "inline-block";
+    writebutton.onclick = function () {
+      localStorage.setItem("post_num", data.length);
+    };
+  } else {
+    writebutton.style.display = "none";
+  }
 }
 
 function before() {
@@ -257,6 +258,11 @@ function first() {
 }
 
 function last() {
+  // 블록의 총 수를 계산한다.
+  let total_block =
+    data.length % 20 == 0 ? data.length / 20 : data.length / 20 + 1;
+  // 마지막 블록 그룹에서 첫 째 블록
+  let last_block = total_block - ((total_block - 1) % 10);
   block_print(last_block);
   console.log("마지막");
 }
@@ -276,6 +282,7 @@ async function getData() {
   const response = await fetch("http://localhost:3000/notice");
   data = await response.json();
 }
+
 function post_get_data(i) {
   let post_data = [
     data[i - 1].notice_num,
@@ -287,7 +294,35 @@ function post_get_data(i) {
   ];
   return post_data;
 }
+
+//post_delete
+function post_delete(i) {
+  fetch("http://localhost:3000/notice")
+    .then((response) => response.json())
+    .then((customers) => {
+      const select_post = customers[i - 1];
+      return fetch(`http://localhost:3000/notice/${select_post.id}`, {
+        method: "DELETE",
+      });
+    })
+    .then((response) => response.json())
+    .then((json) => alert("삭제되었습니다."))
+    .then((json) => console.log(json));
+}
+
 // 화면 로드 시 실행되는 이벤트
+/*async function init() {
+  await getData();
+  totalPage = data.length;
+  console.log("totalPage : ", totalPage);
+  // 게시글 데이터 출력하기
+  post_data_print(1);
+  // 블럭 출력하기
+  block_print(1);
+}
+
+window.onload = init;*/
+
 window.onload = function () {
   getData().then(() => {
     // 게시글 데이터 출력하기
@@ -295,13 +330,19 @@ window.onload = function () {
 
     // 블럭 출력하기
     block_print(1);
+
+    //검색 내용이 들어갈 때만 검색이 되게 합니다.
+    const searchbtn = document.getElementById("search");
+
+    searchbtn.addEventListener("click", function (searchevent) {
+      const scontent = document.getElementById("scontent");
+
+      if (scontent.value == "") {
+        alert("내용을 입력해주세요.");
+        scontent.focus();
+        searchevent.preventDefault();
+      } else {
+      }
+    });
   });
 };
-
-//관리자만 글쓰기 기능을 이용하게 하기
-const writebutton = document.getElementById("write");
-if (isAdmin === true) {
-  writebutton.style.display = "inline-block";
-} else {
-  writebutton.style.display = "none";
-}

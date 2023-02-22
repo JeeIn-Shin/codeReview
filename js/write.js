@@ -1,3 +1,13 @@
+//localStorage에 저장된 마지막 공지사항의 번호를 가져와 1을 더한다.
+let post_num = localStorage.getItem("post_num");
+post_num = Number(post_num) + 1;
+
+//html에 공지사항의 개수를 출력한다.
+let notice_num_html = document.createElement("h2");
+notice_num_html.textContent =
+  "지금 쓰는 공지사항은 " + post_num + "번째 공지사항입니다.";
+document.querySelector("h1").appendChild(notice_num_html);
+
 const userName = document.getElementById("userName");
 const title = document.getElementById("title");
 const content = document.getElementById("content");
@@ -21,11 +31,40 @@ submitbtn.addEventListener("click", function (submitevent) {
     alert("내용을 입력해주세요.");
     div.focus();
   } else {
+    submitevent.preventDefault();
     let date = new Date(); //ex) 2021-10-07 15:30:00
     let year = date.getFullYear();
     let month = date.getMonth() + 1;
     let day = date.getDate();
     let YearMonthDate = year + "-" + month + "-" + day; //ex) 2021-10-07
+
+    // 게시글 데이터를 담고 있는 객체 배열을 만들어 서버애 전송한다.
+    let data = {
+      notice_num: post_num,
+      title: title.value,
+      writer: userName.value,
+      date_created: YearMonthDate,
+      Lookkup_num: 0,
+      attachment_num: 0,
+      content: content.value,
+    };
+    // json-server에 데이터를 전송한다.
+    fetch("http://localhost:3000/notice", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.title) {
+          alert("게시글이 등록되었습니다.");
+          location.href = "index.html";
+        } else {
+          alert("게시글 등록에 실패했습니다.");
+        }
+      });
   }
 });
 

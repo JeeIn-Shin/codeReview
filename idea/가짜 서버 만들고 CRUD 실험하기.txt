@@ -21,5 +21,7 @@ ex.html, ex.js을 만들어 영상 내용 연습하기
 |영상에서 나오는 코드 일단 한번 그대로 따라하기
 |아래 링크에서 더미데이터 만들기
 |https://json-generator.com/
-
-
+|더미데이터는 위 링크보다 아래 링크가 더 편하게 만들 수 있더라
+|https://www.mockaroo.com/
+|참고 링크
+|https://wooncloud.tistory.com/68
