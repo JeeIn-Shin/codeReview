@@ -1,0 +1,56 @@
+먼가 hover 기능이 예쁘긴한데 .. 흠,... 굳이 있어야할까 하는 느낌이 드는
+근데 예쁘고 싶다. 적용하면 됨.
+
+
+게시판에서 게시글을 고를 때 hover를 적용한다면
+block-blog-grid-hover-2
+호버미적용 선호
+blog-grid
+
+게시글에 들어왔으면
+텍스트가 중요하다.
+block-blog-single-6
+동영상이 중요하다.
+block-blog-single-4
+이미지가 중요하다.
+block-blog-single-3
+
+메인페이지 같은 다른 곳에서 중요 공지를 띄울 때 
+block-content-alert-sticky
+
+버튼 참고
+block-content-buttons
+
+block-content-cards-6
+
+Team Card 만들 거면 이거 흑백 사진 멋있다아... 내가 안멋진게 문제지만..
+block-content-cards-7
+|첫번째 카드 아니면 3번째 카드
+
+게시판 카테고리 나눌 때
+block-content-cards-9
+|+게시글 어느정도 보임
+demo-blog-categories
+
+사용자가 게시판을 보는 방법을 바꾸고 싶을 때
+block-content-cards-switch
+두번째 버튼 선호
+
+FAQ
+block-content-faqs-3
+
+일단 참고할 것
+block-content-gallery-4
+block-content-filters
+
+글쓰기 기능 그런 거 없는 거 같군
+
+block-content-gallery까지 봤고
+
+block-content-popup부터
+blocks까지 안봄
+
+blog부터
+blog-measonry까지 봄
+
+blog-single부터
