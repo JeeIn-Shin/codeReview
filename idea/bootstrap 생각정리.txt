@@ -1,6 +1,7 @@
 먼가 hover 기능이 예쁘긴한데 .. 흠,... 굳이 있어야할까 하는 느낌이 드는
 근데 예쁘고 싶다. 적용하면 됨.
 
+404-3
 
 게시판에서 게시글을 고를 때 hover를 적용한다면
 block-blog-grid-hover-2
@@ -39,18 +40,75 @@ block-content-cards-switch
 FAQ
 block-content-faqs-3
 
-일단 참고할 것
+
+
+글쓰기 기능
+|form-fields
+|forms-freelance-quote
+|forms-job
+|wysiwyg
+
+block-footer 중에
+|block-footer-2
+
+block-form 부분 전체 참고
+
+block-navigation-header 부분
+5
+
+
+
+blog-single-full       o
+blog-single-small-full
+
+blog-small-full-width
+
+blog-timeline
+
+참고할 부분?
 block-content-gallery-4
 block-content-filters
+block-misc-sticky-section
+block-misc-tooltip
+buttons
+checkout
+columns-grids
+component 부분 다참고하고
+특히 component-uploads 참고
+counters
+demo-blog 부분
+dividers
+featured-boxes
+footer-4 or footer 6
+form-elements
+full-width
+gradients
+header-login-modal
+header-semi-transparent
+icon-list
+icons
+labels-badges
+lazy-loading
+menu-9
+menu-with-button
+modal-popovers
+navigation
+pagination-progress
+preloaders
+read-more
+responsive
+rs-demos
+|rs-demo-slide-transitions
+search
+side-panel
+sitemap 
+social-icons
+split-menu
+style-boxes
+styled-icons
+tables
+tabs
+thumbnails-slider
+toggles-accordions
 
-글쓰기 기능 그런 거 없는 거 같군
-
-block-content-gallery까지 봤고
-
-block-content-popup부터
-blocks까지 안봄
-
-blog부터
-blog-measonry까지 봄
-
-blog-single부터
+portfolio 좀 보다가 다 넘겨버림

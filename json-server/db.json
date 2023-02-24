@@ -10418,6 +10418,16 @@
       "attachment_num": 0,
       "content": "<p style=\"text-align: center; font-weight: bold; font-style: italic; text-decoration: underline;\">CodeReview</p><p style=\"text-align: left;\">1. Code ~~~~~</p><p style=\"text-align: left;\">2. Review ~~~~</p><p style=\"text-align: left;\">3. Matching ~~~~</p><p style=\"text-align: left;\"><a href=\"https://github.com/JeeIn-Shin/codeReview\">4. link</a></p> ",
       "id": 1000
+    },
+    {
+      "notice_num": 1002,
+      "title": "Bootstap 1페이지 만들어봤다.",
+      "writer": "HIYOKA",
+      "content": "<p style=\"text-align: center; font-weight: bold;\">Bootstap 1페이지 만들어봤다.</p><p style=\"text-align: left;\">공지게시판 만들어봤다.</p><p style=\"text-align: left;\"><br></p><p style=\"text-align: left;\">notice_num이란 변수 필요 없을 거 같다. 예시 db.json도 고쳐야지..</p><p style=\"text-align: left;\">Canvas 부트스트랩 어떻게 쳐내야 될지 몰라서 그냥 html 빼고 일단 넣어봄</p><p style=\"text-align: left;\">헤보니까 어떻게 쳐내야 될지 알 거 같다.</p><p style=\"text-align: left; font-weight: bold;\">수정할 부분</p><p style=\"text-align: left;\">1. 블럭 부분들</p><p style=\"text-align: left;\">2. 게시글 내용 적당하게 들어가게 하기</p><p style=\"text-align: left;\">3. HTML 태그들 안 나오게 수정하기</p><p style=\"text-align: left;\">4. 먼가 하다보니 게시글 뜨는게 제대로 안되길래 js 중에 function.js를 지워봤더니 게시글이 잘 뜨는데</p><p style=\"text-align: left;\">function.js 부트스트랩은 꽤 중요한 기능이 들어있겠지 오늘 일어나서 알아봐야지 왜 안되고 난리야..</p><p style=\"text-align: left;\"><br></p><p style=\"text-align: left;\"><br></p><p style=\"text-align: left;\"><br></p> ",
+      "date_created": "2023-2-25",
+      "Lookkup_num": 0,
+      "attachment_num": 0,
+      "id": 1001
     }
   ]
 }

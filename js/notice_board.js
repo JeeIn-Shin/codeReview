@@ -49,14 +49,11 @@ let YearMonthDate = year + "-" + month + "-" + day; // ex) 2021-10-07
 // 매개변수 : 선택 블럭
 function post_data_print(block) {
   // 초기화
-  // 게시글 title 제외하고 모두 제거
-  let post_list = document.querySelectorAll(".data_row");
-  post_list.forEach(function (item) {
-    item.remove();
-  });
+  const post_list = document.querySelector(
+    ".post-grid.row.grid-container.gutter-30"
+  );
+  post_list.innerHTML = "";
 
-  // 게시글 출력 공간
-  let notice_board = document.querySelector(".notice_board");
   // 출력 첫 페이지 번호
   let start = data.length - page_num * (block - 1);
 
@@ -65,110 +62,154 @@ function post_data_print(block) {
     // 번호, 제목, 작성자, 작성일, 조회수, 첨부파일, 수정, 삭제
     // data[i].notice_num data[i].title data[i].writer data[i].date_created data[i].Lookkup_num data[i].attachment_num data[i].Modify data[i].Delete
     let post_data = post_get_data(i);
+
+    /* const post = document.createElement("div");
+    post.classList.add("entry", "col-lg-3", "col-md-4", "col-sm-6", "col-12");*/
     let post = document.createElement("ul");
     post.className = "board_row";
     post.className = "data_row";
 
-    let classname = [
-      "w70",
-      "w500",
-      "w120",
-      "w100",
-      "w100",
-      "w100",
-      "w100",
-      "w100",
-    ];
+    let classname = ["w500", "w120", "w100", "w100", "w100", "w100", "w100"];
 
-    /*let post_data = [
-      data[i].notice_num,
-      data[i].title,
-      data[i].writer,
-      data[i].date_created,
-      data[i].Lookkup_num,
-      data[i].attachment_num,
-    ];*/
+    // get the parent element
+    const parentDiv = document.querySelector(
+      //".container.clearfix.notice_board"
+      ".post-grid.row.grid-container.gutter-30"
+    );
 
-    if (isAdmin === false) {
-      //관리자가 아닐 때
-      //수정, 삭제 숨기기
-      const listmodify = document.getElementById("modify");
-      listmodify.style.display = "none";
-      const listdelete = document.getElementById("delete");
-      listdelete.style.display = "none";
-      //게시글 생성
-      for (let j = 0; j < classname.length - 2; j++) {
-        let li = document.createElement("li");
-        li.className = classname[j];
-        if (j == 1) {
-          let a = document.createElement("a");
-          a.setAttribute("href", "공지사항.html");
-          a.setAttribute("target", "_parent");
-          a.textContent = post_data[j];
-          li.appendChild(a);
-        } else {
-          li.textContent = post_data[j];
-        }
+    // div 항목 생성
+    const entryDiv = document.createElement("div");
+    entryDiv.classList.add(
+      "entry",
+      "col-lg-3",
+      "col-md-4",
+      "col-sm-6",
+      "col-12"
+    );
 
-        post.appendChild(li);
+    // 게시글 내용을 담고 있는 div 생성
+    const gridInnerDiv = document.createElement("div");
+    gridInnerDiv.classList.add("grid-inner");
+
+    // 게시글 이미지 생성
+    const entryImageDiv = document.createElement("div");
+    entryImageDiv.classList.add("entry-image");
+    const imageAnchor = document.createElement("a");
+    imageAnchor.href = "images/blog/full/17.jpg"; // 이미지 경로
+    imageAnchor.setAttribute("data-lightbox", "image");
+    const image = document.createElement("img");
+    image.src = "images/blog/grid/17.jpg"; // 이미지 경로
+    image.alt = "Standard Post with Image"; // 이미지 설명
+    imageAnchor.appendChild(image);
+    entryImageDiv.appendChild(imageAnchor);
+
+    // 게시글 제목을 담고 있는 div 생성
+    const entryTitleDiv = document.createElement("div");
+    entryTitleDiv.classList.add("entry-title");
+    const heading = document.createElement("h2");
+    const titleAnchor = document.createElement("a");
+    titleAnchor.href = "공지사항.html"; // 게시글 링크
+    titleAnchor.textContent = post_data[0]; // 게시글 제목
+    titleAnchor.onclick = function () {
+      localStorage.setItem("post_num", i);
+    };
+    heading.appendChild(titleAnchor);
+    entryTitleDiv.appendChild(heading);
+
+    // 게시글 작성자, 작성일, 조회수를 담고 있는 div 생성
+    const entryMetaDiv = document.createElement("div");
+    entryMetaDiv.classList.add("entry-meta");
+
+    const metaList = document.createElement("ul");
+
+    const authorListItem = document.createElement("li");
+    const authorIcon = document.createElement("i");
+    authorIcon.className = "icon-user";
+    authorIcon.textContent = " " + post_data[1]; // 게시글 작성자
+
+    authorListItem.appendChild(authorIcon);
+
+    const dateListItem = document.createElement("li");
+    const dateIcon = document.createElement("i");
+    dateIcon.className = "icon-calendar3";
+    dateIcon.textContent = " " + post_data[2]; // 게시글 작성일
+    dateListItem.appendChild(dateIcon);
+
+    const LookupListItem = document.createElement("li");
+    const LookupIcon = document.createElement("i");
+    LookupIcon.className = "icon-eye";
+    LookupIcon.textContent = " " + post_data[3]; // 조회수
+    LookupListItem.appendChild(LookupIcon);
+
+    //첨부파일 개수
+    const attachmentListItem = document.createElement("li");
+    const attachmentIcon = document.createElement("i");
+    attachmentIcon.className = "icon-file";
+    attachmentIcon.textContent = " " + post_data[4]; // 첨부파일 개수
+    attachmentListItem.appendChild(attachmentIcon);
+
+    metaList.appendChild(authorListItem);
+    metaList.appendChild(dateListItem);
+    metaList.appendChild(LookupListItem);
+    metaList.appendChild(attachmentListItem);
+    entryMetaDiv.appendChild(metaList);
+
+    const entryContentDiv = document.createElement("div");
+    entryContentDiv.classList.add("entry-content");
+
+    const contentParagraph = document.createElement("p");
+    contentParagraph.textContent = post_data[5]; // 게시글 내용
+
+    entryContentDiv.appendChild(contentParagraph);
+
+    /*const readMoreAnchor = document.createElement("a");
+    readMoreAnchor.href = "공지사항.html";
+    readMoreAnchor.classList.add("more-link");
+    readMoreAnchor.textContent = "Read More";
+    entryContentDiv.appendChild(readMoreAnchor);*/
+
+    // 게시글 수정, 삭제 버튼 생성
+    const entryButtonDiv = document.createElement("div");
+    entryButtonDiv.classList.add("entry-button");
+
+    const modifyaAnchor = document.createElement("a");
+    modifyaAnchor.href = "공지사항수정.html";
+    modifyaAnchor.classList.add("btn", "btn-primary");
+    modifyaAnchor.textContent = "수정";
+    modifyaAnchor.onclick = function () {
+      localStorage.setItem("post_num", i);
+    };
+
+    /*const modifyButton = document.createElement("button");
+    modifyButton.classList.add("btn", "btn-primary");
+    modifyButton.id = "modify";
+    modifyButton.textContent = "수정";
+    modifyButton.onclick = function () {
+      localStorage.setItem("post_num", i);
+    };*/
+
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("btn", "btn-danger");
+    deleteButton.id = "delete";
+    deleteButton.textContent = "삭제";
+    deleteButton.addEventListener("click", function () {
+      if (confirm(post_data[0] + "정말 삭제하시겠습니까?")) {
+        post_delete(i);
+      } else {
+        alert("취소되었습니다.");
       }
-    } else {
-      //관리자가 맞을 때
-      const boardRow = document.querySelector(".board_row");
-      boardRow.style.width = "1200px";
-      //게시글 생성
-      for (let j = 0; j < classname.length; j++) {
-        let li = document.createElement("li");
-        li.className = classname[j];
+    });
 
-        if (j == 1) {
-          //제목을 눌렀을 때 공지사항.html
-          let a = document.createElement("a");
-          a.setAttribute("href", "공지사항.html");
-          a.setAttribute("target", "_parent");
-          a.textContent = post_data[j];
-          a.onclick = function () {
-            localStorage.setItem("post_num", i);
-          };
-          li.appendChild(a);
-        }
-        //수정 버튼을 눌렀을 때 공지사항수정.html
-        else if (j == 6) {
-          let a = document.createElement("a");
-          let btn = document.createElement("button");
-          a.setAttribute("href", "공지사항수정.html");
-          a.setAttribute("target", "_parent");
-          btn.textContent = "수정";
-          a.appendChild(btn);
-          //a.textContent = post_data[j];
-          li.appendChild(a);
-        }
-        //삭제 버튼을 눌렀을 때 공지사항삭제.html
-        else if (j == 7) {
-          let a = document.createElement("a");
-          let btn = document.createElement("button");
+    entryButtonDiv.appendChild(modifyaAnchor);
+    entryButtonDiv.appendChild(deleteButton);
 
-          btn.textContent = "삭제";
-          a.appendChild(btn);
-          li.appendChild(a);
-          //삭제 버튼을 눌렀을 때 삭제 확인창 띄우기
-          btn.addEventListener("click", function () {
-            if (confirm(i + "번째 공지사항 정말 삭제하시겠습니까?")) {
-              post_delete(i);
-            } else {
-              alert("취소되었습니다.");
-            }
-          });
-        } else {
-          li.textContent = post_data[j];
-        }
-
-        post.appendChild(li);
-      }
-    }
-
-    // 게시글 추가
-    notice_board.appendChild(post);
+    parentDiv.appendChild(entryDiv);
+    entryDiv.appendChild(gridInnerDiv);
+    gridInnerDiv.appendChild(entryImageDiv);
+    gridInnerDiv.appendChild(entryTitleDiv);
+    gridInnerDiv.appendChild(entryMetaDiv);
+    gridInnerDiv.appendChild(entryContentDiv);
+    gridInnerDiv.appendChild(entryButtonDiv);
   }
 }
 
@@ -285,12 +326,13 @@ async function getData() {
 
 function post_get_data(i) {
   let post_data = [
-    data[i - 1].notice_num,
-    data[i - 1].title,
-    data[i - 1].writer,
-    data[i - 1].date_created,
-    data[i - 1].Lookkup_num,
-    data[i - 1].attachment_num,
+    //data[i - 1].notice_num,
+    (title = data[i - 1].title),
+    (writer = data[i - 1].writer),
+    (data_created = data[i - 1].date_created),
+    (Lookup_num = data[i - 1].Lookkup_num),
+    (attachment_num = data[i - 1].attachment_num),
+    (content = data[i - 1].content),
   ];
   return post_data;
 }
@@ -332,7 +374,7 @@ window.onload = function () {
     block_print(1);
 
     //검색 내용이 들어갈 때만 검색이 되게 합니다.
-    const searchbtn = document.getElementById("search");
+    const searchbtn = document.getElementById("searchbtn");
 
     searchbtn.addEventListener("click", function (searchevent) {
       const scontent = document.getElementById("scontent");
