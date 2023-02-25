@@ -1709,10 +1709,6 @@ body #side-panel.dark {
 .dark .table-striped > tbody > tr:nth-child(odd) > th,
 .table-striped > tbody > tr:nth-child(odd) { background-color: rgba($black,0.05); }
 
-.dark .table-striped > tbody > tr:nth-of-type(odd) > * {
-	color: #EEE;
-}
-
 .dark .table-hover > tbody > tr:hover > td,
 .dark .table-hover > tbody > tr:hover > th { background-color: rgba($black,0.1); }
 

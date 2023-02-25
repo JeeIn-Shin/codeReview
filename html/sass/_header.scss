@@ -213,7 +213,7 @@
 	}
 }
 
-@include media-breakpoint-down(lg) {
+@include media-breakpoint-down(md) {
 
 	.sticky-header {
 		#header-wrap {
@@ -608,7 +608,7 @@ only screen and (                min-resolution: 2dppx) {
 }
 
 @include media-breakpoint-up(lg) {
-	.menu-container > .menu-item:not(.mega-menu) .sub-menu-container,
+	.menu-container > .menu-item:not(.mega-menu) .sub-menu-container:not([class*='col']),
 	.menu-container > .menu-item.mega-menu .sub-menu-container.mega-menu-dropdown {
 		width: $primary-menu-submenu-width;
 	}
