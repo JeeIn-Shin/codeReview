@@ -192,36 +192,33 @@ function last() {
 }
 
 async function getData() {
-  const response = await fetch("http://localhost:3000/notice");
+  const response = await fetch("http://localhost:8080/notice");
   data = await response.json();
 }
 
 function post_get_data(i) {
   let title;
   let writer;
-  let data_created;
-  let Lookup_num;
-  let attachment_num;
+  let details;
+  //let Lookup_num;
+  //let attachment_num;
   //let content;
   let post_data = [
     //data[i - 1].notice_num,
     (title = data[i - 1].title),
     (writer = data[i - 1].writer),
-    (data_created = data[i - 1].date_created),
-    (Lookup_num = data[i - 1].Lookkup_num),
-    (attachment_num = data[i - 1].attachment_num),
-    //(content = data[i - 1].content),
+    (details = data[i - 1].details),
   ];
   return post_data;
 }
 
 //post_delete
 function post_delete(i) {
-  fetch("http://localhost:3000/notice")
+  fetch("http://localhost:8080/notice")
     .then((response) => response.json())
     .then((customers) => {
       const select_post = customers[i - 1];
-      return fetch(`http://localhost:3000/notice/${select_post.id}`, {
+      return fetch(`http://localhost:8080/notice/${select_post.id}`, {
         method: "DELETE",
       });
     })
@@ -288,7 +285,7 @@ function createImagePostElement(post_data, i) {
   dateIcon.textContent = " " + post_data[2]; // 게시글 작성일
   dateListItem.appendChild(dateIcon);
 
-  const LookupListItem = document.createElement("li");
+  /*const LookupListItem = document.createElement("li");
   const LookupIcon = document.createElement("i");
   LookupIcon.className = "icon-eye";
   LookupIcon.textContent = " " + post_data[3]; // 조회수
@@ -299,12 +296,12 @@ function createImagePostElement(post_data, i) {
   const attachmentIcon = document.createElement("i");
   attachmentIcon.className = "icon-file";
   attachmentIcon.textContent = " " + post_data[4]; // 첨부파일 개수
-  attachmentListItem.appendChild(attachmentIcon);
+  attachmentListItem.appendChild(attachmentIcon);*/
 
   metaList.appendChild(authorListItem);
   metaList.appendChild(dateListItem);
-  metaList.appendChild(LookupListItem);
-  metaList.appendChild(attachmentListItem);
+  /* metaList.appendChild(LookupListItem);
+  metaList.appendChild(attachmentListItem);*/
   entryMetaDiv.appendChild(metaList);
 
   const entryContentDiv = document.createElement("div");
