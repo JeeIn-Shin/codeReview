@@ -10,35 +10,27 @@ post_data_print(block) : 게시글 데이터 출력하기 / 매개변수 : 선�
 block_print(front_block) : 블럭 출력하기 / 매개변수 : 가장 앞에 오는 블럭
 */
 
-getData().then(() => {
-  // 게시글 데이터 출력하기
-  post_data_print(1);
-
-  // 블럭 출력하기
-  block_print(1);
-
-  //검색 내용이 들어갈 때만 검색이 되게 합니다.
-  const searchbtn = document.getElementById("searchbtn");
-
-  searchbtn.addEventListener("click", function (searchevent) {
-    const scontent = document.getElementById("scontent");
-
-    if (scontent.value == "") {
-      alert("내용을 입력해주세요.");
-      scontent.focus();
-      searchevent.preventDefault();
-    } else {
-    }
-  });
-});
 // 게시글 데이터를 담고 있는 객체 배열
+let page_num = 8;
+let data = getData();
+console.log("data : ", data);
 
-let data = new Array();
-//    총 게시글 수
-let totalPage;
+//검색 내용이 들어갈 때만 검색이 되게 합니다.
+const searchbtn = document.getElementById("searchbtn");
+
+searchbtn.addEventListener("click", function (searchevent) {
+  const scontent = document.getElementById("scontent");
+
+  if (scontent.value == "") {
+    searchevent.preventDefault();
+    alert("내용을 입력해주세요.");
+    scontent.focus();
+  } else {
+  }
+});
 
 //  한 페이지 당 출력되는 게시글 갯수
-let page_num = 8;
+
 //   한번에 출력될 수 있는 최대 블록 수
 // ex ) [1][2][3][4][5] -> 블록
 let block_num = 10;
@@ -51,12 +43,6 @@ const first_block = 1;
 // 관리자인지 판단하기
 let isAdmin = true;
 //let isAdmin = false;
-
-let date = new Date(); // ex) 2021-10-07 15:30:00
-let year = date.getFullYear();
-let month = date.getMonth() + 1;
-let day = date.getDate();
-let YearMonthDate = year + "-" + month + "-" + day; // ex) 2021-10-07
 
 /*
         게시글 데이터를 담고 있는 객체 배열
@@ -72,11 +58,12 @@ let YearMonthDate = year + "-" + month + "-" + day; // ex) 2021-10-07
 // 매개변수 : 선택 블럭
 function post_data_print(block) {
   // 초기화
+
   const post_list = document.querySelector(
     ".post-grid.row.grid-container.gutter-30"
   );
   post_list.innerHTML = "";
-  // 출력 첫 페이지 번호
+  // 출력 첫 게시글 번호
   let start = data.length - page_num * (block - 1);
 
   for (let i = start; i >= 1 && i > start - page_num; i--) {
@@ -84,7 +71,8 @@ function post_data_print(block) {
     // 번호, 제목, 작성자, 작성일, 조회수, 첨부파일, 수정, 삭제
     let post_data = post_get_data(i);
 
-    createImagePostElement(post_data, i); //이미지의 경우
+    createPostElement(post_data, i);
+    //createImagePostElement(post_data, i); //이미지의 경우
   }
 }
 
@@ -145,6 +133,7 @@ function block_print(front_block) {
     // 버튼을 클릭하면 게시글이 변경되는 이벤트 추가
     button.addEventListener("click", function (event) {
       //focus 이동
+
       window.scrollTo(0, 100);
       post_data_print(i);
     });
@@ -157,7 +146,7 @@ function block_print(front_block) {
   if (isAdmin === true) {
     writebutton.style.display = "inline-block";
     writebutton.onclick = function () {
-      localStorage.setItem("post_num", data.length);
+      localStorage.setItem("post_mode", "write");
     };
   } else {
     writebutton.style.display = "none";
@@ -192,13 +181,32 @@ function last() {
 }
 
 async function getData() {
-  const response = await fetch("http://localhost:8080/notice");
+  try {
+    const response = await fetch("http://localhost:3000/notice");
+
+    //data를 리턴한다.
+    data = await response.json();
+    alert("데이터를 가져왔습니다.");
+    return data;
+  } catch (error) {
+    alert("데이터를 가져오지 못했습니다.");
+  }
+}
+
+//fetch를 이용하여 page_num개의 데이터를 가져오는 함수
+async function getPageData(page_num) {
+  const response = await fetch(
+    `http://localhost:3000/notice?_limit=${page_num}&_sort=id&_order=desc`
+  );
+  //data를 리턴한다.
   data = await response.json();
+  return data;
 }
 
 function post_get_data(i) {
   let title;
   let writer;
+  let date;
   let details;
   //let Lookup_num;
   //let attachment_num;
@@ -207,27 +215,33 @@ function post_get_data(i) {
     //data[i - 1].notice_num,
     (title = data[i - 1].title),
     (writer = data[i - 1].writer),
+    (date = data[i - 1].date),
     (details = data[i - 1].details),
   ];
   return post_data;
 }
 
-//post_delete
-function post_delete(i) {
-  fetch("http://localhost:8080/notice")
-    .then((response) => response.json())
-    .then((customers) => {
-      const select_post = customers[i - 1];
-      return fetch(`http://localhost:8080/notice/${select_post.id}`, {
-        method: "DELETE",
-      });
-    })
-    .then((response) => response.json())
-    .then((json) => alert("삭제되었습니다."))
-    .then((json) => console.log(json));
+function deleteDataByTitle(post_title) {
+  try {
+    fetch("http://localhost:3000/notice")
+      .then((response) => response.json())
+      .then((notice) => {
+        const post = notice.find((n) => n.title === post_title);
+        console.log("post: ", post);
+        console.log("post.title: ", post.title);
+        return fetch(`http://localhost:3000/notice/${post.id}`, {
+          method: "DELETE",
+        });
+      })
+      .then((response) => response.json())
+      .then((json) => alert("삭제되었습니다."))
+      .then((json) => console.log(json));
+  } catch (error) {
+    alert("삭제를 실패했습니다.");
+  }
 }
 
-function createImagePostElement(post_data, i) {
+function createPostElement(post_data, i) {
   const parentDiv = document.querySelector(
     //".container.clearfix.notice_board"
     ".post-grid.row.grid-container.gutter-30"
@@ -258,15 +272,15 @@ function createImagePostElement(post_data, i) {
   entryTitleDiv.classList.add("entry-title");
   const heading = document.createElement("h2");
   const titleAnchor = document.createElement("a");
-  titleAnchor.href = "공지사항.html"; // 게시글 링크
+  titleAnchor.href = "notice.html"; // 게시글 링크
   titleAnchor.textContent = post_data[0]; // 게시글 제목
   titleAnchor.onclick = function () {
-    localStorage.setItem("post_num", i);
+    localStorage.setItem("post_title", post_data[0]);
   };
   heading.appendChild(titleAnchor);
   entryTitleDiv.appendChild(heading);
 
-  // 게시글 작성자, 작성일, 조회수를 담고 있는 div 생성
+  // 게시글 작성자, 작성일을 담고 있는 div 생성
   const entryMetaDiv = document.createElement("div");
   entryMetaDiv.classList.add("entry-meta");
 
@@ -285,38 +299,41 @@ function createImagePostElement(post_data, i) {
   dateIcon.textContent = " " + post_data[2]; // 게시글 작성일
   dateListItem.appendChild(dateIcon);
 
-  /*const LookupListItem = document.createElement("li");
-  const LookupIcon = document.createElement("i");
-  LookupIcon.className = "icon-eye";
-  LookupIcon.textContent = " " + post_data[3]; // 조회수
-  LookupListItem.appendChild(LookupIcon);
-
-  //첨부파일 개수
-  const attachmentListItem = document.createElement("li");
-  const attachmentIcon = document.createElement("i");
-  attachmentIcon.className = "icon-file";
-  attachmentIcon.textContent = " " + post_data[4]; // 첨부파일 개수
-  attachmentListItem.appendChild(attachmentIcon);*/
-
   metaList.appendChild(authorListItem);
   metaList.appendChild(dateListItem);
-  /* metaList.appendChild(LookupListItem);
-  metaList.appendChild(attachmentListItem);*/
   entryMetaDiv.appendChild(metaList);
 
   const entryContentDiv = document.createElement("div");
   entryContentDiv.classList.add("entry-content");
+  const contentParagraph = document.createElement("p");
+  contentParagraph.textContent = post_data[3]; // 게시글 내용
+
+  entryContentDiv.appendChild(contentParagraph);
+
+  const readMoreAnchor = document.createElement("a");
+  readMoreAnchor.href = "notice.html";
+  readMoreAnchor.classList.add("more-link");
+  readMoreAnchor.textContent = "Read More";
+  readMoreAnchor.onclick = function () {
+    localStorage.setItem("post_title", post_data[0]);
+  };
+
+  entryContentDiv.appendChild(readMoreAnchor);
+
+  //br
+  const br = document.createElement("br");
 
   // 게시글 수정, 삭제 버튼 생성
   const entryButtonDiv = document.createElement("div");
   entryButtonDiv.classList.add("entry-button");
 
   const modifyaAnchor = document.createElement("a");
-  modifyaAnchor.href = "공지사항수정.html";
+  modifyaAnchor.href = "notice-write.html";
   modifyaAnchor.classList.add("btn", "btn-primary");
   modifyaAnchor.textContent = "수정";
   modifyaAnchor.onclick = function () {
-    localStorage.setItem("post_num", i);
+    localStorage.setItem("post_mode", "modify");
+    localStorage.setItem("post_title", post_data[0]);
   };
 
   const deleteButton = document.createElement("button");
@@ -324,8 +341,8 @@ function createImagePostElement(post_data, i) {
   deleteButton.id = "delete";
   deleteButton.textContent = "삭제";
   deleteButton.addEventListener("click", function () {
-    if (confirm(post_data[0] + "정말 삭제하시겠습니까?")) {
-      post_delete(i);
+    if (confirm(post_data[0] + " 정말 삭제하시겠습니까?")) {
+      deleteDataByTitle(post_data[0]);
     } else {
       alert("취소되었습니다.");
     }
@@ -340,18 +357,14 @@ function createImagePostElement(post_data, i) {
   gridInnerDiv.appendChild(entryTitleDiv);
   gridInnerDiv.appendChild(entryMetaDiv);
   gridInnerDiv.appendChild(entryContentDiv);
+  gridInnerDiv.appendChild(br);
   gridInnerDiv.appendChild(entryButtonDiv);
 }
 
-// 화면 로드 시 실행되는 이벤트
-/*async function init() {
-  await getData();
-  totalPage = data.length;
-  console.log("totalPage : ", totalPage);
+window.onload = function () {
   // 게시글 데이터 출력하기
   post_data_print(1);
+
   // 블럭 출력하기
   block_print(1);
-}
-
-window.onload = init;*/
+};
