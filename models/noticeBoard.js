@@ -4,7 +4,7 @@ const noticeBoard = {
     getAll : (result) => {
         db.getConnection((err, connection) => {
             if(!err) {
-                let sql = `SELECT TITLE, DETAILS, DATE FROM NOTICEBOARD_TB`;
+                let sql = `SELECT ID_PK, TITLE, DETAILS, DATE, WRITER FROM NOTICEBOARD_TB`;
                 connection.query(sql, (err, res) => {
                     connection.release();
 
@@ -26,7 +26,7 @@ const noticeBoard = {
     getbyIdx : (idx, result) => {
         db.getConnection((err, connection) => {
             if(!err) {
-                let sql = `SELECT TITLE, DETAILS, DATE FROM NOTICEBOARD_TB
+                let sql = `SELECT ID_PK, TITLE, DETAILS, DATE, WRITER FROM NOTICEBOARD_TB
                            WHERE ID_PK LIKE ${idx}`;
                 connection.query(sql, (err, res) => {
                     connection.release();
@@ -75,7 +75,7 @@ const noticeBoard = {
         
         db.getConnection((err, connection) => {
             if(!err) {
-                let sql = `UPDATE NOTICEBOARD_TB SET TITLE = ?, DETAILS = ?, DATE = ?
+                let sql = `UPDATE NOTICEBOARD_TB SET TITLE = ?, DETAILS = ?, DATE = ?, WRITER = ?
                            WHERE ID_PK LIKE ${idx}`;
                 connection.query(sql, updateData, (err, res) => {
                     connection.release();

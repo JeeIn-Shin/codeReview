@@ -5,8 +5,9 @@ const admin = {
         return new Promise((resolve, reject) => {
             db.getConnection((err, connection) => {
                 if(!err)    {
-                    let sql = `SELECT ADMIN_ID, ADMIN_PASSWORD, ADMIN, NAME FROM ADMIN_TB
-                               WHERE ADMIN LIKE '${id}`;
+                    let sql = `SELECT ID, PASSWORD, NICKNAME FROM USER_TB
+                               WHERE ID LIKE '${id}'
+                               AND IS_ADMIN LIKE 1`;
     
                     connection.query(sql, [userInfo], (err, data) => {
                         connection.release();

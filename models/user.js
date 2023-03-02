@@ -1,45 +1,69 @@
-const DB = require('../config/database');
+const db = require('../config/database');
 
 
-const USER = {
+const user = {
     
     //회원가입단
     signUp : {
-        setPersonalInformation : function (inputData, result)    {
+        setPersonalInformation : (inputData) => {
 
-            let userInfo = Object.values(inputData);
+            return new Promise((resolve, reject) => {
+                let userInfo = Object.values(inputData);
     
-            DB.getConnection((err, connection) => {
-                if(!err)    {
-                    let sql = `INSERT INTO USER_TB VALUES ( ? )`;
-    
-                    connection.query(sql, [userInfo], (err, res) => {
-                        connection.release();
-    
-                        if(err) {
-                            console.log("sql error " + err);
-                            result(null, err);
-                            return ;
-                        }
-    
-                        result(null, res);
-                        return ;
-                    })
-                }
-                else    {
-                    console.log("connection error" + err)
-                    throw err;
-                }
+                db.getConnection((err, connection) => {
+                    if(!err)    {
+                        let sql = `INSERT INTO USER_TB VALUES ( ID_PK, ? )`;
+        
+                        connection.query(sql, [userInfo], (err, res) => {
+                            connection.release();
+        
+                            if(err) {
+                                console.log("sql error " + err);
+                                reject(err)
+                            }
+                            resolve(data);
+                        })
+                    }
+                    else    {
+                        console.log("connection error" + err)
+                        throw err;
+                    }
+                })
             })
+
         },
     },
 
     //로그인
     signIn : {
+        getUserById : (id) => {
+    
+            return new Promise((resolve, reject) => {
+                db.getConnection((err, connection) => {
+                    if(!err)    {
+                        let sql = ``;
         
+                        connection.query(sql, [userInfo], (err, res) => {
+                            connection.release();
+        
+                            if(err) {
+                                console.log("sql error " + err);
+                                reject(err);
+                            }
+                            resolve(res);
+                        })
+                    }
+                    else    {
+                        console.log("connection error" + err)
+                        throw err;
+                    }
+                })
+            })
+
+        },
     },
 }
 
 
 
-module.exports = USER;
+module.exports = user;
