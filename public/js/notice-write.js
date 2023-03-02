@@ -3,6 +3,11 @@
 let post_mode = localStorage.getItem("post_mode");
 console.log("post_mode: ", post_mode);
 
+let current_block = localStorage.getItem("current_block");
+console.log("current_block: ", current_block);
+let select_block = localStorage.getItem("select_block");
+console.log("select_block: ", select_block);
+
 let post_title;
 let data;
 
@@ -97,3 +102,7 @@ async function getSelectData(post_title) {
     alert("데이터를 가져오는데 실패했습니다.");
   }
 }
+
+window.onbeforeunload = function () {
+  return "Are you sure you want to leave?";
+};

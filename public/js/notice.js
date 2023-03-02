@@ -5,7 +5,10 @@ const post_title = localStorage.getItem("post_title");
 console.log("post_title: ", post_title);
 
 // 데이터를 가져온다.
-let data = getSelectData(post_title);
+let data = getSelectData(post_title).then((data) => {
+  displayNotice(data);
+});
+
 console.log("data: ", data);
 
 //post_tile을 이용하여 데이터를 가져오는 함수
@@ -22,24 +25,27 @@ async function getSelectData(post_title) {
 }
 
 function displayNotice(data) {
-  let ddata = data;
   let noticetitle = document.getElementById("noticetitle");
-  noticetitle.textContent = ddata[0].title;
-  console.log("data.title: ", ddata[0].title);
+  noticetitle.textContent = data[0].title;
+  console.log("data.title: ", data[0].title);
 
   let noticewriter = document.getElementById("noticewriter");
-  noticewriter.textContent = ddata[0].writer;
-  console.log("data.writer: ", ddata[0].writer);
+  noticewriter.textContent = data[0].writer;
+  console.log("data.writer: ", data[0].writer);
 
   let noticedate = document.getElementById("noticedate");
-  noticedate.textContent = ddata[0].date;
-  console.log("data.date: ", ddata[0].date);
+  noticedate.textContent = data[0].date;
+  console.log("data.date: ", data[0].date);
 
   let noticedetails = document.getElementById("noticedetails");
-  noticedetails.innerHTML = ddata[0].details;
-  console.log("data.details: ", ddata[0].details);
+  noticedetails.innerHTML = data[0].details;
+  console.log("data.details: ", data[0].details);
 }
 
-window.onload = function () {
-  displayNotice(data);
-};
+function set_page() {
+  //선택한 블록을 얻어온다.
+  const select_block = localStorage.getItem("select_block");
+  console.log("select_block: ", select_block);
+  const current_block = localStorage.getItem("current_block");
+  console.log("current_block: ", current_block);
+}
