@@ -354,10 +354,25 @@ function createPostElement(data, i) {
 
   const entryContentDiv = document.createElement("div");
   entryContentDiv.classList.add("entry-content");
+  //100자 정도가 들어가게 크기를 정하고 100자 아니어도 그 크기로 나옴
+  entryContentDiv.style.width = "300px";
+  entryContentDiv.style.height = "100px";
+
   const contentParagraph = document.createElement("p");
-  contentParagraph.textContent = data[i - 1].details; // 게시글 내용
+  contentParagraph.innerHTML = data[i - 1].details; // 게시글 내용
+  //css 미적용
+  contentParagraph.textContent = contentParagraph.textContent;
+  //3줄만
+  contentParagraph.style.webkitLineClamp = "3";
+  contentParagraph.style.display = "-webkit-box";
+  contentParagraph.style.webkitBoxOrient = "vertical";
+  contentParagraph.style.overflow = "hidden";
+  contentParagraph.style.textOverflow = "ellipsis";
 
   entryContentDiv.appendChild(contentParagraph);
+
+  const readMoreDiv = document.createElement("div");
+  readMoreDiv.classList.add("read-more");
 
   const readMoreAnchor = document.createElement("a");
   readMoreAnchor.href = "notice.html";
@@ -368,7 +383,7 @@ function createPostElement(data, i) {
     localStorage.setItem("post_title", data[i - 1].title);
   };
 
-  entryContentDiv.appendChild(readMoreAnchor);
+  readMoreDiv.appendChild(readMoreAnchor);
 
   //br
   const br = document.createElement("br");
@@ -409,6 +424,7 @@ function createPostElement(data, i) {
   gridInnerDiv.appendChild(entryTitleDiv);
   gridInnerDiv.appendChild(entryMetaDiv);
   gridInnerDiv.appendChild(entryContentDiv);
+  gridInnerDiv.appendChild(readMoreDiv);
   gridInnerDiv.appendChild(br);
   gridInnerDiv.appendChild(entryButtonDiv);
 }
