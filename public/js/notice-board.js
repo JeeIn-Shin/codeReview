@@ -12,6 +12,11 @@ block_print(front_block) : 블럭 출력하기 / 매개변수 : 가장 앞에 �
 */
 console.clear();
 
+// 이동을 감지하는 변수
+let isMove = false;
+console.log("isMove : ", isMove);
+// 관리자인지 판단하기
+let isAdmin = localStorage.getItem("isAdmin") || true;
 //  한 페이지 당 출력되는 게시글 갯수
 let page_num = 8;
 console.log("page_num : ", page_num);
@@ -24,45 +29,50 @@ let block_num = 10;
 const first_block = 1;
 
 // 현재 블록박스에서 첫번째 블록
-let current_block =
-  localStorage.getItem("current_block") ||
-  localStorage.setItem("current_block", 1);
-current_block = localStorage.getItem("current_block");
-console.log("current_block 값: ", current_block);
+let current_block = localStorage.getItem("current_block") || 1;
 //number 타입으로 변환
 current_block = Number(current_block);
+console.log("current_block 값: ", current_block);
+localStorage.setItem("current_block", current_block);
 
 //선책한 블록
-let select_block =
-  localStorage.getItem("select_block") ||
-  localStorage.setItem("select_block", 1);
-select_block = localStorage.getItem("select_block");
-console.log("select_block 값: ", select_block);
-//number 타입으로 변환
+let select_block = localStorage.getItem("select_block") || 1;
 select_block = Number(select_block);
+console.log("select_block 값: ", select_block);
+localStorage.setItem("select_block", select_block);
 
-// current_block의 값이 비어있다면  current_block = 1로 초기화
-
-let totalPage;
-// 관리자인지 판단하기
-let isAdmin = localStorage.getItem("isAdmin") || true;
-
-// 게시글 데이터를 담고 있는 객체 배열
+//number 타입으로 변환
 
 let data;
+let totalPage = localStorage.getItem("totalPage");
 
-getData()
-  .then((data) => {
-    totalPage = data.length;
-    console.log("totalPage : ", totalPage);
-    console.log("data : ", data);
-  })
-  .then(() => {
-    // 게시글 데이터 출력하기
-    post_data_print(select_block);
-    // 페이지네이션 블록 출력하기
-    block_print(current_block);
-  });
+if (!totalPage) {
+  getData()
+    .then((data) => {
+      totalPage = data.length;
+      localStorage.setItem("totalPage", totalPage);
+      console.log("getTotalPage : ", totalPage);
+      console.log("getData : ", data);
+    })
+    .then(() => {
+      // 게시글 데이터 출력하기
+      post_data_print(select_block);
+      // 페이지네이션 블록 출력하기
+      block_print(current_block);
+    });
+} else {
+  console.log("getBlocktotalPage : ", totalPage);
+  getBlockData(totalPage, page_num, select_block)
+    .then((data) => {
+      console.log("getBlockData : ", data);
+    })
+    .then(() => {
+      // 게시글 데이터 출력하기
+      post_data_print(select_block);
+      // 페이지네이션 블록 출력하기
+      block_print(current_block);
+    });
+}
 
 //검색 내용이 들어갈 때만 검색이 되게 합니다.
 const searchbtn = document.getElementById("searchbtn");
@@ -111,12 +121,10 @@ function post_data_print(block) {
 // 블럭 출력하기
 // 매개변수 : 가장 앞에 오는 블럭
 function block_print(front_block) {
+  current_block = front_block;
   // 블록의 총 수를 계산한다.
   let total_block =
     totalPage % page_num == 0 ? totalPage / page_num : totalPage / page_num + 1;
-  current_block = front_block;
-  localStorage.setItem("current_block", current_block);
-  console.log("current_block 설정 : ", current_block);
 
   /*
             1. 이전, 다음 블럭 속성 처리
@@ -143,16 +151,25 @@ function block_print(front_block) {
     button.textContent = i;
     // 버튼에 속성 page-item, page-link를 추가한다.getItem
     button.classList.add("page-item", "page-link");
+    //select_block과 같은 버튼은 active 클래스를 추가하고 disabled 속성을 true로 설정한다.
+    if (i == select_block) {
+      button.classList.add("active");
+      button.disabled = true;
+    }
 
     // 버튼을 클릭하면 게시글이 변경되는 이벤트 추가
     button.addEventListener("click", function (event) {
+      console.clear();
       //focus 이동
       window.scrollTo(0, 100);
 
       data = getBlockData(totalPage, page_num, i).then((data) => {
+        console.log("getBlockData : ", data);
         post_data_print(i);
       });
-      //누른 버튼 번호를 localStorage에 저장
+      // 현재 블록을 저장한다.
+      localStorage.setItem("current_block", current_block);
+      console.log("current_block 설정 : ", current_block);
       localStorage.setItem("select_block", i);
 
       select_block = localStorage.getItem("select_block");
@@ -205,6 +222,7 @@ function block_print(front_block) {
     writebutton.onclick = function () {
       localStorage.setItem("select_block", select_block);
       localStorage.setItem("post_mode", "write");
+      isMove = true;
     };
   } else {
     writebutton.style.display = "none";
@@ -212,26 +230,31 @@ function block_print(front_block) {
 }
 
 function before() {
+  console.clear();
   block_print(current_block - block_num);
   console.log("이전");
 }
 
 function next() {
+  console.clear();
   block_print(current_block + block_num);
   console.log("다음");
 }
 
 function first() {
+  console.clear();
   block_print(first_block);
   console.log("처음");
 }
 
 function last() {
+  console.clear();
   // 블록의 총 수를 계산한다.
   let total_block =
     totalPage % page_num == 0 ? totalPage / page_num : totalPage / page_num + 1;
   // 마지막 블록 그룹에서 첫 째 블록
   let last_block = total_block - ((total_block - 1) % 10);
+
   block_print(last_block);
   console.log("마지막");
 }
@@ -323,6 +346,7 @@ function createPostElement(data, i) {
   titleAnchor.href = "notice.html"; // 게시글 링크
   titleAnchor.textContent = data[i - 1].title; // 게시글 제목
   titleAnchor.onclick = function () {
+    isMove = true;
     localStorage.setItem("post_title", data[i - 1].title);
     localStorage.setItem("select_block", select_block);
   };
@@ -379,6 +403,7 @@ function createPostElement(data, i) {
   readMoreAnchor.classList.add("more-link");
   readMoreAnchor.textContent = "Read More";
   readMoreAnchor.onclick = function () {
+    isMove = true;
     localStorage.setItem("select_block", select_block);
     localStorage.setItem("post_title", data[i - 1].title);
   };
@@ -400,6 +425,7 @@ function createPostElement(data, i) {
       localStorage.setItem("select_block", select_block);
       localStorage.setItem("post_mode", "modify");
       localStorage.setItem("post_title", data[i - 1].title);
+      isMove = true;
     };
 
     const deleteButton = document.createElement("button");
@@ -408,6 +434,7 @@ function createPostElement(data, i) {
     deleteButton.textContent = "삭제";
     deleteButton.addEventListener("click", function () {
       if (confirm(data[i - 1].title + " 정말 삭제하시겠습니까?")) {
+        isMove = true;
         deleteDataByTitle(data[i - 1].title);
       } else {
         alert("취소되었습니다.");
@@ -428,3 +455,10 @@ function createPostElement(data, i) {
   gridInnerDiv.appendChild(br);
   gridInnerDiv.appendChild(entryButtonDiv);
 }
+
+//isMove가 false일 때만 떠날 때 localStorage를 비워줌
+window.onbeforeunload = function () {
+  if (!isMove) {
+    localStorage.clear();
+  }
+};

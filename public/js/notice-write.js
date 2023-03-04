@@ -1,4 +1,6 @@
 "use strict";
+let isMove = false;
+console.log("isMove : ", isMove);
 
 let post_mode = localStorage.getItem("post_mode");
 console.log("post_mode: ", post_mode);
@@ -15,7 +17,11 @@ let date = document.getElementById("date");
 let writer = document.getElementById("writer");
 let title = document.getElementById("title");
 let details = document.getElementById("wysiwyg-editor");
+let backbtn = document.getElementById("back");
 let writebtn = document.getElementById("writebtn");
+backbtn.addEventListener("click", function () {
+  isMove = true;
+});
 
 let createDate = new Date(); //현재 date ex) 2023-03-03 15:30:00
 let year = createDate.getFullYear();
@@ -50,23 +56,7 @@ if (post_mode === "write") {
         date: YearMonthDate,
         details: details.value,
       };
-      // json-server에 데이터를 전송한다.
-      fetch("http://localhost:3000/notice", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.title) {
-            alert("게시글이 등록되었습니다.");
-            location.href = "index.html";
-          } else {
-            alert("게시글 등록에 실패했습니다.");
-          }
-        });
+      postData(data);
     }
   });
 }
@@ -123,6 +113,26 @@ async function getSelectData(post_title) {
   }
 }
 
+function postData(noticeData) {
+  fetch("http://localhost:3000/notice", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+    },
+    body: JSON.stringify(noticeData),
+  })
+    .then((response) => response.json())
+    .then((notice) => {
+      isMove = true;
+      //onbeforeunload를 막는다.
+      window.onbeforeunload = null;
+      localStorage.setItem("post_title", notice.title);
+      location.href = "notice.html";
+    })
+    .then((json) => console.log(json))
+    .catch((err) => console.error(err));
+}
+
 function putData(noticeData) {
   noticeData = {
     title: title.value,
@@ -134,7 +144,6 @@ function putData(noticeData) {
     .then((response) => response.json())
     .then((notice) => {
       const select_notice = notice.find((notice) => {
-        //find() 메서드는 주어진 판별 함수를 만족하는 첫 번째 요소의 값을 반환합니다. 그런 요소가 없다면 undefined를 반환합니다.
         return notice.title === post_title;
       });
       return fetch(`http://localhost:3000/notice/${select_notice.id}`, {
@@ -146,9 +155,21 @@ function putData(noticeData) {
       });
     })
     .then((response) => response.json())
-    .then((json) => alert("수정되었습니다."))
+    .then((notice) => {
+      //onbeforeunload를 막는다.
+      isMove = true;
+      window.onbeforeunload = null;
+      localStorage.setItem("post_title", notice.title);
+      location.href = "notice.html";
+    })
     .then((json) => console.log(json))
     .catch((err) => console.error(err));
 }
 
-//창을 닫을 때,
+// 떠날 때 정말 떠나는지 확인한다.
+window.onbeforeunload = function (event) {
+  if (!isMove) {
+    localStorage.clear();
+  }
+  return "정말 떠나시겠습니까?";
+};
