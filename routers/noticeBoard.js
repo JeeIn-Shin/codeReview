@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const noticeboard = require('../models/noticeBoard');
-
+const path = require('path');
 
 
 router.get('/', async(req, res) => {
@@ -10,37 +10,38 @@ router.get('/', async(req, res) => {
 
     if(!(idx)) {
         // http://localhost:8080/notice
-        await noticeboard.getAll((err, data) => {
-            try {
-                if (data !== null)
-                    res.render('notice/list', { noticeList : data });
-                else if(err !== null)
-                    res.status(500).json({ message : "Internal server error" });
-            }
-            catch(err)  {
-                console.log("get list err" + err);
-                res.status(500).json({ message : "Internal server error" });
-            }
-        })
+        let data = await noticeboard.getAll();
+        res.json(data);
+        // await noticeboard.getAll((data) => {
+        //     try {
+        //         res.json(data);
+        //     }
+        //     catch(err)  {
+        //         console.log("get list err" + err);
+        //         res.status(500).json({ message : "Internal server error" });
+        //     }
+        // })
     }
     else if (idx)  {
         // http://localhost:8080/notice/?idx=
-        await noticeboard.getbyIdx((err, data) => {
-            try {
-                if(data !== null)   {
-                    if(data.length === 0)
-                        res.status(404).json({ message : "Not found" });
-                    else
-                        res.render('notice/detail', { noticeById : data[0] });
-                }
-                else if(err !== null)
-                    res.status(500).json({ message : "Internal server error" });
-            }
-            catch(err)  {
-                console.log("get list err" + err);
-                res.status(500).json({ message : "Internal server error" });
-            }
-        })
+        let data = await noticeboard.getbyIdx(idx);
+        res.json(data);
+        // await noticeboard.getbyIdx(idx, (data) => {
+        //     try {
+        //         if(data !== null)   {
+        //             if(data.length === 0)
+        //                 res.status(404).json({ message : "Not found" });
+        //             else
+        //                 res.json(data[0]);
+        //         }
+        //         else if(err !== null)
+        //             res.status(500).json({ message : "Internal server error" });
+        //     }
+        //     catch(err)  {
+        //         console.log("get list err" + err);
+        //         res.status(500).json({ message : "Internal server error" });
+        //     }
+        // })
     }
     else
         res.status(501).json({ message : "Not implement" });
@@ -63,22 +64,18 @@ router.post('/post', async(req, res) => {
             text : req.body.text,
             date : new Date().toLocaleDateString()
         }
-        await noticeboard.modifybyIdx(values[1], updateData, (err, data) => {
-            try {
-                if(data !== null)   {
-                    console.log(data);
-                    res.redirect(`/notice/list?idx=${values[1]}`);
-                }
-                else if(err !== null)    {
-                    console.log("update db err" + err);
-                    res.status(500).json({ message : "Internal server error" });
-                }
-            }
-            catch(err)  {
-                console.log("modify router" + err);
-                res.status(500).json({ message : "Internal server error" });
-            }
-        })
+        let data = await noticeboard.modifybyIdx(values[1], updateData);
+        res.json(data);
+        // await noticeboard.modifybyIdx(values[1], updateData, (data) => {
+        //     try {
+        //         console.log(data);
+        //         res.status(200).json(data);
+        //     }
+        //     catch(err)  {
+        //         console.log("modify router" + err);
+        //         res.status(500).json({ message : "Internal server error" });
+        //     }
+        // })
     }
     else if(key.length === 1 && compare)    {
         // http://localhost:8080/notice/post?type=create
@@ -87,22 +84,19 @@ router.post('/post', async(req, res) => {
             text : req.body.text,
             date : new Date().toLocaleDateString()
         }
-        await noticeboard.postNotice(inputData, (err, data) => {
-            try {
-                if(data !== null)   {
-                    console.log(data);
-                    res.redirect('back');
-                }
-                else if(err !== null)    {
-                    console.log("create db err" + err);
-                    res.status(500).json({ message : "Internal server error" });
-                }
-            }
-            catch(err)  {
-                console.log("new post router" + err);
-                res.status(500).json({ message : "Internal server error" });
-            }
-        })
+        let data = await noticeboard.postNotice(inputData);
+        res.json(data);
+        // await noticeboard.postNotice(inputData, (data) => {
+        //     try {
+        //         console.log(data);
+        //         res.json(data);
+
+        //     }
+        //     catch(err)  {
+        //         console.log("new post router" + err);
+        //         res.status(500).json({ message : "Internal server error" });
+        //     }
+        // })
     }
     else
         res.status(500).json({ message : "Internal server error" });
@@ -112,22 +106,21 @@ router.post('/post', async(req, res) => {
 router.delete('/', async(req, res) => {
     let idx = req.query.idx;
 
-    await noticeboard.deleteByIdx(idx, (err, data) => {
-        try {
-            if(data !== null)   {
-                console.log(data);
-                res.redirect('/notice');
-            }
-            else if(err !== null)    {
-                console.log("delete db err" + err);
-                res.status(500).json({ message : "Internal server error" });
-            }
-        }
-        catch(err)  {
-            console.log("new post router" + err);
-            res.status(500).json({ message : "Internal server error" });
-        }
-    })
+    let data = await noticeboard.deleteByIdx(idx);
+    if(data.affectedRows === 1)
+        res.status(200).json({ message : "successfully delete" });
+    else
+        res.status(405).json({ message : "Method Not Allowed" });
+    // await noticeboard.deleteByIdx(idx, (data) => {
+    //     try {
+    //         console.log(data);
+    //         res.json(data);
+    //     }
+    //     catch(err)  {
+    //         console.log("new post router" + err);
+    //         res.status(500).json({ message : "Internal server error" });
+    //     }
+    // })
 })
 
 module.exports = router;
