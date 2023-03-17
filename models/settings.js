@@ -1,7 +1,7 @@
 const db = require("../config/database.js");
 const setProfileImage = require("../others/setProfileImage");
 
-const profile = {
+const settings = {
     //사용자 정보 불러오기
     getByLoginInfo : (id) => {
         return new Promise((resolve, reject) => {
@@ -200,4 +200,4 @@ const profile = {
     }
 }
 
-module.exports = profile;
+module.exports = settings;

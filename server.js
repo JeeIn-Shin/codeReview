@@ -35,12 +35,12 @@ passportConfig();
 
 app.use(methodOverride('_method'));
 
-const PROFILEROUTER = require('./routers/profile');
-const SIGNUPROUTER = require("./routers/signup");
-const MATCHINGROUTER = require("./routers/matching");
-const CHATROUTER = require("./routers/chat");
-const NOTICEROUTER = require('./routers/noticeBoard');
-const LOGINROUTER = require('./routers/login');
+const settingsRouter = require('./routers/settings');
+const signupRouter = require("./routers/signup");
+const matchingRouter = require("./routers/matching");
+const chatRouter = require("./routers/chat");
+const noticeBoardRouter = require('./routers/notice_board');
+const loginRouter = require('./routers/login');
 
 app.set('port', process.env.PORT || 8080);
 
@@ -51,12 +51,12 @@ app.set('view engine','html');
 app.engine('html', require('ejs').__express);
 
 
-app.use('/profile', PROFILEROUTER);
-app.use('/signup', SIGNUPROUTER);
-app.use('/walk-thru', MATCHINGROUTER);
-app.use('/direct', CHATROUTER);
-app.use('/notice', NOTICEROUTER)
-app.use('/login', LOGINROUTER)
+app.use('/settings', settingsRouter);
+app.use('/signup', signupRouter);
+app.use('/review-group', matchingRouter);
+app.use('/direct', chatRouter);
+app.use('/notice', noticeBoardRouter)
+app.use('/login', loginRouter)
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), "빈 포트에서 대기");

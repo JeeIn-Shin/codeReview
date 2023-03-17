@@ -41,7 +41,8 @@ const user = {
             return new Promise((resolve, reject) => {
                 db.getConnection((err, connection) => {
                     if(!err)    {
-                        let sql = ``;
+                        let sql = `SELECT ID, PASSWORD, NICKNAME, IS_ADMIN FROM USER_TB
+                                   WHERE ID LIKE '${id}`;
         
                         connection.query(sql, [userInfo], (err, res) => {
                             connection.release();
