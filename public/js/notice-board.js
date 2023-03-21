@@ -261,7 +261,7 @@ function last() {
 
 async function getData() {
   try {
-    const response = await fetch("http://localhost:3000/notice");
+    const response = await fetch("http://localhost:8080/notice");
 
     //data를 리턴한다.
     data = await response.json();
@@ -280,7 +280,7 @@ async function getBlockData(totalPage, page_num, block) {
   console.log("end: ", end);
   try {
     const response = await fetch(
-      `http://localhost:3000/notice?start=${start}&end=${end}`
+      `http://localhost:8080/notice?start=${start}&end=${end}`
     );
 
     //data를 리턴한다.
@@ -294,13 +294,13 @@ async function getBlockData(totalPage, page_num, block) {
 
 function deleteDataByTitle(post_title) {
   try {
-    fetch("http://localhost:3000/notice")
+    fetch("http://localhost:8080/notice")
       .then((response) => response.json())
       .then((notice) => {
         const post = notice.find((n) => n.title === post_title);
         console.log("post: ", post);
         console.log("post.title: ", post.title);
-        return fetch(`http://localhost:3000/notice/${post.id}`, {
+        return fetch(`http://localhost:8080/notice/${post.id}`, {
           method: "DELETE",
         });
       })

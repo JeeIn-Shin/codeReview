@@ -102,7 +102,7 @@ async function getSelectData(post_title) {
   console.log("post_title: ", post_title);
   try {
     const response = await fetch(
-      `http://localhost:3000/notice?title=${post_title}`
+      `http://localhost:8080/notice?title=${post_title}`
     );
     data = await response.json();
     alert("데이터를 가져왔습니다.");
@@ -114,7 +114,7 @@ async function getSelectData(post_title) {
 }
 
 function postData(noticeData) {
-  fetch("http://localhost:3000/notice", {
+  fetch("http://localhost:8080/notice", {
     method: "POST",
     headers: {
       "Content-Type": "application/json; charset=utf-8",
@@ -140,7 +140,7 @@ function putData(noticeData) {
     date: date.value,
     details: details.value,
   };
-  fetch("http://localhost:3000/notice")
+  fetch("http://localhost:8080/notice")
     .then((response) => response.json())
     .then((notice) => {
       const select_notice = notice.find((notice) => {

@@ -54,7 +54,7 @@ console.log("data: ", data);
 async function getSelectData(post_title) {
   try {
     const response = await fetch(
-      `http://localhost:3000/notice?title=${post_title}`
+      `http://localhost:8080/notice?title=${post_title}`
     );
     data = await response.json();
     return data;
@@ -84,13 +84,13 @@ function displayNotice(data) {
 
 function deleteDataByTitle(post_title) {
   try {
-    fetch("http://localhost:3000/notice")
+    fetch("http://localhost:8080/notice")
       .then((response) => response.json())
       .then((notice) => {
         const post = notice.find((n) => n.title === post_title);
         console.log("post: ", post);
         console.log("post.title: ", post.title);
-        return fetch(`http://localhost:3000/notice/${post.id}`, {
+        return fetch(`http://localhost:8080/notice/${post.id}`, {
           method: "DELETE",
         });
       })

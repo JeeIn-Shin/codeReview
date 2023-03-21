@@ -1,2 +1,12 @@
+config/
+models/
+others/
+passport/
+routers/
 node_modules/
 .env
+.gitignore
+package-lock.json
+package.json
+server.js
+
