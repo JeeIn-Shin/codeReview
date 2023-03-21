@@ -6,6 +6,7 @@ const passport = require('passport');
 const passportConfig = require('./passport/index');
 const methodOverride = require('method-override');
 const cookieParser = require('cookie-parser');
+const cosrs = require('cors');
 
 const app = express();
 
@@ -44,6 +45,7 @@ const loginRouter = require('./routers/login');
 
 app.set('port', process.env.PORT || 8080);
 
+app.use(cors({ origin: true, credentials: true }))
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 app.set('views', path.join(__dirname, 'views'));
