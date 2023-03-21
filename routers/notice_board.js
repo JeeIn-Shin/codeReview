@@ -61,7 +61,7 @@ router.post('/post', async(req, res) => {
         // http://localhost:8080/notice/post?type=update&idx=
         let updateData = {
             title : req.body.title,
-            text : req.body.text,
+            details : req.body.details,
             date : new Date().toLocaleDateString()
         }
         let data = await noticeboard.modifybyIdx(values[1], updateData);
@@ -78,11 +78,13 @@ router.post('/post', async(req, res) => {
         // })
     }
     else if(key.length === 1 && compare)    {
+        console.log(req.body);
         // http://localhost:8080/notice/post?type=create
         let inputData = {
             title : req.body.title,
-            text : req.body.text,
-            date : new Date().toLocaleDateString()
+            details : req.body.details,
+            date : new Date().toLocaleDateString(),
+            writer : 'admin'
         }
         let data = await noticeboard.postNotice(inputData);
         res.json(data);

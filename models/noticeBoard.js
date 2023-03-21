@@ -58,7 +58,7 @@ const noticeBoard = {
 
             db.getConnection((err, connection) => {
                 if(!err) {
-                    let sql = `INSERT INTO NOTICEBOARD_TB ( ID_PK, ? )`;
+                    let sql = `INSERT INTO NOTICEBOARD_TB VALUES ( ID_PK, ? )`;
                     connection.query(sql, [inputData], (err, res) => {
                         connection.release();
     
@@ -85,7 +85,7 @@ const noticeBoard = {
         
             db.getConnection((err, connection) => {
                 if(!err) {
-                    let sql = `UPDATE NOTICEBOARD_TB SET TITLE = ?, DETAILS = ?, DATE = ?, WRITER = ?
+                    let sql = `UPDATE NOTICEBOARD_TB SET TITLE = ?, DETAILS = ?, DATE = ?
                                WHERE ID_PK LIKE ${idx}`;
                     connection.query(sql, updateData, (err, res) => {
                         connection.release();
