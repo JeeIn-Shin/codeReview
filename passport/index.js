@@ -1,5 +1,5 @@
 const local = require('./local');
-const admin = require('../models/admin');
+const user = require('../models/user');
 const passport = require('passport');
 
 module.exports = () => {
@@ -8,7 +8,7 @@ module.exports = () => {
     });
 
     passport.deserializeUser((id, done) => {
-        admin.getAdminById(id)
+        user.signIn.getUserById(id)
             .then((user) => {
                 return done(null, user)
             })
