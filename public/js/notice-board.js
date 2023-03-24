@@ -11,7 +11,6 @@ post_data_print(select_block) : 게시글 데이터 출력하기 / 매개변수 
 block_print(front_block) : 블럭 출력하기 / 매개변수 : 가장 앞에 오는 블럭
 */
 console.clear();
-
 // 이동을 감지하는 변수
 let isMove = false;
 console.log("isMove : ", isMove);
@@ -46,21 +45,21 @@ localStorage.setItem("select_block", select_block);
 let data;
 let totalPage = localStorage.getItem("totalPage");
 
-if (!totalPage) {
-  getData()
-    .then((data) => {
-      totalPage = data.length;
-      localStorage.setItem("totalPage", totalPage);
-      console.log("getTotalPage : ", totalPage);
-      console.log("getData : ", data);
-    })
-    .then(() => {
-      // 게시글 데이터 출력하기
-      post_data_print(select_block);
-      // 페이지네이션 블록 출력하기
-      block_print(current_block);
-    });
-} else {
+getData()
+  .then((data) => {
+    totalPage = data.length;
+    localStorage.setItem("totalPage", totalPage);
+    console.log("getTotalPage : ", totalPage);
+    console.log("getData : ", data);
+  })
+  .then(() => {
+    // 게시글 데이터 출력하기
+    post_data_print(select_block);
+    // 페이지네이션 블록 출력하기
+    block_print(current_block);
+  });
+
+/*else {
   console.log("getBlocktotalPage : ", totalPage);
   getBlockData(totalPage, page_num, select_block)
     .then((data) => {
@@ -72,10 +71,21 @@ if (!totalPage) {
       // 페이지네이션 블록 출력하기
       block_print(current_block);
     });
-}
+}*/
 
 //검색 내용이 들어갈 때만 검색이 되게 합니다.
 const searchbtn = document.getElementById("searchbtn");
+const scombox1 = document.getElementById("scombox1");
+console.log("scombox1 : ", scombox1);
+
+//option value 값이 들어갈 변수
+let optionValue = "title";
+
+//검색 조건을 선택하면 option value 값이 들어간다.
+scombox1.addEventListener("change", function () {
+  optionValue = scombox1.value;
+  console.log("optionValue : ", optionValue);
+});
 
 searchbtn.addEventListener("click", function (searchevent) {
   const scontent = document.getElementById("scontent");
@@ -85,17 +95,54 @@ searchbtn.addEventListener("click", function (searchevent) {
     alert("내용을 입력해주세요.");
     scontent.focus();
   } else {
+    searchevent.preventDefault();
+    console.clear();
+    console.log("검색어 : ", scontent.value);
+    console.log("검색조건 : ", optionValue);
+    //optionValue(title, details)에 따라서 검색이 되게 합니다.
+    if (optionValue == "title") {
+      getDataByTitle(scontent.value)
+        .then((data) => {
+          console.log("getDataByTitle : ", data);
+          totalPage = data.length;
+          console.log("totalPage : ", totalPage);
+          localStorage.setItem("totalPage", totalPage);
+          localStorage.setItem("current_block", 1);
+          localStorage.setItem("select_block", 1);
+          console.log("getTotalPage : ", totalPage);
+        })
+        .then(() => {
+          // 게시글 데이터 출력하기
+          post_data_print(select_block);
+          // 페이지네이션 블록 출력하기
+          block_print(current_block);
+        });
+    } else if (optionValue == "details") {
+      getDataByDetails(scontent.value)
+        .then((data) => {
+          console.log("getDataByDetails : ", data);
+          totalPage = data.length;
+          localStorage.setItem("totalPage", totalPage);
+          localStorage.setItem("current_block", 1);
+          localStorage.setItem("select_block", 1);
+          console.log("getTotalPage : ", totalPage);
+        })
+        .then(() => {
+          // 게시글 데이터 출력하기
+          post_data_print(select_block);
+          // 페이지네이션 블록 출력하기
+          block_print(current_block);
+        });
+    }
   }
 });
 
 /*
         게시글 데이터를 담고 있는 객체 배열
-        번호 : data[게시글 번호].notice_num
-        제목 : data[게시글 번호].title
-        작성자 : data[게시글 번호].writer
-        작성일 : data[게시글 번호].date_created
-        조회수 : data[게시글 번호].Lookkup_num
-        첨부파일 개수 :data[게시글 번호].attachment
+         제목 : data[게시글 번호].TITLE
+        작성자 : data[게시글 번호].WRITER
+        작성일 : data[게시글 번호].DATE
+        내용 : data[게시글 번호].DETAILS
         */
 
 // 게시글 데이터 출력하기
@@ -113,7 +160,7 @@ function post_data_print(block) {
   for (let i = start; i >= 1 && i > start - page_num; i--) {
     // 게시글 데이터 가져와서 게시글 요소 생성 및 추가
     // 번호, 제목, 작성자, 작성일, 조회수, 첨부파일, 수정, 삭제
-
+    console.log("data : ", data);
     createPostElement(data, i);
   }
 }
@@ -163,7 +210,7 @@ function block_print(front_block) {
       //focus 이동
       window.scrollTo(0, 100);
 
-      data = getBlockData(totalPage, page_num, i).then((data) => {
+      data = getData().then((data) => {
         console.log("getBlockData : ", data);
         post_data_print(i);
       });
@@ -261,7 +308,16 @@ function last() {
 
 async function getData() {
   try {
-    const response = await fetch("http://localhost:8080/notice");
+    const paramVar = "example_param_value";
+    const url = `http://localhost:8080/notice?param=${paramVar}`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     //data를 리턴한다.
     data = await response.json();
@@ -273,14 +329,22 @@ async function getData() {
 }
 
 //누른 블록의 데이터만 서버에서 가져오기
-async function getBlockData(totalPage, page_num, block) {
+/*async function getBlockData(totalPage, page_num, block) {
   let start = totalPage - page_num * (block - 1);
   let end = start - page_num;
   console.log("start: ", start);
   console.log("end: ", end);
   try {
     const response = await fetch(
-      `http://localhost:8080/notice?start=${start}&end=${end}`
+      `http://localhost:8080/notice?start=${start}&end=${end}`,
+      {
+        method: "GET",
+        mode: "cors",
+        body: "param=" + paramVar,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
     );
 
     //data를 리턴한다.
@@ -290,29 +354,92 @@ async function getBlockData(totalPage, page_num, block) {
   } catch (error) {
     alert("데이터를 가져오지 못했습니다.");
   }
-}
+}*/
 
 function deleteDataByTitle(post_title) {
   try {
-    fetch("http://localhost:8080/notice")
+    const paramVar = "example_param_value";
+    const url = `http://localhost:8080/notice?param=${paramVar}`;
+    fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => response.json())
       .then((notice) => {
-        const post = notice.find((n) => n.title === post_title);
-        console.log("post: ", post);
-        console.log("post.title: ", post.title);
-        return fetch(`http://localhost:8080/notice/${post.id}`, {
+        console.log("exnotice: ", notice);
+        console.log("expost_title: ", post_title);
+        const post = notice.find((n) => n.ID_PK === post_title);
+        console.log("expost: ", post);
+        console.log("post.title: ", post.ID_PK);
+        return fetch(`http://localhost:8080/notice/?idx=${post.ID_PK}`, {
           method: "DELETE",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
       })
       .then((response) => response.json())
       .then((json) => alert("삭제되었습니다."))
-      .then((json) => console.log(json));
+      .then(
+        (json) =>
+          //notce-board로 이동
+          (window.location.href = "notice-board.html")
+      );
   } catch (error) {
     alert("삭제를 실패했습니다.");
   }
 }
 
+function getDataByTitle(title) {
+  try {
+    const paramVar = "example_param_value";
+    const url = `http://localhost:8080/notice?param=${paramVar}`;
+    return fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((notice) => {
+        data = notice.filter((n) => n.TITLE.includes(title));
+        console.log("ndata", data);
+        return data; // add this line to return the filtered posts
+      });
+  } catch (error) {
+    alert("검색을 실패했습니다.");
+  }
+}
+
+function getDataByDetails(details) {
+  try {
+    const paramVar = "example_param_value";
+    const url = `http://localhost:8080/notice?param=${paramVar}`;
+    return fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((notice) => {
+        data = notice.filter((n) => n.DETAILS.includes(details));
+        console.log("ndata", data);
+        return data; // add this line to return the filtered posts
+      });
+  } catch (error) {
+    alert("검색을 실패했습니다.");
+  }
+}
+
 function createPostElement(data, i) {
+  console.log("data: ", data);
   const parentDiv = document.querySelector(
     //".container.clearfix.notice_board"
     ".post-grid.row.grid-container.gutter-30"
@@ -327,7 +454,7 @@ function createPostElement(data, i) {
   gridInnerDiv.classList.add("grid-inner");
 
   // 게시글 이미지 생성
-  const entryImageDiv = document.createElement("div");
+  /*const entryImageDiv = document.createElement("div");
   entryImageDiv.classList.add("entry-image");
   const imageAnchor = document.createElement("a");
   imageAnchor.href = "../../public/image/blog/full/1.jpg"; // 이미지 경로
@@ -336,7 +463,7 @@ function createPostElement(data, i) {
   image.src = "../../public/image/blog/grid/1.jpg"; // 이미지 경로
   image.alt = "Standard Post with Image"; // 이미지 설명
   imageAnchor.appendChild(image);
-  entryImageDiv.appendChild(imageAnchor);
+  entryImageDiv.appendChild(imageAnchor);*/
 
   // 게시글 제목을 담고 있는 div 생성
   const entryTitleDiv = document.createElement("div");
@@ -344,10 +471,12 @@ function createPostElement(data, i) {
   const heading = document.createElement("h2");
   const titleAnchor = document.createElement("a");
   titleAnchor.href = "notice.html"; // 게시글 링크
-  titleAnchor.textContent = data[i - 1].title; // 게시글 제목
+  console.log("data[i - 1].title: ", data[i - 1].TITLE);
+  titleAnchor.textContent = data[i - 1].TITLE; // 게시글 제목
+  console.log("data[i-1].ID_PK: ", data[i - 1].ID_PK);
   titleAnchor.onclick = function () {
     isMove = true;
-    localStorage.setItem("post_title", data[i - 1].title);
+    localStorage.setItem("post_title", data[i - 1].ID_PK);
     localStorage.setItem("select_block", select_block);
   };
   heading.appendChild(titleAnchor);
@@ -362,14 +491,14 @@ function createPostElement(data, i) {
   const authorListItem = document.createElement("li");
   const authorIcon = document.createElement("i");
   authorIcon.className = "icon-user";
-  authorIcon.textContent = " " + data[i - 1].writer; // 게시글 작성자
+  authorIcon.textContent = " " + data[i - 1].WRITER; // 게시글 작성자
 
   authorListItem.appendChild(authorIcon);
 
   const dateListItem = document.createElement("li");
   const dateIcon = document.createElement("i");
   dateIcon.className = "icon-calendar3";
-  dateIcon.textContent = " " + data[i - 1].date; // 게시글 작성일
+  dateIcon.textContent = " " + data[i - 1].DATE; // 게시글 작성일
   dateListItem.appendChild(dateIcon);
 
   metaList.appendChild(authorListItem);
@@ -383,7 +512,7 @@ function createPostElement(data, i) {
   entryContentDiv.style.height = "100px";
 
   const contentParagraph = document.createElement("p");
-  contentParagraph.innerHTML = data[i - 1].details; // 게시글 내용
+  contentParagraph.innerHTML = data[i - 1].DETAILS; // 게시글 내용
   //css 미적용
   contentParagraph.textContent = contentParagraph.textContent;
   //3줄만
@@ -405,7 +534,7 @@ function createPostElement(data, i) {
   readMoreAnchor.onclick = function () {
     isMove = true;
     localStorage.setItem("select_block", select_block);
-    localStorage.setItem("post_title", data[i - 1].title);
+    localStorage.setItem("post_title", data[i - 1].ID_PK);
   };
 
   readMoreDiv.appendChild(readMoreAnchor);
@@ -424,7 +553,7 @@ function createPostElement(data, i) {
     modifyaAnchor.onclick = function () {
       localStorage.setItem("select_block", select_block);
       localStorage.setItem("post_mode", "modify");
-      localStorage.setItem("post_title", data[i - 1].title);
+      localStorage.setItem("post_title", data[i - 1].ID_PK);
       isMove = true;
     };
 
@@ -433,9 +562,16 @@ function createPostElement(data, i) {
     deleteButton.id = "delete";
     deleteButton.textContent = "삭제";
     deleteButton.addEventListener("click", function () {
-      if (confirm(data[i - 1].title + " 정말 삭제하시겠습니까?")) {
+      if (
+        confirm(
+          data[i - 1].ID_PK +
+            "번 " +
+            data[i - 1].TITLE +
+            " 정말 삭제하시겠습니까?"
+        )
+      ) {
         isMove = true;
-        deleteDataByTitle(data[i - 1].title);
+        deleteDataByTitle(data[i - 1].ID_PK);
       } else {
         alert("취소되었습니다.");
       }
@@ -447,7 +583,7 @@ function createPostElement(data, i) {
 
   parentDiv.appendChild(entryDiv);
   entryDiv.appendChild(gridInnerDiv);
-  gridInnerDiv.appendChild(entryImageDiv);
+  //gridInnerDiv.appendChild(entryImageDiv);
   gridInnerDiv.appendChild(entryTitleDiv);
   gridInnerDiv.appendChild(entryMetaDiv);
   gridInnerDiv.appendChild(entryContentDiv);

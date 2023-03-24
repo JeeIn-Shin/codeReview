@@ -34,11 +34,7 @@ if (post_mode === "write") {
   date.textContent = YearMonthDate;
 
   writebtn.addEventListener("click", function (submitevent) {
-    if (writer.value == "") {
-      alert("작성자를 입력해주세요.");
-      writer.focus();
-      submitevent.preventDefault();
-    } else if (title.value == "") {
+    if (title.value == "") {
       alert("제목을 입력해주세요.");
       title.focus();
       submitevent.preventDefault();
@@ -49,13 +45,11 @@ if (post_mode === "write") {
     } else {
       submitevent.preventDefault();
 
-      // 게시글 데이터를 담고 있는 객체 배열을 만들어 서버애 전송한다.
       let data = {
         title: title.value,
-        writer: writer.value,
-        date: YearMonthDate,
         details: details.value,
       };
+      console.log(data);
       postData(data);
     }
   });
@@ -67,11 +61,9 @@ if (post_mode === "modify") {
   console.log("post_title: ", post_title);
   data = getSelectData(post_title).then((data) => {
     console.log("data: ", data);
-    writer.value = data[0].writer;
-    writer.disabled = true;
-    title.value = data[0].title;
-    details.value = data[0].details;
-    date.textContent = data[0].date;
+    title.value = data[0].TITLE;
+    details.value = data[0].DETAILS;
+    date.textContent = data[0].DATE;
   });
   //게시 버튼이 수정 버튼으로 바뀌고, 수정 버튼을 누르면 데이터를 수정한다.
   writebtn.textContent = "수정";
@@ -88,8 +80,6 @@ if (post_mode === "modify") {
       submitevent.preventDefault();
       let data = {
         title: title.value,
-        writer: writer.value,
-        date: date.value,
         details: details.value,
       };
       putData(data);
@@ -98,7 +88,7 @@ if (post_mode === "modify") {
 }
 
 //post_tile을 이용하여 데이터를 가져오는 함수
-async function getSelectData(post_title) {
+/*async function getSelectData(post_title) {
   console.log("post_title: ", post_title);
   try {
     const response = await fetch(
@@ -111,22 +101,58 @@ async function getSelectData(post_title) {
     console.log(err);
     alert("데이터를 가져오는데 실패했습니다.");
   }
+}*/
+
+// title X, ID_PK  O
+async function getSelectData(post_title) {
+  console.log("post_title(get): ", post_title);
+  try {
+    // http://localhost:8080/notice/?idx=
+    const url = `http://localhost:8080/notice?idx=${post_title}`; // Include the parameter value in the URL
+
+    const response = await fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    //data를 리턴한다.
+    data = await response.json();
+    alert("데이터를 가져왔습니다.");
+    return data;
+  } catch (error) {
+    alert("데이터를 가져오지 못했습니다.");
+  }
 }
 
-function postData(noticeData) {
-  fetch("http://localhost:8080/notice", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json; charset=utf-8",
-    },
-    body: JSON.stringify(noticeData),
-  })
+function postData(Data) {
+  const url = `http://localhost:8080/notice/post?type=create`;
+  console.log("noticeData: ", Data);
+  console.log("noticeData.TITLE: ", Data.title);
+  console.log("noticeData.DETAILS: ", Data.details);
+  fetch(
+    url,
+    {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Data),
+    }
+    //console.log(body)
+  )
     .then((response) => response.json())
     .then((notice) => {
+      console.log("notice before id", notice);
+      console.log("notice.id: ", notice.insertId);
+      alert(notice);
       isMove = true;
       //onbeforeunload를 막는다.
       window.onbeforeunload = null;
-      localStorage.setItem("post_title", notice.title);
+      localStorage.setItem("post_title", notice.insertId);
       location.href = "notice.html";
     })
     .then((json) => console.log(json))
@@ -146,7 +172,8 @@ function putData(noticeData) {
       const select_notice = notice.find((notice) => {
         return notice.title === post_title;
       });
-      return fetch(`http://localhost:3000/notice/${select_notice.id}`, {
+      // 바꿔주고싶은데 이게 뭔질 모르겠어 - 신지인
+      return fetch(`http://localhost:8080/notice/${select_notice.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json; charset=utf-8",

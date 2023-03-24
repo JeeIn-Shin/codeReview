@@ -50,8 +50,30 @@ if (isAdmin) {
 
 console.log("data: ", data);
 
-//post_tile을 이용하여 데이터를 가져오는 함수
 async function getSelectData(post_title) {
+  console.log("post_title: ", post_title);
+  try {
+    // http://localhost:8080/notice/?idx=
+    const url = `http://localhost:8080/notice?idx=${post_title}`; // Include the parameter value in the URL
+
+    const response = await fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    //data를 리턴한다.
+    data = await response.json();
+    alert("데이터를 가져왔습니다.");
+    return data;
+  } catch (error) {
+    alert("데이터를 가져오지 못했습니다.");
+  }
+}
+//post_tile을 이용하여 데이터를 가져오는 함수
+/*async function getSelectData(post_title) {
   try {
     const response = await fetch(
       `http://localhost:8080/notice?title=${post_title}`
@@ -62,43 +84,61 @@ async function getSelectData(post_title) {
     console.log("err: ", err);
     alert("데이터를 가져오는데 실패했습니다.");
   }
-}
+}*/
 
 function displayNotice(data) {
   let noticetitle = document.getElementById("noticetitle");
-  noticetitle.textContent = data[0].title;
-  console.log("data.title: ", data[0].title);
+  noticetitle.textContent = data[0].TITLE;
+  console.log("data.title: ", data[0].TITLE);
 
   let noticewriter = document.getElementById("noticewriter");
-  noticewriter.textContent = data[0].writer;
-  console.log("data.writer: ", data[0].writer);
+  noticewriter.textContent = data[0].WRITER;
+  console.log("data.writer: ", data[0].WRITER);
 
   let noticedate = document.getElementById("noticedate");
-  noticedate.textContent = data[0].date;
-  console.log("data.date: ", data[0].date);
+  noticedate.textContent = data[0].DATE;
+  console.log("data.date: ", data[0].DATE);
 
   let noticedetails = document.getElementById("noticedetails");
-  noticedetails.innerHTML = data[0].details;
-  console.log("data.details: ", data[0].details);
+  noticedetails.innerHTML = data[0].DETAILS;
+  console.log("data.details: ", data[0].DETAILS);
 }
 
 function deleteDataByTitle(post_title) {
   try {
-    fetch("http://localhost:8080/notice")
+    const paramVar = "example_param_value";
+    const url = `http://localhost:8080/notice?param=${paramVar}`;
+    fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((response) => response.json())
       .then((notice) => {
-        const post = notice.find((n) => n.title === post_title);
-        console.log("post: ", post);
-        console.log("post.title: ", post.title);
-        return fetch(`http://localhost:8080/notice/${post.id}`, {
+        console.log("exnotice: ", notice);
+        console.log("notice_ID: ", notice.ID_PK);
+        console.log("expost_title: ", post_title);
+        const post = notice.find((n) => n.ID_PK == post_title);
+        console.log("expost: ", post);
+        console.log("post.title: ", post.ID_PK);
+        return fetch(`http://localhost:8080/notice/?idx=${post.ID_PK}`, {
           method: "DELETE",
+          mode: "cors",
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
       })
       .then((response) => response.json())
-      .then((json) => console.log(json))
-      .then(() => (location.href = "notice-board.html"));
+      .then((json) => alert("삭제되었습니다."))
+      .then(
+        (json) =>
+          //notce-board로 이동
+          (window.location.href = "notice-board.html")
+      );
   } catch (error) {
-    console.log("error: ", error);
     alert("삭제를 실패했습니다.");
   }
 }
