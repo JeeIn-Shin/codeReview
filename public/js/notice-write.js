@@ -195,8 +195,11 @@ function putData(noticeData) {
 
 // 떠날 때 정말 떠나는지 확인한다.
 window.onbeforeunload = function (event) {
-  if (!isMove) {
-    localStorage.clear();
-  }
   return "정말 떠나시겠습니까?";
+};
+//창을 닫을 때 ismove가 false이면 localStorage를 초기화한다.
+window.onunload = function (event) {
+  if (!isMove) {
+    //localStorage.clear();
+  }
 };

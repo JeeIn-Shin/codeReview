@@ -1,4 +1,5 @@
 "use strict";
+
 // 게시글 제목을 얻어온다.
 const post_title = localStorage.getItem("post_title");
 console.log("post_title: ", post_title);
@@ -18,7 +19,7 @@ backbtn.addEventListener("click", function () {
 });
 
 // 관리자인지 판단하기
-let isAdmin = localStorage.getItem("isAdmin") || true;
+let isAdmin = localStorage.getItem("isAdmin") || false;
 //selct_block, cuurent_block을 얻어온다.
 const select_block = localStorage.getItem("select_block");
 const current_block = localStorage.getItem("current_block");
@@ -143,9 +144,9 @@ function deleteDataByTitle(post_title) {
   }
 }
 
-//isMove가 false일 때만 떠날 때 localStorage를 비워줌
-window.onbeforeunload = function () {
+//창을 닫을 때 localStorage를 초기화한다.
+window.onunload = function (event) {
   if (!isMove) {
-    localStorage.clear();
+    //localStorage.clear();
   }
 };

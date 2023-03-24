@@ -14,8 +14,11 @@ console.clear();
 // 이동을 감지하는 변수
 let isMove = false;
 console.log("isMove : ", isMove);
+let post_title;
 // 관리자인지 판단하기
 let isAdmin = localStorage.getItem("isAdmin") || true;
+localStorage.setItem("isAdmin", isAdmin);
+console.log("isAdmin : ", isAdmin);
 //  한 페이지 당 출력되는 게시글 갯수
 let page_num = 8;
 console.log("page_num : ", page_num);
@@ -76,7 +79,6 @@ getData()
 //검색 내용이 들어갈 때만 검색이 되게 합니다.
 const searchbtn = document.getElementById("searchbtn");
 const scombox1 = document.getElementById("scombox1");
-console.log("scombox1 : ", scombox1);
 
 //option value 값이 들어갈 변수
 let optionValue = "title";
@@ -103,6 +105,12 @@ searchbtn.addEventListener("click", function (searchevent) {
     if (optionValue == "title") {
       getDataByTitle(scontent.value)
         .then((data) => {
+          //데이터가 없을 때
+          if (data == "") {
+            alert("검색 결과가 없습니다.");
+            //새로고침
+            location.reload();
+          }
           console.log("getDataByTitle : ", data);
           totalPage = data.length;
           console.log("totalPage : ", totalPage);
@@ -120,6 +128,12 @@ searchbtn.addEventListener("click", function (searchevent) {
     } else if (optionValue == "details") {
       getDataByDetails(scontent.value)
         .then((data) => {
+          //데이터가 없을 때
+          if (data == "") {
+            alert("검색 결과가 없습니다.");
+            //새로고침
+            location.reload();
+          }
           console.log("getDataByDetails : ", data);
           totalPage = data.length;
           localStorage.setItem("totalPage", totalPage);
@@ -160,7 +174,6 @@ function post_data_print(block) {
   for (let i = start; i >= 1 && i > start - page_num; i--) {
     // 게시글 데이터 가져와서 게시글 요소 생성 및 추가
     // 번호, 제목, 작성자, 작성일, 조회수, 첨부파일, 수정, 삭제
-    console.log("data : ", data);
     createPostElement(data, i);
   }
 }
@@ -210,10 +223,10 @@ function block_print(front_block) {
       //focus 이동
       window.scrollTo(0, 100);
 
-      data = getData().then((data) => {
-        console.log("getBlockData : ", data);
-        post_data_print(i);
-      });
+      //data = getData().then((data) => {
+      //console.log("getBlockData : ", data);
+      post_data_print(i);
+      //});
       // 현재 블록을 저장한다.
       localStorage.setItem("current_block", current_block);
       console.log("current_block 설정 : ", current_block);
@@ -264,7 +277,9 @@ function block_print(front_block) {
 
   //관리자만 글쓰기 기능을 이용하게 하기
   const writebutton = document.getElementById("write");
-  if (isAdmin === true) {
+  console.log("isAdmin? : ", isAdmin);
+  if (isAdmin) {
+    console.log("isAdmin?? : ", isAdmin);
     writebutton.style.display = "inline-block";
     writebutton.onclick = function () {
       localStorage.setItem("select_block", select_block);
@@ -272,6 +287,7 @@ function block_print(front_block) {
       isMove = true;
     };
   } else {
+    console.log("isAdmin??? : ", isAdmin);
     writebutton.style.display = "none";
   }
 }
@@ -369,11 +385,7 @@ function deleteDataByTitle(post_title) {
     })
       .then((response) => response.json())
       .then((notice) => {
-        console.log("exnotice: ", notice);
-        console.log("expost_title: ", post_title);
         const post = notice.find((n) => n.ID_PK === post_title);
-        console.log("expost: ", post);
-        console.log("post.title: ", post.ID_PK);
         return fetch(`http://localhost:8080/notice/?idx=${post.ID_PK}`, {
           method: "DELETE",
           mode: "cors",
@@ -384,11 +396,7 @@ function deleteDataByTitle(post_title) {
       })
       .then((response) => response.json())
       .then((json) => alert("삭제되었습니다."))
-      .then(
-        (json) =>
-          //notce-board로 이동
-          (window.location.href = "notice-board.html")
-      );
+      .then((json) => location.reload());
   } catch (error) {
     alert("삭제를 실패했습니다.");
   }
@@ -407,8 +415,10 @@ function getDataByTitle(title) {
     })
       .then((response) => response.json())
       .then((notice) => {
-        data = notice.filter((n) => n.TITLE.includes(title));
-        console.log("ndata", data);
+        const titleLowerCase = title.toLowerCase();
+        data = notice.filter((n) =>
+          n.TITLE.toLowerCase().includes(titleLowerCase)
+        );
         return data; // add this line to return the filtered posts
       });
   } catch (error) {
@@ -429,8 +439,10 @@ function getDataByDetails(details) {
     })
       .then((response) => response.json())
       .then((notice) => {
-        data = notice.filter((n) => n.DETAILS.includes(details));
-        console.log("ndata", data);
+        const detailsLowerCase = details.toLowerCase();
+        data = notice.filter((n) =>
+          n.DETAILS.toLowerCase().includes(detailsLowerCase)
+        );
         return data; // add this line to return the filtered posts
       });
   } catch (error) {
@@ -439,7 +451,6 @@ function getDataByDetails(details) {
 }
 
 function createPostElement(data, i) {
-  console.log("data: ", data);
   const parentDiv = document.querySelector(
     //".container.clearfix.notice_board"
     ".post-grid.row.grid-container.gutter-30"
@@ -470,10 +481,9 @@ function createPostElement(data, i) {
   entryTitleDiv.classList.add("entry-title");
   const heading = document.createElement("h2");
   const titleAnchor = document.createElement("a");
+  titleAnchor.target = "_blank";
   titleAnchor.href = "notice.html"; // 게시글 링크
-  console.log("data[i - 1].title: ", data[i - 1].TITLE);
   titleAnchor.textContent = data[i - 1].TITLE; // 게시글 제목
-  console.log("data[i-1].ID_PK: ", data[i - 1].ID_PK);
   titleAnchor.onclick = function () {
     isMove = true;
     localStorage.setItem("post_title", data[i - 1].ID_PK);
@@ -528,6 +538,7 @@ function createPostElement(data, i) {
   readMoreDiv.classList.add("read-more");
 
   const readMoreAnchor = document.createElement("a");
+  readMoreAnchor.target = "_blank";
   readMoreAnchor.href = "notice.html";
   readMoreAnchor.classList.add("more-link");
   readMoreAnchor.textContent = "Read More";
@@ -547,6 +558,7 @@ function createPostElement(data, i) {
   //관리자일 때만 게시글 수정, 삭제 버튼 생성
   if (isAdmin) {
     const modifyaAnchor = document.createElement("a");
+    modifyaAnchor.target = "_blank";
     modifyaAnchor.href = "notice-write.html";
     modifyaAnchor.classList.add("btn", "btn-primary");
     modifyaAnchor.textContent = "수정";
@@ -592,9 +604,8 @@ function createPostElement(data, i) {
   gridInnerDiv.appendChild(entryButtonDiv);
 }
 
-//isMove가 false일 때만 떠날 때 localStorage를 비워줌
-window.onbeforeunload = function () {
+window.onunload = function (event) {
   if (!isMove) {
-    localStorage.clear();
+    //localStorage.clear();
   }
 };
