@@ -1,5 +1,3 @@
-const { reject } = require('bluebird');
-const { resolve } = require('path');
 const db = require('../config/database');
 const thingAboutSubQuery = require('../others/aboutSql');
 
