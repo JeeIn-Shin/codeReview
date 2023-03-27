@@ -5,8 +5,10 @@ const path = require('path');
 const passport = require('passport');
 const passportConfig = require('./passport/index');
 const methodOverride = require('method-override');
+const MySQLStore = require('express-mysql-session')(session);
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 
@@ -16,6 +18,16 @@ app.use(express.urlencoded({extended:false}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+let options = {
+    host: process.env.host,
+    port: '3306',
+    user: process.env.user,
+    password: process.env.password,
+    database: 'CODEREVIEW',
+};
+
+let sessionStore = new MySQLStore(options);
+
 app.use(session({
     secret : process.env.secret,
     resave : false,
@@ -24,15 +36,15 @@ app.use(session({
         httpOnly: true,
         secure: false,
         maxAge: 1000 * 60 * 60
-    }
+    },
+    store : sessionStore
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
+passportConfig();
 
 app.use(cookieParser(process.env.secret));
-
-passportConfig();
 
 app.use(methodOverride('_method'));
 

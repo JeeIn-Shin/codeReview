@@ -1,14 +1,14 @@
 const local = require('./local');
-const user = require('../models/user');
+const client = require('../models/user');
 const passport = require('passport');
 
 module.exports = () => {
     passport.serializeUser((user, done) => {
-        return done(null, user.id);
+        return done(null, user);
     });
 
-    passport.deserializeUser((id, done) => {
-        user.signIn.getUserById(id)
+    passport.deserializeUser((user, done) => {
+        client.signIn.getUserById(user.ID)
             .then((user) => {
                 return done(null, user)
             })

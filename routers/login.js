@@ -4,9 +4,10 @@ const passport = require('passport');
 const handleResponse = require('../others/handleResponse');
 const { isNotLoggedIn } = require('./middleware');
 
+// http://localhost:8080/login
 router.route('/')
 .get((req, res) => {
-    res.render('signin');
+    res.render('login/login');
 })
 .post(isNotLoggedIn, (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
@@ -26,6 +27,5 @@ router.route('/')
         });
     }) (req, res, next);
 });
-
 
 module.exports = router;
