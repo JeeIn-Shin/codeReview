@@ -1,4 +1,3 @@
-const { resolve } = require('path');
 const db = require('../config/database');
 
 const noticeBoard = {
