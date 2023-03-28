@@ -10,7 +10,7 @@ console.log("current_block: ", current_block);
 let select_block = localStorage.getItem("select_block");
 console.log("select_block: ", select_block);
 
-let post_title;
+let post_id;
 let data;
 
 let date = document.getElementById("date");
@@ -57,9 +57,9 @@ if (post_mode === "write") {
 
 if (post_mode === "modify") {
   document.querySelector("h1").textContent = "공지사항 수정";
-  post_title = localStorage.getItem("post_title");
-  console.log("post_title: ", post_title);
-  data = getSelectData(post_title).then((data) => {
+  post_id = localStorage.getItem("post_id");
+  console.log("post_id: ", post_id);
+  data = getSelectData(post_id).then((data) => {
     console.log("data: ", data);
     title.value = data[0].TITLE;
     details.value = data[0].DETAILS;
@@ -87,28 +87,10 @@ if (post_mode === "modify") {
   });
 }
 
-//post_tile을 이용하여 데이터를 가져오는 함수
-/*async function getSelectData(post_title) {
-  console.log("post_title: ", post_title);
+async function getSelectData(post_id) {
+  console.log("post_id(get): ", post_id);
   try {
-    const response = await fetch(
-      `http://localhost:8080/notice?title=${post_title}`
-    );
-    data = await response.json();
-    alert("데이터를 가져왔습니다.");
-    return data;
-  } catch (err) {
-    console.log(err);
-    alert("데이터를 가져오는데 실패했습니다.");
-  }
-}*/
-
-// title X, ID_PK  O
-async function getSelectData(post_title) {
-  console.log("post_title(get): ", post_title);
-  try {
-    // http://localhost:8080/notice/?idx=
-    const url = `http://localhost:8080/notice?idx=${post_title}`; // Include the parameter value in the URL
+    const url = `http://localhost:8080/notice?idx=${post_id}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -120,10 +102,9 @@ async function getSelectData(post_title) {
 
     //data를 리턴한다.
     data = await response.json();
-    alert("데이터를 가져왔습니다.");
     return data;
   } catch (error) {
-    alert("데이터를 가져오지 못했습니다.");
+    console.log("error: ", error);
   }
 }
 
@@ -146,60 +127,43 @@ function postData(Data) {
   )
     .then((response) => response.json())
     .then((notice) => {
-      console.log("notice before id", notice);
-      console.log("notice.id: ", notice.insertId);
-      alert(notice);
       isMove = true;
       //onbeforeunload를 막는다.
       window.onbeforeunload = null;
-      localStorage.setItem("post_title", notice.insertId);
+      localStorage.setItem("post_id", notice.insertId);
       location.href = "notice.html";
     })
     .then((json) => console.log(json))
     .catch((err) => console.error(err));
 }
 
-function putData(noticeData) {
-  noticeData = {
-    title: title.value,
-    writer: writer.value,
-    date: date.value,
-    details: details.value,
-  };
-  fetch("http://localhost:8080/notice")
-    .then((response) => response.json())
-    .then((notice) => {
-      const select_notice = notice.find((notice) => {
-        return notice.title === post_title;
-      });
-      // 바꿔주고싶은데 이게 뭔질 모르겠어 - 신지인
-      return fetch(`http://localhost:8080/notice/${select_notice.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json; charset=utf-8",
-        },
-        body: JSON.stringify(noticeData),
-      });
+function putData(Data) {
+  const url = `http://localhost:8080/notice/post?idx=${post_id}`;
+  console.log("noticeData: ", Data);
+  console.log("noticeData.TITLE: ", Data.title);
+  console.log("noticeData.DETAILS: ", Data.details);
+  fetch(url, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(Data),
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("PUT request failed");
+      }
     })
-    .then((response) => response.json())
     .then((notice) => {
-      //onbeforeunload를 막는다.
       isMove = true;
       window.onbeforeunload = null;
-      localStorage.setItem("post_title", notice.title);
       location.href = "notice.html";
     })
-    .then((json) => console.log(json))
     .catch((err) => console.error(err));
 }
 
-// 떠날 때 정말 떠나는지 확인한다.
 window.onbeforeunload = function (event) {
   return "정말 떠나시겠습니까?";
-};
-//창을 닫을 때 ismove가 false이면 localStorage를 초기화한다.
-window.onunload = function (event) {
-  if (!isMove) {
-    //localStorage.clear();
-  }
 };

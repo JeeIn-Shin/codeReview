@@ -1,10 +1,10 @@
 "use strict";
 
 // 게시글 제목을 얻어온다.
-const post_title = localStorage.getItem("post_title");
-console.log("post_title: ", post_title);
+const post_id = localStorage.getItem("post_id");
+console.log("post_id: ", post_id);
 // 데이터를 가져온다.
-let data = getSelectData(post_title).then((data) => {
+let data = getSelectData(post_id).then((data) => {
   displayNotice(data);
 });
 
@@ -20,6 +20,7 @@ backbtn.addEventListener("click", function () {
 
 // 관리자인지 판단하기
 let isAdmin = localStorage.getItem("isAdmin") || false;
+console.log("isAdmin: ", isAdmin);
 //selct_block, cuurent_block을 얻어온다.
 const select_block = localStorage.getItem("select_block");
 const current_block = localStorage.getItem("current_block");
@@ -27,12 +28,12 @@ console.log("select_block: ", select_block);
 console.log("current_block: ", current_block);
 
 //관리자면 id가 put, delete인 버튼을 보여준다.
-if (isAdmin) {
+if (isAdmin == "true") {
   putbtn.style.display = "inline-block";
   putbtn.addEventListener("click", function () {
     isMove = true;
     localStorage.setItem("post_mode", "modify");
-    localStorage.setItem("post_title", post_title);
+    localStorage.setItem("post_id", post_id);
   });
 
   deletebtn.style.display = "inline-block";
@@ -41,9 +42,8 @@ if (isAdmin) {
     let result = confirm("삭제하시겠습니까?");
     if (result) {
       isMove = true;
-      deleteDataByTitle(post_title);
+      deleteDataById(post_id);
     } else {
-      //취소되었다고 알린다.
       alert("취소되었습니다.");
     }
   });
@@ -51,11 +51,11 @@ if (isAdmin) {
 
 console.log("data: ", data);
 
-async function getSelectData(post_title) {
-  console.log("post_title: ", post_title);
+async function getSelectData(post_id) {
+  console.log("post_id: ", post_id);
   try {
     // http://localhost:8080/notice/?idx=
-    const url = `http://localhost:8080/notice?idx=${post_title}`; // Include the parameter value in the URL
+    const url = `http://localhost:8080/notice?idx=${post_id}`; // Include the parameter value in the URL
 
     const response = await fetch(url, {
       method: "GET",
@@ -67,25 +67,11 @@ async function getSelectData(post_title) {
 
     //data를 리턴한다.
     data = await response.json();
-    alert("데이터를 가져왔습니다.");
     return data;
   } catch (error) {
-    alert("데이터를 가져오지 못했습니다.");
+    console.log("error: ", error);
   }
 }
-//post_tile을 이용하여 데이터를 가져오는 함수
-/*async function getSelectData(post_title) {
-  try {
-    const response = await fetch(
-      `http://localhost:8080/notice?title=${post_title}`
-    );
-    data = await response.json();
-    return data;
-  } catch (err) {
-    console.log("err: ", err);
-    alert("데이터를 가져오는데 실패했습니다.");
-  }
-}*/
 
 function displayNotice(data) {
   let noticetitle = document.getElementById("noticetitle");
@@ -105,7 +91,7 @@ function displayNotice(data) {
   console.log("data.details: ", data[0].DETAILS);
 }
 
-function deleteDataByTitle(post_title) {
+function deleteDataById(post_id) {
   try {
     const paramVar = "example_param_value";
     const url = `http://localhost:8080/notice?param=${paramVar}`;
@@ -118,12 +104,7 @@ function deleteDataByTitle(post_title) {
     })
       .then((response) => response.json())
       .then((notice) => {
-        console.log("exnotice: ", notice);
-        console.log("notice_ID: ", notice.ID_PK);
-        console.log("expost_title: ", post_title);
-        const post = notice.find((n) => n.ID_PK == post_title);
-        console.log("expost: ", post);
-        console.log("post.title: ", post.ID_PK);
+        const post = notice.find((n) => n.ID_PK == post_id);
         return fetch(`http://localhost:8080/notice/?idx=${post.ID_PK}`, {
           method: "DELETE",
           mode: "cors",
@@ -140,13 +121,6 @@ function deleteDataByTitle(post_title) {
           (window.location.href = "notice-board.html")
       );
   } catch (error) {
-    alert("삭제를 실패했습니다.");
+    console.log("error: ", error);
   }
 }
-
-//창을 닫을 때 localStorage를 초기화한다.
-window.onunload = function (event) {
-  if (!isMove) {
-    //localStorage.clear();
-  }
-};

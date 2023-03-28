@@ -14,7 +14,7 @@ console.clear();
 // 이동을 감지하는 변수
 let isMove = false;
 console.log("isMove : ", isMove);
-let post_title;
+let post_id;
 // 관리자인지 판단하기
 let isAdmin = localStorage.getItem("isAdmin") || true;
 localStorage.setItem("isAdmin", isAdmin);
@@ -61,20 +61,6 @@ getData()
     // 페이지네이션 블록 출력하기
     block_print(current_block);
   });
-
-/*else {
-  console.log("getBlocktotalPage : ", totalPage);
-  getBlockData(totalPage, page_num, select_block)
-    .then((data) => {
-      console.log("getBlockData : ", data);
-    })
-    .then(() => {
-      // 게시글 데이터 출력하기
-      post_data_print(select_block);
-      // 페이지네이션 블록 출력하기
-      block_print(current_block);
-    });
-}*/
 
 //검색 내용이 들어갈 때만 검색이 되게 합니다.
 const searchbtn = document.getElementById("searchbtn");
@@ -278,10 +264,10 @@ function block_print(front_block) {
   //관리자만 글쓰기 기능을 이용하게 하기
   const writebutton = document.getElementById("write");
   console.log("isAdmin? : ", isAdmin);
-  if (isAdmin) {
+  if (isAdmin == true) {
     console.log("isAdmin?? : ", isAdmin);
     writebutton.style.display = "inline-block";
-    writebutton.onclick = function () {
+    writebutton.onmouseover = function () {
       localStorage.setItem("select_block", select_block);
       localStorage.setItem("post_mode", "write");
       isMove = true;
@@ -337,42 +323,13 @@ async function getData() {
 
     //data를 리턴한다.
     data = await response.json();
-    alert("데이터를 가져왔습니다.");
     return data;
   } catch (error) {
-    alert("데이터를 가져오지 못했습니다.");
+    console.log("error : ", error);
   }
 }
 
-//누른 블록의 데이터만 서버에서 가져오기
-/*async function getBlockData(totalPage, page_num, block) {
-  let start = totalPage - page_num * (block - 1);
-  let end = start - page_num;
-  console.log("start: ", start);
-  console.log("end: ", end);
-  try {
-    const response = await fetch(
-      `http://localhost:8080/notice?start=${start}&end=${end}`,
-      {
-        method: "GET",
-        mode: "cors",
-        body: "param=" + paramVar,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    //data를 리턴한다.
-    data = await response.json();
-    alert(`데이터를 가져왔습니다. (블록 ${block})`);
-    return data;
-  } catch (error) {
-    alert("데이터를 가져오지 못했습니다.");
-  }
-}*/
-
-function deleteDataByTitle(post_title) {
+function deleteDataById(post_id) {
   try {
     const paramVar = "example_param_value";
     const url = `http://localhost:8080/notice?param=${paramVar}`;
@@ -385,7 +342,7 @@ function deleteDataByTitle(post_title) {
     })
       .then((response) => response.json())
       .then((notice) => {
-        const post = notice.find((n) => n.ID_PK === post_title);
+        const post = notice.find((n) => n.ID_PK === post_id);
         return fetch(`http://localhost:8080/notice/?idx=${post.ID_PK}`, {
           method: "DELETE",
           mode: "cors",
@@ -398,7 +355,7 @@ function deleteDataByTitle(post_title) {
       .then((json) => alert("삭제되었습니다."))
       .then((json) => location.reload());
   } catch (error) {
-    alert("삭제를 실패했습니다.");
+    console.log("error : ", error);
   }
 }
 
@@ -422,7 +379,7 @@ function getDataByTitle(title) {
         return data; // add this line to return the filtered posts
       });
   } catch (error) {
-    alert("검색을 실패했습니다.");
+    console.log("error : ", error);
   }
 }
 
@@ -446,7 +403,7 @@ function getDataByDetails(details) {
         return data; // add this line to return the filtered posts
       });
   } catch (error) {
-    alert("검색을 실패했습니다.");
+    console.log("error : ", error);
   }
 }
 
@@ -484,9 +441,10 @@ function createPostElement(data, i) {
   titleAnchor.target = "_blank";
   titleAnchor.href = "notice.html"; // 게시글 링크
   titleAnchor.textContent = data[i - 1].TITLE; // 게시글 제목
-  titleAnchor.onclick = function () {
+
+  titleAnchor.onmouseover = function () {
     isMove = true;
-    localStorage.setItem("post_title", data[i - 1].ID_PK);
+    localStorage.setItem("post_id", data[i - 1].ID_PK);
     localStorage.setItem("select_block", select_block);
   };
   heading.appendChild(titleAnchor);
@@ -542,10 +500,10 @@ function createPostElement(data, i) {
   readMoreAnchor.href = "notice.html";
   readMoreAnchor.classList.add("more-link");
   readMoreAnchor.textContent = "Read More";
-  readMoreAnchor.onclick = function () {
+  readMoreAnchor.onmouseover = function () {
     isMove = true;
     localStorage.setItem("select_block", select_block);
-    localStorage.setItem("post_title", data[i - 1].ID_PK);
+    localStorage.setItem("post_id", data[i - 1].ID_PK);
   };
 
   readMoreDiv.appendChild(readMoreAnchor);
@@ -556,16 +514,16 @@ function createPostElement(data, i) {
   const entryButtonDiv = document.createElement("div");
   entryButtonDiv.classList.add("entry-button");
   //관리자일 때만 게시글 수정, 삭제 버튼 생성
-  if (isAdmin) {
+  if (isAdmin == true) {
     const modifyaAnchor = document.createElement("a");
     modifyaAnchor.target = "_blank";
     modifyaAnchor.href = "notice-write.html";
     modifyaAnchor.classList.add("btn", "btn-primary");
     modifyaAnchor.textContent = "수정";
-    modifyaAnchor.onclick = function () {
+    modifyaAnchor.onmouseover = function () {
       localStorage.setItem("select_block", select_block);
       localStorage.setItem("post_mode", "modify");
-      localStorage.setItem("post_title", data[i - 1].ID_PK);
+      localStorage.setItem("post_id", data[i - 1].ID_PK);
       isMove = true;
     };
 
@@ -583,7 +541,7 @@ function createPostElement(data, i) {
         )
       ) {
         isMove = true;
-        deleteDataByTitle(data[i - 1].ID_PK);
+        deleteDataById(data[i - 1].ID_PK);
       } else {
         alert("취소되었습니다.");
       }
@@ -605,7 +563,5 @@ function createPostElement(data, i) {
 }
 
 window.onunload = function (event) {
-  if (!isMove) {
-    //localStorage.clear();
-  }
+  localStorage.clear();
 };
