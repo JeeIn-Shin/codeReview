@@ -35,8 +35,7 @@ submitButton.addEventListener("click", function (event) {
 });
 
 function getDataByUsername(username) {
-  const paramVar = "example_param_value";
-  const url = `http://localhost:8080/community?param=${paramVar}`;
+  const url = `http://localhost:8080/community`;
   return fetch("http://localhost:3000/community", {
     method: "GET",
     mode: "cors",
@@ -67,7 +66,7 @@ function postData(data) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(Data),
+    body: JSON.stringify(data),
   })
     .then((response) => response.json())
     .then((data) => {

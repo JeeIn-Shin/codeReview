@@ -1,6 +1,4 @@
 "use strict";
-let isMove = false;
-console.log("isMove : ", isMove);
 
 let post_mode = localStorage.getItem("post_mode");
 console.log("post_mode: ", post_mode);
@@ -17,11 +15,7 @@ let date = document.getElementById("date");
 let writer = document.getElementById("writer");
 let title = document.getElementById("title");
 let details = document.getElementById("wysiwyg-editor");
-let backbtn = document.getElementById("back");
 let writebtn = document.getElementById("writebtn");
-backbtn.addEventListener("click", function () {
-  isMove = true;
-});
 
 let createDate = new Date(); //현재 date ex) 2023-03-03 15:30:00
 let year = createDate.getFullYear();
@@ -127,7 +121,6 @@ function postData(Data) {
   )
     .then((response) => response.json())
     .then((notice) => {
-      isMove = true;
       //onbeforeunload를 막는다.
       window.onbeforeunload = null;
       localStorage.setItem("post_id", notice.insertId);
@@ -157,7 +150,6 @@ function putData(Data) {
       }
     })
     .then((notice) => {
-      isMove = true;
       window.onbeforeunload = null;
       location.href = "notice.html";
     })

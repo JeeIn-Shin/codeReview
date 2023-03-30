@@ -12,8 +12,7 @@ block_print(front_block) : 블럭 출력하기 / 매개변수 : 가장 앞에 �
 */
 console.clear();
 // 이동을 감지하는 변수
-let isMove = false;
-console.log("isMove : ", isMove);
+
 let post_id;
 // 관리자인지 판단하기
 let isAdmin = localStorage.getItem("isAdmin") || true;
@@ -314,16 +313,15 @@ function block_print(front_block) {
   //관리자만 글쓰기 기능을 이용하게 하기
   const writebutton = document.getElementById("write");
   console.log("isAdmin? : ", isAdmin);
-  if (isAdmin == true) {
+  if (isAdmin) {
     console.log("isAdmin?? : ", isAdmin);
     writebutton.style.display = "inline-block";
     writebutton.onmouseover = function () {
       localStorage.setItem("select_block", select_block);
       localStorage.setItem("post_mode", "write");
-      isMove = true;
     };
   } else {
-    console.log("isAdmin??? : ", isAdmin);
+    console.log("isAdmin???  : ", isAdmin);
     writebutton.style.display = "none";
   }
 }
@@ -469,7 +467,6 @@ function createPostElement(data, i) {
   titleAnchor.textContent = data[i - 1].TITLE; // 게시글 제목
 
   titleAnchor.onmouseover = function () {
-    isMove = true;
     localStorage.setItem("post_id", data[i - 1].ID_PK);
     localStorage.setItem("select_block", select_block);
   };
@@ -527,7 +524,6 @@ function createPostElement(data, i) {
   readMoreAnchor.classList.add("more-link");
   readMoreAnchor.textContent = "Read More";
   readMoreAnchor.onmouseover = function () {
-    isMove = true;
     localStorage.setItem("select_block", select_block);
     localStorage.setItem("post_id", data[i - 1].ID_PK);
   };
@@ -540,7 +536,7 @@ function createPostElement(data, i) {
   const entryButtonDiv = document.createElement("div");
   entryButtonDiv.classList.add("entry-button");
   //관리자일 때만 게시글 수정, 삭제 버튼 생성
-  if (isAdmin == true) {
+  if (isAdmin) {
     const modifyaAnchor = document.createElement("a");
     modifyaAnchor.target = "_blank";
     modifyaAnchor.href = "notice-write.html";
@@ -550,7 +546,6 @@ function createPostElement(data, i) {
       localStorage.setItem("select_block", select_block);
       localStorage.setItem("post_mode", "modify");
       localStorage.setItem("post_id", data[i - 1].ID_PK);
-      isMove = true;
     };
 
     const deleteButton = document.createElement("button");
@@ -566,7 +561,6 @@ function createPostElement(data, i) {
             " 정말 삭제하시겠습니까?"
         )
       ) {
-        isMove = true;
         deleteDataById(data[i - 1].ID_PK);
       } else {
         alert("취소되었습니다.");
@@ -587,7 +581,3 @@ function createPostElement(data, i) {
   gridInnerDiv.appendChild(br);
   gridInnerDiv.appendChild(entryButtonDiv);
 }
-
-window.onunload = function (event) {
-  localStorage.clear();
-};

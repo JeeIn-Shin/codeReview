@@ -8,15 +8,8 @@ let data = getSelectData(post_id).then((data) => {
   displayNotice(data);
 });
 
-let isMove = false;
-console.log("isMove : ", isMove);
-
 let putbtn = document.getElementById("put");
 let deletebtn = document.getElementById("delete");
-let backbtn = document.getElementById("back");
-backbtn.addEventListener("click", function () {
-  isMove = true;
-});
 
 // 관리자인지 판단하기
 let isAdmin = localStorage.getItem("isAdmin") || false;
@@ -28,10 +21,9 @@ console.log("select_block: ", select_block);
 console.log("current_block: ", current_block);
 
 //관리자면 id가 put, delete인 버튼을 보여준다.
-if (isAdmin == "true") {
+if (isAdmin) {
   putbtn.style.display = "inline-block";
   putbtn.addEventListener("click", function () {
-    isMove = true;
     localStorage.setItem("post_mode", "modify");
     localStorage.setItem("post_id", post_id);
   });
@@ -41,7 +33,6 @@ if (isAdmin == "true") {
   deletebtn.addEventListener("click", function () {
     let result = confirm("삭제하시겠습니까?");
     if (result) {
-      isMove = true;
       deleteDataById(post_id);
     } else {
       alert("취소되었습니다.");
