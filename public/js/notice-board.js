@@ -54,13 +54,63 @@ getData()
     localStorage.setItem("totalPage", totalPage);
     console.log("getTotalPage : ", totalPage);
     console.log("getData : ", data);
-  })
-  .then(() => {
-    // 게시글 데이터 출력하기
+
+    // 데이터 로드가 완료된 후에 출력 및 페이지네이션 블록 출력 처리
     post_data_print(select_block);
-    // 페이지네이션 블록 출력하기
     block_print(current_block);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
   });
+
+async function getData() {
+  try {
+    const url = `http://localhost:8080/notice`;
+
+    const response = await fetch(url, {
+      method: "GET",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    //data를 리턴한다.
+    data = await response.json();
+    return data;
+  } catch (error) {
+    console.log("error : ", error);
+  }
+}
+
+/* getData().then((result) => {
+  data = result;
+  console.log("data : ", data);
+  totalPage = data.length;
+  localStorage.setItem("totalPage", totalPage);
+  post_data_print(select_block);
+  // 페이지네이션 블록 출력하기
+  block_print(current_block);
+}); */
+
+/* function getData() {
+  return fetch("http://localhost:8080/notice", {
+    method: "GET",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error("Network response was not ok.");
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+} */
 
 //검색 내용이 들어갈 때만 검색이 되게 합니다.
 const searchbtn = document.getElementById("searchbtn");
@@ -308,31 +358,9 @@ function last() {
   console.log("마지막");
 }
 
-async function getData() {
-  try {
-    const paramVar = "example_param_value";
-    const url = `http://localhost:8080/notice?param=${paramVar}`;
-
-    const response = await fetch(url, {
-      method: "GET",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    //data를 리턴한다.
-    data = await response.json();
-    return data;
-  } catch (error) {
-    console.log("error : ", error);
-  }
-}
-
 function deleteDataById(post_id) {
   try {
-    const paramVar = "example_param_value";
-    const url = `http://localhost:8080/notice?param=${paramVar}`;
+    const url = `http://localhost:8080/notice`;
     fetch(url, {
       method: "GET",
       mode: "cors",
@@ -361,8 +389,7 @@ function deleteDataById(post_id) {
 
 function getDataByTitle(title) {
   try {
-    const paramVar = "example_param_value";
-    const url = `http://localhost:8080/notice?param=${paramVar}`;
+    const url = `http://localhost:8080/notice`;
     return fetch(url, {
       method: "GET",
       mode: "cors",
@@ -385,8 +412,7 @@ function getDataByTitle(title) {
 
 function getDataByDetails(details) {
   try {
-    const paramVar = "example_param_value";
-    const url = `http://localhost:8080/notice?param=${paramVar}`;
+    const url = `http://localhost:8080/notice`;
     return fetch(url, {
       method: "GET",
       mode: "cors",

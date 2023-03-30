@@ -93,8 +93,7 @@ function displayNotice(data) {
 
 function deleteDataById(post_id) {
   try {
-    const paramVar = "example_param_value";
-    const url = `http://localhost:8080/notice?param=${paramVar}`;
+    const url = `http://localhost:8080/notice`;
     fetch(url, {
       method: "GET",
       mode: "cors",
