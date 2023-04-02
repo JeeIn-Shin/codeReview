@@ -1,92 +1,88 @@
 const db = require('../config/database');
 const thingAboutSubQuery = require('../others/aboutSql');
 
-//매칭의 시작과
 
-//매칭의 마무리를 담당함
 const matching = {
-
     //대기열 등록
-    registerQueue: (data) => {
+    registerQueueByReviewer: (enrollInfo, AdditionalData) => {
         return new Promise((resolve, reject) => {
-            const queueInfo = Object.values(data)
+            let enroll = Object.values(enrollInfo);
+            let Additional = Object.values(AdditionalData);
 
             db.getConnection((err, connection) => {
-                if (!err) {
-                    let sql = `INSERT INTO QUEUE_TB VALUES ( ? )`;
-                    connection.query(sql, [queueInfo], (err, res) => {
-                        connection.release();
-    
-                        if (err) {
-                            console.log("sql error " + err);
-                            reject(err);
-                        }
-                        resolve(res);
-                    })
-                }
-                else {
-                    console.log("mysql connection error " + err);
-                    throw err;
-                }
+                connection.beginTransaction((err) => {
+                    if (!err) {
+                        let sql1 = `INSERT INTO QUEUE_TB VALUES ( ? )`;
+                        let sql2 = `INSERT INTO SCHEDULE_TB VALUES ( ? )`;
+
+                        connection.query(sql1, [enroll], (err, res) => {
+                            if (err)
+                                return connection.rollback(() => { throw err });
+
+                            connection.query(sql2, [Additional], (err, res) => {
+                                if (err)
+                                    return connection.rollback(() => { throw err });
+
+                                connection.commit((err) => {
+                                    if (err)
+                                        return connection.rollback(() => { throw err });
+                                })
+                                resolve(res);
+                            })
+                        })
+                    }
+                    else {
+                        console.log("connection error" + err)
+                        throw err;
+                    }
+                })
+
             })
         })
     },
 
-    //대기열 등록 후 일정 등록//
-    setPlan: (data) => {
+    registerQueueByReviewee: (enrollInfo, additionalData, preferData) => {
         return new Promise((resolve, reject) => {
-            const scheduleInfo = Object.values(data)
+            let enroll = Object.values(enrollInfo);
+            let plan = Object.values(additionalData);
+            let prefer = Object.values(preferData);
 
             db.getConnection((err, connection) => {
-                if (!err) {
-                    let sql = `INSERT INTO SCHEDULE_TB VALUES ( ? )`;
-                    connection.query(sql, [scheduleInfo], (err, res) => {
-                        connection.release();
-    
-                        if (err) {
-                            console.log("sql error " + err);
-                            reject(err);
-                        }
-                        resolve(res);
-                    })
-                }
-                else {
-                    console.log("mysql connection error " + err);
-                    throw err;
-                }
+                connection.beginTransaction((err) => {
+                    if (!err) {
+                        let sql1 = `INSERT INTO QUEUE_TB VALUES ( ? )`;
+                        let sql2 = `INSERT INTO SCHEDULE_TB VALUES ( ? )`;
+                        let sql3 = `INSERT INTO REVIEWEE_PREFER_TB VALUES ( ? )`;
+
+                        connection.query(sql1, [enroll], (err, res) => {
+                            if (err)
+                                return connection.rollback(() => { throw err });
+
+                            connection.query(sql2, [plan], (err, res) => {
+                                if (err)
+                                    return connection.rollback(() => { throw err });
+
+                                connection.query(sql3, [prefer], (err, res) => {
+                                    if(err)
+                                        return connection.rollback(() => { throw err });
+                                    
+                                    connection.commit((err) => {
+                                        if (err)
+                                            return connection.rollback(() => { throw err });
+                                        })
+                                        resolve(res);
+                                })
+                            })
+                        })
+                    }
+                    else {
+                        console.log("connection error" + err)
+                        throw err;
+                    }
+                })
+
             })
         })
-
-    },
-
-    //두개의 테이블에 값을 동시에 넣을 수 있나???
-    //찾아봐야함
-    //그리고 그게 좋은 방법인가??? 도 고민해봐야함
-    setPlanAndPrefer: (data) => {
-
-        return new Promise((resolve, reject) => {
-            const scheduleInfo = Object.values(data)
-
-            db.getConnection((err, connection) => {
-                if (!err) {
-                    let sql = ``;
-                    connection.query(sql, [scheduleInfo], (err, res) => {
-                        connection.release();
-    
-                        if (err) {
-                            console.log("sql error " + err);
-                            reject(err);
-                        }
-                        resolve(res);
-                    })
-                }
-                else {
-                    console.log("mysql connection error " + err);
-                    throw err;
-                }
-            })
-        })
-
     },
 
     //일정 수정 --리뷰어
@@ -101,7 +97,7 @@ const matching = {
                                WHERE ID_PK LIKE ${id}`;
                     connection.query(sql, scheduleInfo, (err, res) => {
                         connection.release();
-    
+
                         if (err) {
                             console.log("sql error " + err);
                             reject(err);
@@ -133,10 +129,10 @@ const matching = {
                                SCHEDULE_TB.MON = ?, SCHEDULE_TB.TUE = ?, SCHEDULE_TB.WED = ?, SCHEDULE_TB.THURS = ?, SCHEDULE_TB.FRI = ?,
                                REVIEWEE_PREFER_TB.LANGUAGE = ?, REVIEWEE_PREFER_TB.ACTIVITY = ?
                                WHERE SCHEDULE_TB.ID_PK LIKE ${id};`;
-    
+
                     connection.query(sql, scheduleInfo, (err, res) => {
                         connection.release();
-    
+
                         if (err) {
                             console.log("sql error " + err);
                             reject(err);
@@ -244,7 +240,7 @@ const matching = {
                     let sql = `INSERT INTO CODEREVIEW_ACT_INFO_TB VALUES ( ? )`;
                     connection.query(sql, [matchingData], (err, res) => {
                         connection.release();
-    
+
                         if (err) {
                             console.log("sql error " + err);
                             reject(err);
@@ -257,7 +253,7 @@ const matching = {
                     throw err;
                 }
             })
-        })  
+        })
     },
 
     deleteRevieweeFromQueue: (id) => {

@@ -1,94 +1,72 @@
-const EXPRESS = require('express');
-const ROUTER = EXPRESS.Router();
-const MATCHING = require('../models/matching');
-const PRIORITYQUEUE = require('../others/priorityQueue');
-const THINGABOUTSUBQUERY = require('../others/aboutSql');
+const express = require('express');
+const router = express.Router();
+const matching = require('../models/matching');
+const priorityQueue = require('../others/priorityQueue');
+const thingAboutSubQuery = require('../others/aboutSql');
+const { isLoggedIn } = require('./middleware');
+const getuserPK = require('../others/find_id_pk');
+require('express-session');
 
-// http://localhost:8080/walk-thru
-ROUTER.post('/', async (req, res) => {
+// http://localhost:8080/review-group
+router.get('/', isLoggedIn, async(req, res) => {
+    res.render('review-group/review-group');
+})
 
-    let enrollInfo = {
-        //ID_PK 부분은 사실 로그인 정보가 들어가야함
-        //그러나 지금은 로그인을 구현해두지 않아서 일단 이렇게 해둠
-        ID_PK: req.body.ID_PK,
-        CREATEDAT: Date.now(),
-        POSITION: req.body.POSITION
+// http://localhost:8080/review-group
+router.post('/', isLoggedIn, async (req, res) => {
+    try {
+        let pk = await getuserPK(req.session.passport.user.ID)
+        
+        let enrollInfo = {
+            createdAt: Date.now(),
+            position: req.body.position,
+            id_pk : pk
+        }   
+        //1이면 reviewer
+        //0이면 reviewee
+        if(enrollInfo.position === 1)   {
+            let additionalplan = {
+                id_pk: pk,
+                mon: req.body.mon,
+                tue: req.body.tue,
+                wed: req.body.wed,
+                thurs: req.body.thurs,
+                fri: req.body.fri
+            }
+            await matching.registerQueueByReviewer(enrollInfo, additionalplan)
+        }
+        else if(enrollInfo.position === 0)  {
+            let additionalPlan = {
+                id_pk: pk,
+                mon: req.body.mon,
+                tue: req.body.tue,
+                wed: req.body.wed,
+                thurs: req.body.thurs,
+                fri: req.body.fri
+            }
+            let preferData = {
+                id_pk: pk,
+                language: req.body.language,
+                activity: req.body.activity
+            }
+            await matching.setPlanAndPrefer(enrollInfo, additionalPlan, preferData)
+        }
+
+        res.redirect('/review-group/')
     }
-
-    await MATCHING.registerQueue(enrollInfo, (err, data) => {
-        try {
-            res.json(data);
-        }
-        catch (err) {
-            console.error(err);
-        }
-    })
-});
-
-// http://localhost:8080/walk-thru/info?position=
-ROUTER.post('/info', async (req, res) => {
-
-    let classification = Object.values(req.query.position);
-
-    //로그인 확인
-
-    // 0이 reviewer
-    if (classification === 0) {
-
-        let reviewerAdditionalData = {
-            //ID_PK 부분은 로그인 정보가 들어가야함
-            ID_PK: req.body.ID_PK,
-            MON: req.body.MON,
-            TUE: req.body.TUE,
-            WED: req.body.WED,
-            THURS: req.body.THURS,
-            FRI: req.body.FRI
-        }
-
-        await MATCHING.setPlan(reviewerAdditionalData, (err, res) => {
-            try {
-                res.json(data);
-            }
-            catch (err) {
-                console.error(err);
-            }
-        })
-    }
-    // 1이 reviewee
-    else if (classification === 1) {
-
-        let revieweeAdditionalData = {
-            //ID_PK 부분은 로그인 정보가 들어가야함
-            ID_PK: req.body.ID_PK,
-            MON: req.body.MON,
-            TUE: req.body.TUE,
-            WED: req.body.WED,
-            THURS: req.body.THURS,
-            FRI: req.body.FRI,
-            LANGUAGE: req.body.LANGUAGE,
-            ACTIVITY: req.body.ACTIVITY
-        }
-
-        await MATCHING.setPlanAndPrefer(revieweeAdditionalData, (err, res) => {
-            try {
-                res.json(data);
-            }
-            catch (err) {
-                console.error(err);
-            }
-        })
-    }
-    else {
-        res.json({
-            "code": "400",
-            "data": {},
-            "msg": "400 Bad Request"
-        });
+    catch(err)   {
+        //에러 페이지가 필요함
+        res.json(err);
     }
 });
 
-// http://localhost:8080/walk-thru/update?position=
-ROUTER.put('/update', async (req, res) => {
+// http://localhost:8080/review-group/update
+router.get('/update', isLoggedIn, async(req, res) => {
+    res.render('review-group/update');
+})
+
+// http://localhost:8080/review-group/update
+router.post('/update', async(req, res) => {
 
     //req.query.~ 어떻게 들어오더라?
     // { position : '' } 였던거 같은데
@@ -110,7 +88,7 @@ ROUTER.put('/update', async (req, res) => {
             FRI: req.body.FRI
         }
 
-        await MATCHING.updatePlan(testReviewerId, reviewerUpdateData, (err, res) => {
+        await matching.updatePlan(testReviewerId, reviewerUpdateData, (err, res) => {
             try {
                 res.json(data);
             }
@@ -134,7 +112,7 @@ ROUTER.put('/update', async (req, res) => {
             ACTIVITY: req.body.ACTIVITY
         }
 
-        await MATCHING.updatePlanAndPrefer(testRevieweeId, revieweeUpdateData, (err, res) => {
+        await matching.updatePlanAndPrefer(testRevieweeId, revieweeUpdateData, (err, res) => {
             try {
                 res.json(data);
             }
@@ -152,10 +130,15 @@ ROUTER.put('/update', async (req, res) => {
     }
 })
 
-// http://localhost:8080/walk-thru/review-groups
-ROUTER.post('/review-groups', async(req, res) => {
+// http://localhost:8080/review-groups/pending
+router.get('/pending', async(req, res) => {
+    res.render('review-group/pending');
+})
+
+// http://localhost:8080/review-groups/pending
+router.post('/pending', async(req, res) => {
     // 1. 대기열에 등록된 리뷰이 리스트를 가져와서
-    MATCHING.getRevieweesInfo()
+    matching.getRevieweesInfo()
         .then(async(revieweesResult) => {
 
             let data = revieweesResult;
@@ -177,7 +160,7 @@ ROUTER.post('/review-groups', async(req, res) => {
                 revieweeInfo = data[dataLength];
                 // 3. 리뷰이 리스트에서 0번째 인덱스가 가지고 있는 정보(언어 활동 등)를 토대로 (이하 리뷰이로만 통칭)
                 // 4. 대기열에 등록된 리뷰어들을 모두 가져옴
-                await MATCHING.getReviewersInfo(revieweeInfo)
+                await matching.getReviewersInfo(revieweeInfo)
                 .then(async(reviewersList) => {
                     let heap = new PRIORITYQUEUE();
                     let data = reviewersList;
@@ -216,7 +199,7 @@ ROUTER.post('/review-groups', async(req, res) => {
                 //그렇다면 데베로부터 값을 받아올때 정렬해서 가져오면 되는거지!
 
 
-                MatchedDateAndTime = THINGABOUTSUBQUERY.findSameWeekdayAndTimeZoneBetweenMatchedPeople(revieweeInfo, MatchedReviewerId);
+                MatchedDateAndTime = thingAboutSubQuery.findSameWeekdayAndTimeZoneBetweenMatchedPeople(revieweeInfo, MatchedReviewerId);
                 
                 console.log(MatchedDateAndTime.weekday.concat(MatchedDateAndTime.time));
                 
@@ -231,7 +214,7 @@ ROUTER.post('/review-groups', async(req, res) => {
                 console.log(revieweeInfo.ID_PK);
                 // 8. 매칭된 두 사람(리뷰이와, 리뷰어)은 대기열 목록에서 지워짐
                 // 9. 그런 다음 CODEREVIEW_ACT_INFO_TB에 두 사람의 데이터를 집어야함
-                await Promise.all([MATCHING.deleteRevieweeFromQueue(revieweeInfo.ID_PK), MATCHING.deleteReviewerFromQueue(root.id), MATCHING.setReviewActInfo(matchingData)])
+                await Promise.all([matching.deleteRevieweeFromQueue(revieweeInfo.ID_PK), matching.deleteReviewerFromQueue(root.id), matching.setReviewActInfo(matchingData)])
                 .catch((err) => {
                     console.log(err);
                 })
@@ -249,4 +232,4 @@ ROUTER.post('/review-groups', async(req, res) => {
         })
 })
 
-module.exports = ROUTER;
+module.exports = router;
