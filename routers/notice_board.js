@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const noticeboard = require('../models/noticeBoard');
+const noticeboard = require('../models/notice_board');
 
 
 router.get('/', async(req, res) => {
