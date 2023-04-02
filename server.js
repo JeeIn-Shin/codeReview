@@ -54,6 +54,8 @@ const matchingRouter = require("./routers/matching");
 const chatRouter = require("./routers/chat");
 const noticeBoardRouter = require('./routers/notice_board');
 const loginRouter = require('./routers/login');
+const logoutRouter = require('./routers/logout');
+const guestbookRouter = require('./routers/guestbook');
 
 app.set('port', process.env.PORT || 8080);
 
@@ -64,13 +66,14 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','html');
 app.engine('html', require('ejs').__express);
 
-
 app.use('/settings', settingsRouter);
 app.use('/signup', signupRouter);
 app.use('/review-group', matchingRouter);
 app.use('/direct', chatRouter);
-app.use('/notice', noticeBoardRouter)
-app.use('/login', loginRouter)
+app.use('/notice', noticeBoardRouter);
+app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
+app.use('/guestbook', guestbookRouter);
 
 app.listen(app.get('port'), () => {
     console.log(app.get('port'), "빈 포트에서 대기");

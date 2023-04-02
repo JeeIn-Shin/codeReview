@@ -29,8 +29,8 @@ const user = {
 
 
     //회원가입단
-    signUp : {
-        setUserInfo : (userInfo, languageInfo, activityInfo) => {
+    signUp: {
+        setUserInfo: (userInfo, languageInfo, activityInfo) => {
             return new Promise((resolve, reject) => {
                 let user = Object.values(userInfo);
                 let language = Object.values(languageInfo);
@@ -38,25 +38,25 @@ const user = {
 
                 db.getConnection((err, connection) => {
                     connection.beginTransaction((err) => {
-                        if(!err)    {
+                        if (!err) {
                             let sql1 = `INSERT INTO USER_TB VALUES ( ID_PK, ?)`;
                             let sql2 = `INSERT INTO LANGUAGE_TB VALUES ( ? )`;
                             let sql3 = `INSERT INTO ACTIVITY_TB VALUES (?)`;
-                            
+
                             connection.query(sql1, [user], (err, res) => {
-                                if(err)
+                                if (err)
                                     return connection.rollback(() => { throw err });
 
                                 connection.query(sql2, [language], (err, res) => {
-                                    if(err)
+                                    if (err)
                                         return connection.rollback(() => { throw err });
-                                    
+
                                     connection.query(sql3, [activity], (err, res) => {
-                                        if(err)
+                                        if (err)
                                             return connection.rollback(() => { throw err });
-                                        
+
                                         connection.commit((err) => {
-                                            if(err)
+                                            if (err)
                                                 return connection.rollback(() => { throw err });
                                         })
                                         resolve(res);
@@ -64,7 +64,7 @@ const user = {
                                 })
                             })
                         }
-                        else    {
+                        else {
                             console.log("connection error" + err)
                             throw err;
                         }
@@ -76,25 +76,25 @@ const user = {
     },
 
     //로그인
-    signIn : {
-        getUserById : (id) => {
+    signIn: {
+        getUserById: (id) => {
             return new Promise((resolve, reject) => {
                 db.getConnection((err, connection) => {
-                    if(!err)    {
+                    if (!err) {
                         let sql = `SELECT ID, PASSWORD, NICKNAME, IS_ADMIN FROM USER_TB
                                    WHERE ID LIKE '${id}'`;
-        
+
                         connection.query(sql, (err, res) => {
                             connection.release();
-        
-                            if(err) {
+
+                            if (err) {
                                 console.log("sql error " + err);
                                 reject(err);
                             }
                             resolve(res[0]);
                         })
                     }
-                    else    {
+                    else {
                         console.log("connection error" + err)
                         throw err;
                     }
@@ -102,7 +102,28 @@ const user = {
             })
 
         },
-    },
+
+        getUserPK: (id, result) => {
+            db.getConnection((err, connection) => {
+                if (!err) {
+                    let sql = `SELECT ID_PK FROM USER_TB WHERE ID LIKE '${id}'`;
+                    connection.query(sql, (err, res) => {
+                        connection.release();
+
+                        if (err) {
+                            console.log("sql error " + err);
+                            return result(null, err);
+                        }
+                        return result(res[0].ID_PK, null);
+                    })
+                }
+                else {
+                    console.log("connection error" + err)
+                    throw err;
+                }
+            })
+        }
+    }
 }
 
 

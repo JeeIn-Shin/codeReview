@@ -14,6 +14,33 @@ router.get('/', async (req, res) => {
     res.render('signup/signup');
 })
 
+//test admin 생성용
+// {
+//     "id" : "admin",
+//     "pwd" : "1234",
+//     "profileImgNumber" : "0",
+//     "nickname" : "admin",
+//     "email" : "test@test.ac.kr",
+//     "github" : "http://localhost:8080/test",
+//     "is_admin" : 1,
+//     "authentication" : 1,
+//     "c" : 0,
+//     "cPlus" : 0,
+//     "cSharp" : 0,
+//     "java" : 0,
+//     "kotlin" : 0,
+//     "swift" : 0,
+//     "python" : 0,
+//     "go" : 0,
+//     "javascript" : 0,
+//     "rust" : 0,
+//     "ruby" :0,
+//     "codereview" : 0,
+//     "refactoring" : 0,
+//     "qa" : 0
+// }
+
+
 // http://localhost:8080/signup
 router.post('/', async (req, res) => {
     let userInfo = {
