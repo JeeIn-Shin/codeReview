@@ -11,7 +11,7 @@ module.exports = () => {
         passReqToCallback: false
     }, (id, pwd, done) => {
         client.signIn.getUserById(id)
-            .then((user) => { // { id : "" , password : "" }
+            .then((user) => {
                 if (user === undefined) {
                     return done(null, false, { message: 'Not admin' });
                 }
