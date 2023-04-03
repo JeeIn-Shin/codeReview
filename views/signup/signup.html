@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../../public/assets/css/normalize.css">
 	<link rel="stylesheet" href="../../public/style.css">
 	<link rel="stylesheet" href="../../public/assets/css/responsive.css">
+    <link rel="stylesheet" href="../../public/assets/css/profile.css">
 
 </head>
 <body>
@@ -36,7 +37,7 @@
                                 <h2 class="title">회원가입</h2>
                                 <div class="survey-progress-bar">
                                     <div class="step">
-                                        <p>정보</p>
+                                        <p>회원정보</p>
                                         <div class="bullet">
                                             <span>1</span>
                                         </div>
@@ -48,13 +49,13 @@
                                         </div>
                                     </div>
                                     <div class="step">
-                                        <p>언어선택</p>
+                                        <p>언어 선택</p>
                                         <div class="bullet">
                                             <span>3</span>
                                         </div>
                                     </div>
                                     <div class="step">
-                                        <p>가입성공</p>
+                                        <p>가입 완료</p>
                                         <div class="bullet">
                                             <span>4</span>
                                         </div>
@@ -85,14 +86,14 @@
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
                                                         <label for="password">비밀번호</label>
-                                                        <input type="text" id="password" name="password" required placeholder="8~16자리 영문 대소문자,숫자,특수문자 조합" />
+                                                        <input type="password" id="password" name="password" required placeholder="8~16자리 영문 대소문자,숫자,특수문자 조합" />
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
                                                         <label for="passwordch">비밀번호확인</label>
-                                                        <input type="text" id="passwordch" name="passwordch" required placeholder="동일하게 입력" />
+                                                        <input type="password" id="passwordch" name="passwordch" required placeholder="동일하게 입력" />
                                                     </div>
                                                 </div>
 
@@ -129,35 +130,37 @@
                                                 
                                             </div>
                                             <div class="single-field mb-20">
-                                                <button class="firstNext button1 next">Next <i class="fas fa-angle-double-right"></i></button>
+                                                <button class="firstNext button1 next">다음 <i class="fas fa-angle-double-right"></i></button>
                                             </div>
                                         </div>
 
                                         <div class="page">
+
                                             <div class="title">
-                                                <strong>Please rate your overall satisfaction about the service provided.</strong>
+                                                <strong>프로필을 선택해주세요.</strong>
                                             </div>
-                                            <div class="single-field radio">
-                                                <p>
-                                                    <input type="radio" required id="test1" value="Not Satisfied" name="satisfaction">
-                                                    <label for="test1">Not Satisfied</label>
-                                                </p>
-                                                <p>
-                                                    <input type="radio" value="Quite Satisfied" id="test2" name="satisfaction">
-                                                    <label for="test2">Quite Satisfied</label>
-                                                </p>
-                                                <p>
-                                                    <input type="radio" value="Satisfied" id="test3" name="satisfaction">
-                                                    <label for="test3">Satisfied</label>
-                                                </p>
-                                                <p>
-                                                    <input type="radio" id="test4" value="Completely Satisfied" name="satisfaction">
-                                                    <label for="test4">Completely Satisfied</label>
-                                                </p>
+
+                                            <div class="profile_select">
+                                                <button type="submit">
+                                                    <img src="../../public/assets/img/profile1.png" alt="img error">
+                                                </button>
+
+                                                <button type="submit">
+                                                    <img src="../../public/assets/img/profile2.png" alt="img error">
+                                                </button>
+
+                                                <button type="submit">
+                                                    <img src="../../public/assets/img/profile3.png" alt="img error">
+                                                </button>
+
+                                                <button type="submit">
+                                                    <img src="../../public/assets/img/profile4.png" alt="img error">
+                                                </button>
                                             </div>
-                                            <div class="field btns">
-                                                <button class="prev-1 button1 mr-20 bg prev"><i class="fas fa-angle-double-left"></i> Previous</button>
-                                                <button class="next-1 button1 next">Next <i class="fas fa-angle-double-right"></i></button>
+
+                                            <div class="field_btns">
+                                                <button class="prev-1 button1 mr-20 bg prev"><i class="fas fa-angle-double-left"></i> 이전</button>
+                                                <button class="next-1 button1 next">다음 <i class="fas fa-angle-double-right"></i></button>
                                             </div>
                                         </div>
                                         <div class="page">
