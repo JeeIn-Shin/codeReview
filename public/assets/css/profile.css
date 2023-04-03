@@ -3,7 +3,7 @@
 }
 
 
-.profile_select > button{
+.profile_select > div > button{
 
     border: none;
     border-radius: 100px;
@@ -17,10 +17,12 @@
     float: left;
 }
 
-.profile_select > button:hover {
+.profile_select > div > button.active,
+.profile_select > div > button:hover {
         background-color:#cfcfcf;
         transition: 0.7s;
-    }
+}
+
 
 .field_btns {
     height: 100px;

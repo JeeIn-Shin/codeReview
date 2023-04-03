@@ -64,7 +64,7 @@
                             </div>
                             <div class="survy-form-outer-full">
                                 <div class="survy-form-outer">
-                                    <form id="contact-form" action="mail.php" method="POST">
+                                    <form id="contact-form" action="" method="post">
                                         <div class="page slide-page">
                                             <div class="title"><strong>회원가입 정보를 입력해주세요.</strong></div>
                                             <div class="row">
@@ -141,21 +141,30 @@
                                             </div>
 
                                             <div class="profile_select">
-                                                <button type="submit">
-                                                    <img src="../../public/assets/img/profile1.png" alt="img error">
-                                                </button>
+                                                <div class="profile01">
+                                                    <button class='button' onclick="select(event)">
+                                                        <img src="../../public/assets/img/profile1.png" alt="img error">
+                                                    </button>
+                                                </div>
 
-                                                <button type="submit">
-                                                    <img src="../../public/assets/img/profile2.png" alt="img error">
-                                                </button>
+                                                <div class="profile02">
+                                                    <button class='button' onclick="select(event)">
+                                                        <img src="../../public/assets/img/profile2.png" alt="img error">
+                                                    </button>
+                                                </div>
+                                                
+                                                <div class="profile03">
+                                                    <button class='button' onclick="select(event)">
+                                                        <img src="../../public/assets/img/profile3.png" alt="img error">
+                                                    </button>
+                                                </div>
 
-                                                <button type="submit">
-                                                    <img src="../../public/assets/img/profile3.png" alt="img error">
-                                                </button>
+                                                <div class="profile04">
+                                                    <button class='button' onclick="select(event)">
+                                                        <img src="../../public/assets/img/profile4.png" alt="img error">
+                                                    </button>
+                                                </div>
 
-                                                <button type="submit">
-                                                    <img src="../../public/assets/img/profile4.png" alt="img error">
-                                                </button>
                                             </div>
 
                                             <div class="field_btns">
@@ -216,5 +225,7 @@
     <script src="../../public/assets/js/jquery.nice-select.min.js"></script>
     <script src="../../public/assets/js/script.js"></script>
     <script src="../../public/assets/js/multifrom.js"></script>
+    <script src="../../public/assets/js/profile.js"></script>
+
 </body>
 </html>
