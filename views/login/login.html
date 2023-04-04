@@ -5,44 +5,87 @@
     <meta charset="UTF=8">
     <title>HOME</title>
     <link rel="stylesheet" href="CSS/style.css" />
+    
+	<link rel="stylesheet" href="../../public/assets/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../../public/assets/css/fontawesome.all.min.css">
+	<link rel="stylesheet" href="../../public/assets/css/nice-select.css">
+    <link rel="stylesheet" href="../../public/assets/css/normalize.css">
+	<link rel="stylesheet" href="../../public/style.css">
+	<link rel="stylesheet" href="../../public/assets/css/responsive.css">
+    <link rel="stylesheet" href="../../public/assets/css/profile.css">
+    <link rel="stylesheet" href="../../public/assets/css/login.css">
+    
+</head>
 </head>
 
 <body>
 
     <main>
 
-    <form method="post" id="login" action="">      
-        <div class="boxlogin">
-
-            <div class="mainlogin">
-                <input type="text" id="idlogin" name="idlogin" value="" placeholder="아이디(ID)" autocomplete="on"> <!--아이디 입력-->
+        <div class="preloader" id="preloader">
+            <svg id="loader" width="100%" height="100%">
+            <path id="corners" d="m 0 12.5 l 0 -12.5 l 50 0 l 0 50 l -50 0 l 0 -37.5" />
+            <path id="L" d="m 18 9 l 0 30 l 16 0" />
+            </svg>
+        </div>
+        <!-- Start Servey From Section -->
+        <section class="survey-from-full" style="background-image: url('assets/img/slider1.jpg');">
+            <div class="survey-from-full-bg-overly">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 align-self-center">
+                            <div class="survey-from-full-main">
+                                <div class="survy-form-outer-full">
+                                    <div class="survy-form-outer">
+                                        <form id="contact-form" action="" method="POST">
+                                            <div class="page slide-page">
+                                                <div class="title"><strong>CodeReview</strong></div>
+                                                <div class="row">     
+                                                        <div class="boxlogin">
+                                                            <div class="col-sm-61">
+                                                                <div class="single-field1">
+                                                                    <input type="text" id="idlogin" name="idlogin" value="" placeholder="아이디(ID)" autocomplete="on"> <!--아이디 입력-->
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-61"> 
+                                                                <div class="single-field1">
+                                                                    <input type="password" id="pslogin" name="palogin" value="" placeholder="비밀번호(Password)"> <!--비밀번호 입력-->
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                </div>
+                                                <div class="field btns np-btn-success">
+                                                    <button type="submit" class="button1 submit">로그인</button>
+                                                    <button class="prev-3 button1 mr-20 bg prev" onclick="location.href='../signup/signup.html'">회원가입</button>
+                                                    <div class="findtx">              
+                                                        <a href="../password/password.html" class="fidnps" target="_blank">비밀번호찾기</a>
+                                                    </div> 
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <div class="mainlogin">
-                <input type="password" id="pslogin" name="palogin" value="" placeholder="비밀번호(Password)"> <!--비밀번호 입력-->
-        
-        <div class="btbox">
-            <span class="loginbt">
-                <button type="button" onclick="location.href=''" >로그인</button>
-            </span>
-
-            <span class="joinbt">
-                <button type="button" onclick="location.href='../signup/signup.html'">회원가입</button>
-            </span>
-        </div>
-
-            <span class="findtx">              
-                <a href="../password/password.html" class="fidnps" target="_blank">비밀번호찾기</a>
-            </span>
- 
-
-
-            <div class="back_sang"></div> 
-        </div>
-
-    </form>
+        </section>
 
     </main>
+
+        <!-- Js File -->
+        <script src="../../public/assets/js/modernizr.min.js"></script>
+        <script src="../../public/assets/js/jquery-3.6.0.min.js"></script>
+        <script src="../../public/assets/js/popper.min.js"></script>
+        <script src="../../public/assets/js/bootstrap.min.js"></script>
+        <script src="../../public/assets/js/jquery.nice-select.min.js"></script>
+        <script src="../../public/assets/js/script.js"></script>
+        <script src="../../public/assets/js/multifrom.js"></script>
+        <script src="../../public/assets/js/profile.js"></script>
+    
 </body>
+
+
 
 </html>
