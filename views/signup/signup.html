@@ -71,29 +71,29 @@
 
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
-                                                        <label for="joinnum">아이디(학번)</label>
-                                                        <input type="text" oninput="this.value=this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="joinnum" name="joinnum" placeholder="ex) 2071018"  maxlength="7" autocomplete="on">
+                                                        <label for="id">아이디(학번)</label>
+                                                        <input type="text" oninput="this.value=this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="joinnum" name="id" placeholder="ex) 2071018"  maxlength="7" autocomplete="on">
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
-                                                        <label for="last_name">닉네임</label>
-                                                        <input type="text" id="last_name" name="last_name" placeholder="10글자 이하로 입력" maxlength="8" autocomplete="off" required />
+                                                        <label for="nickname">닉네임</label>
+                                                        <input type="text" id="last_name" name="nickname" placeholder="10글자 이하로 입력" maxlength="8" autocomplete="off" required />
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
-                                                        <label for="password">비밀번호</label>
-                                                        <input type="password" id="password" name="password" required placeholder="8~16자리 영문 대소문자,숫자,특수문자 조합" />
+                                                        <label for="pwd">비밀번호</label>
+                                                        <input type="password" id="password" required placeholder="8~16자리 영문 대소문자,숫자,특수문자 조합" />
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
-                                                        <label for="passwordch">비밀번호확인</label>
-                                                        <input type="password" id="passwordch" name="passwordch" required placeholder="동일하게 입력" />
+                                                        <label for="pwd">비밀번호확인</label>
+                                                        <input type="password" id="passwordch" name="pwd" required placeholder="동일하게 입력" />
                                                     </div>
                                                 </div>
 
@@ -107,7 +107,7 @@
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
                                                         <label for="github">깃허브</label>
-                                                        <input type="text" id="gitgub" name="github" required placeholder="https://github.com/" />
+                                                        <input type="text" id="github" name="github" required placeholder="https://github.com/" />
                                                     </div>
                                                 </div>
 
@@ -142,29 +142,29 @@
 
                                             <div class="profile_select">
                                                 <div class="profile01">
-                                                    <button class='button' onclick="select(event)">
-                                                        <img src="../../public/assets/img/profile1.png" alt="img error" >
+                                                    <button class='button' type="button" onclick="select(event)">
+                                                        <img src="../../public/assets/img/profile1.png" alt="img error">
                                                     </button>
                                                 </div>
 
                                                 <div class="profile02">
-                                                    <button class='button' onclick="select(event)">
+                                                    <button class='button' type="button" onclick="select(event)">
                                                         <img src="../../public/assets/img/profile2.png" alt="img error">
                                                     </button>
                                                 </div>
                                                 
                                                 <div class="profile03">
-                                                    <button class='button' onclick="select(event)">
+                                                    <button class='button' type="button" onclick="select(event)">
                                                         <img src="../../public/assets/img/profile3.png" alt="img error">
                                                     </button>
                                                 </div>
 
                                                 <div class="profile04">
-                                                    <button class='button' onclick="select(event)">
+                                                    <button class='button' type="button" onclick="select(event)">
                                                         <img src="../../public/assets/img/profile4.png" alt="img error">
                                                     </button>
                                                 </div>
-
+                                                <input value="" type="text" name="profileImgNumber">
                                             </div>
 
                                             <div class="field_btns">
@@ -179,49 +179,49 @@
                                             <div class="language_select">
                                                     <div class="listselect1">
                                                         <p><strong>개발 경험이 많은 언어</strong></p>
-                                                        <input type="checkbox" name="C" checked> C
-                                                        <input type="checkbox" name="CPLUS" > C+
-                                                        <input type="checkbox" name="CSHARP" > C#
-                                                        <input type="checkbox" name="JAVA" > JAVA
-                                                        <input type="checkbox" name="KOTLIN" > Kotiln
-                                                        <input type="checkbox" name="SWIFT" > Swift
-                                                        <input type="checkbox" name="PYTHON" > Python
-                                                        <input type="checkbox" name="GO" > GO
-                                                        <input type="checkbox" name="JAVASCRIPT" > JavaScript
-                                                        <input type="checkbox" name="RUST" > Rust
-                                                        <input type="checkbox" name="RUBY" > Ruby
+                                                        <input type="checkbox" name="c" checked> C
+                                                        <input type="checkbox" name="cPlus" > C+
+                                                        <input type="checkbox" name="cSharp" > C#
+                                                        <input type="checkbox" name="java" > JAVA
+                                                        <input type="checkbox" name="kotlin" > Kotiln
+                                                        <input type="checkbox" name="swift" > Swift
+                                                        <input type="checkbox" name="python" > Python
+                                                        <input type="checkbox" name="go" > GO
+                                                        <input type="checkbox" name="javascript" > JavaScript
+                                                        <input type="checkbox" name="rust" > Rust
+                                                        <input type="checkbox" name="ruby" > Ruby
 
                                                     </div>
 
                                                     <div class="listselect2">
                                                         <p><strong>개발 경험이 있는 언어</strong></p>
-                                                        <input type="checkbox" name="C" checked> C
-                                                        <input type="checkbox" name="CPLUS" > C+
-                                                        <input type="checkbox" name="CSHARP" > C#
-                                                        <input type="checkbox" name="JAVA" > JAVA
-                                                        <input type="checkbox" name="KOTLIN" > Kotiln
-                                                        <input type="checkbox" name="SWIFT" > Swift
-                                                        <input type="checkbox" name="PYTHON" > Python
-                                                        <input type="checkbox" name="GO" > GO
-                                                        <input type="checkbox" name="JAVASCRIPT" > JavaScript
-                                                        <input type="checkbox" name="RUST" > Rust
-                                                        <input type="checkbox" name="RUBY" > Ruby
+                                                        <input type="checkbox" name="c" checked> C
+                                                        <input type="checkbox" name="cPlus" > C+
+                                                        <input type="checkbox" name="cSharp" > C#
+                                                        <input type="checkbox" name="java" > JAVA
+                                                        <input type="checkbox" name="kotlin" > Kotiln
+                                                        <input type="checkbox" name="swift" > Swift
+                                                        <input type="checkbox" name="python" > Python
+                                                        <input type="checkbox" name="go" > GO
+                                                        <input type="checkbox" name="javascript" > JavaScript
+                                                        <input type="checkbox" name="rust" > Rust
+                                                        <input type="checkbox" name="ruby" > Ruby
 
                                                     </div>
 
                                                     <div class="listselect3">
                                                         <p><strong>개발 경험이 없는 언어</strong></p>
-                                                        <input type="checkbox" name="C" checked> C 
-                                                        <input type="checkbox" name="CPLUS" > C+ 
-                                                        <input type="checkbox" name="CSHARP" > C# 
-                                                        <input type="checkbox" name="JAVA" > JAVA 
-                                                        <input type="checkbox" name="KOTLIN" > Kotiln 
-                                                        <input type="checkbox" name="SWIFT" > Swift 
-                                                        <input type="checkbox" name="PYTHON" > Python 
-                                                        <input type="checkbox" name="GO" > GO 
-                                                        <input type="checkbox" name="JAVASCRIPT" > JavaScript 
-                                                        <input type="checkbox" name="RUST" > Rust 
-                                                        <input type="checkbox" name="RUBY" > Ruby 
+                                                        <input type="checkbox" name="c" checked> C
+                                                        <input type="checkbox" name="cPlus" > C+
+                                                        <input type="checkbox" name="cSharp" > C#
+                                                        <input type="checkbox" name="java" > JAVA
+                                                        <input type="checkbox" name="kotlin" > Kotiln
+                                                        <input type="checkbox" name="swift" > Swift
+                                                        <input type="checkbox" name="python" > Python
+                                                        <input type="checkbox" name="go" > GO
+                                                        <input type="checkbox" name="javascript" > JavaScript
+                                                        <input type="checkbox" name="rust" > Rust
+                                                        <input type="checkbox" name="ruby" > Ruby
                                                     </div>
                                             </div>
                                             <div class="field_btns">

@@ -1,16 +1,18 @@
 
 
-function select(e) { //이미지 버튼 클릭시 색상 변경 저장 함수
+function select(e)  //이미지 버튼 클릭시 색상 변경 저장 함수
+{
     var btns = document.querySelectorAll(".button");
     btns.forEach(function (btn, i) {
         if (e.currentTarget == btn) 
         {
             btn.classList.add("active");
+            $('input[name=profileImgNumber]').attr('value',(i+1).toString());
         } 
         else 
         {
-        btn.classList.remove("active");
+            btn.classList.remove("active");
         }
     });
     console.log(e.currentTarget);
-  }
+}
