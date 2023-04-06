@@ -70,11 +70,12 @@ function displayNotice(data) {
   console.log("data.title: ", data[0].TITLE);
 
   let noticewriter = document.getElementById("noticewriter");
-  noticewriter.textContent = data[0].WRITER;
+  noticewriter.textContent = " " + data[0].WRITER;
   console.log("data.writer: ", data[0].WRITER);
+  //
 
   let noticedate = document.getElementById("noticedate");
-  noticedate.textContent = data[0].DATE;
+  noticedate.textContent = " " + data[0].DATE;
   console.log("data.date: ", data[0].DATE);
 
   let noticedetails = document.getElementById("noticedetails");

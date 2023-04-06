@@ -581,3 +581,8 @@ function createPostElement(data, i) {
   gridInnerDiv.appendChild(br);
   gridInnerDiv.appendChild(entryButtonDiv);
 }
+
+// 떠날 때 localStorage에 저장된 데이터 삭제 >로그아웃 시 삭제로 대체할 예정
+window.onbeforeunload = function () {
+  localStorage.clear();
+};
