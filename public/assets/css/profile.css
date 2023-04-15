@@ -33,61 +33,7 @@
 
 
 
-/*체크 박스 css*/
-.listselect1 > input[type="checkbox"] {
-    margin-left: 6px;
-    padding: 0px;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    border: 1px solid #999;
-    appearance: none;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.listselect1 > input[type="checkbox"]:checked {
-    background: #042D6F;
-    border: none;
-}
-
-
-
-.listselect2 > input[type="checkbox"] {
-    margin-left: 6px;
-    padding: 0px;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    border: 1px solid #999;
-    appearance: none;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.listselect2 > input[type="checkbox"]:checked {
-    background: #042D6F;
-    border: none;
-}
-
-
-
-.listselect3 > input[type="checkbox"] {
-    margin-left: 6px;
-    padding: 0px;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 50%;
-    border: 1px solid #999;
-    appearance: none;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.listselect3 > input[type="checkbox"]:checked {
-    background: #042D6F;
-    border: none;
-}
+/*라디오 박스 css*/
 
 .language_select {
     margin-top: 0px;
@@ -97,16 +43,23 @@
 }
 
 .listselect1 {
-    padding-top: 10px;
-    padding-bottom: 30px;
+    padding-top: 15px;
+    padding-bottom: 10px;
 }
 
 .listselect2 {
     padding-top: 10px;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
 }
 
 .listselect3 {
     padding-top: 10px;
-    padding-bottom: 30px;
+    padding-bottom: 10px;
+}
+
+.active_selectone {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    padding-top: 210px;
+    
 }

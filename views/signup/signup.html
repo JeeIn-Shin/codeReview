@@ -108,6 +108,7 @@
                                                     <div class="single-field">
                                                         <label for="github">깃허브</label>
                                                         <input type="text" id="github" name="github" required placeholder="https://github.com/" />
+                                                        
                                                     </div>
                                                 </div>
 
@@ -164,7 +165,7 @@
                                                         <img src="../../public/assets/img/profile4.png" alt="img error">
                                                     </button>
                                                 </div>
-                                                <input value="" type="text" name="profileImgNumber">
+                                                <input value="" type="hidden" name="profileImgNumber">
                                             </div>
 
                                             <div class="field_btns">
@@ -173,56 +174,101 @@
                                             </div>
                                         </div>
                                         <div class="page">
-                                            <div class="title">
-                                                <strong>언어 설정을 체크 해주세요.</strong>
-                                            </div>
                                             <div class="language_select">
+                                                <p><strong><span style="color: rgb(255, 81, 81);">언어 설정</span>을 선택 해주세요.</strong></p>
                                                     <div class="listselect1">
-                                                        <p><strong>개발 경험이 많은 언어</strong></p>
-                                                        <input type="checkbox" name="c" checked> C
-                                                        <input type="checkbox" name="cPlus" > C+
-                                                        <input type="checkbox" name="cSharp" > C#
-                                                        <input type="checkbox" name="java" > JAVA
-                                                        <input type="checkbox" name="kotlin" > Kotiln
-                                                        <input type="checkbox" name="swift" > Swift
-                                                        <input type="checkbox" name="python" > Python
-                                                        <input type="checkbox" name="go" > GO
-                                                        <input type="checkbox" name="javascript" > JavaScript
-                                                        <input type="checkbox" name="rust" > Rust
-                                                        <input type="checkbox" name="ruby" > Ruby
-
+                                                        <p><strong>- 개발 경험이 많은 언어</strong></p>
+                                                        <div class="radiobox">
+                                                        <input type="radio" name="c" id="c" checked> 
+                                                            <label for='c'>C</label>
+                                                        <input type="radio" name="cPlus" id="cPlus">
+                                                            <label for='cPlus'>C++</label>
+                                                        <input type="radio" name="cSharp" id="cSharp">
+                                                            <label for='cSharp'>C#</label>
+                                                        <input type="radio" name="java" id="java">
+                                                            <label for='java'>JAVA</label>
+                                                        <input type="radio" name="kotlin" id="kotlin">
+                                                            <label for='kotlin'>Kotiln</label>
+                                                        <input type="radio" name="swift" id="swift">
+                                                            <label for='swift'>Swift</label>
+                                                        <input type="radio" name="python" id="python">
+                                                            <label for='python'>Python</label>
+                                                        <input type="radio" name="go" id="go" >
+                                                            <label for='go'>GO</label>
+                                                        <input type="radio" name="javascript" id="javaScript" >
+                                                            <label for='javaScript'>JavaScript</label>
+                                                        <input type="radio" name="rust" id="rust">
+                                                            <label for='rust'>Rust</label>
+                                                        <input type="radio" name="ruby" id="ruby">
+                                                            <label for='ruby'>Ruby</label>    
+                                                        </div>
                                                     </div>
 
                                                     <div class="listselect2">
-                                                        <p><strong>개발 경험이 있는 언어</strong></p>
-                                                        <input type="checkbox" name="c" checked> C
-                                                        <input type="checkbox" name="cPlus" > C+
-                                                        <input type="checkbox" name="cSharp" > C#
-                                                        <input type="checkbox" name="java" > JAVA
-                                                        <input type="checkbox" name="kotlin" > Kotiln
-                                                        <input type="checkbox" name="swift" > Swift
-                                                        <input type="checkbox" name="python" > Python
-                                                        <input type="checkbox" name="go" > GO
-                                                        <input type="checkbox" name="javascript" > JavaScript
-                                                        <input type="checkbox" name="rust" > Rust
-                                                        <input type="checkbox" name="ruby" > Ruby
+                                                        <p><strong>- 개발 경험이 있는 언어</strong></p>
+                                                        <input type="radio" name="c" id="c2" checked> 
+                                                            <label for='c2'>C</label>
+                                                        <input type="radio" name="cPlus" id="cPlus2">
+                                                            <label for='cPlus2'>C++</label>
+                                                        <input type="radio" name="cSharp" id="cSharp2">
+                                                            <label for='cSharp2'>C#</label>
+                                                        <input type="radio" name="java" id="java2">
+                                                            <label for='java2'>JAVA</label>
+                                                        <input type="radio" name="kotlin" id="kotlin2">
+                                                            <label for='kotlin2'>Kotiln</label>
+                                                        <input type="radio" name="swift" id="swift2">
+                                                            <label for='swift2'>Swift</label>
+                                                        <input type="radio" name="python" id="python2">
+                                                            <label for='python2'>Python</label>
+                                                        <input type="radio" name="go" id="go2" >
+                                                            <label for='go2'>GO</label>
+                                                        <input type="radio" name="javascript" id="javaScript2" >
+                                                            <label for='javaScript2'>JavaScript</label>
+                                                        <input type="radio" name="rust" id="rust2"> 
+                                                            <label for='rust2'>Rust</label>
+                                                        <input type="radio" name="ruby" id="ruby2">
+                                                            <label for='ruby2'>Ruby</label> 
 
                                                     </div>
-
                                                     <div class="listselect3">
-                                                        <p><strong>개발 경험이 없는 언어</strong></p>
-                                                        <input type="checkbox" name="c" checked> C
-                                                        <input type="checkbox" name="cPlus" > C+
-                                                        <input type="checkbox" name="cSharp" > C#
-                                                        <input type="checkbox" name="java" > JAVA
-                                                        <input type="checkbox" name="kotlin" > Kotiln
-                                                        <input type="checkbox" name="swift" > Swift
-                                                        <input type="checkbox" name="python" > Python
-                                                        <input type="checkbox" name="go" > GO
-                                                        <input type="checkbox" name="javascript" > JavaScript
-                                                        <input type="checkbox" name="rust" > Rust
-                                                        <input type="checkbox" name="ruby" > Ruby
+                                                        <p><strong>- 개발 경험이 없는 언어</strong></p>
+                                                        <input type="radio" name="c" id="c3" checked> 
+                                                            <label for='c3'>C</label>
+                                                        <input type="radio" name="cPlus" id="cPlus3">
+                                                            <label for='cPlus3'>C++</label>
+                                                        <input type="radio" name="cSharp" id="cSharp3">
+                                                            <label for='cSharp3'>C#</label>
+                                                        <input type="radio" name="java" id="java3">
+                                                            <label for='java3'>JAVA</label>
+                                                        <input type="radio" name="kotlin" id="kotlin3">
+                                                            <label for='kotlin3'>Kotiln</label>
+                                                        <input type="radio" name="swift" id="swift3">
+                                                            <label for='swift3'>Swift</label>
+                                                        <input type="radio" name="python" id="python3">
+                                                            <label for='python3'>Python</label>
+                                                        <input type="radio" name="go" id="go3" >
+                                                            <label for='go3'>GO</label>
+                                                        <input type="radio" name="javascript" id="javaScript3" >
+                                                            <label for='javaScript3'>JavaScript</label>
+                                                        <input type="radio" name="rust" id="rust3">
+                                                            <label for='rust3'>Rust</label>
+                                                        <input type="radio" name="ruby" id="ruby3">
+                                                            <label for='ruby3'>Ruby</label> 
                                                     </div>
+                                                    
+                                            </div>
+                                            
+                                            <div class="language_select">
+                                                <div class="active_selectone">
+                                                    <p><strong><span style="color: rgb(255, 81, 81);">활동 설정</span>을 선택 해주세요.</strong></p>
+                                                    <input type="radio" name="active" value="COODERRIVIEW" id="codereivew1">
+                                                        <label for="codereivew1">코드 리뷰</label>
+                                                    <input type="radio" name="active" value="REPACTORING" id="repactoring1">
+                                                        <label for="repactoring1">코드 수정</label>
+                                                    <input type="radio" name="active" value="QA" id="qa1">
+                                                        <label for="qa1">코드 검증</label>
+ 
+                                                </div>
                                             </div>
                                             <div class="field_btns">
                                                 <button class="prev-2 button1 mr-20 bg prev"><i class="fas fa-angle-double-left"></i> 이전</button>
