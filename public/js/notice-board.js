@@ -462,7 +462,7 @@ function createPostElement(data, i) {
   entryTitleDiv.classList.add("entry-title");
   const heading = document.createElement("h2");
   const titleAnchor = document.createElement("a");
-  titleAnchor.target = "_blank";
+  titleAnchor.target = "_self";
   titleAnchor.href = "notice.html"; // 게시글 링크
   titleAnchor.textContent = data[i - 1].TITLE; // 게시글 제목
 
@@ -519,7 +519,7 @@ function createPostElement(data, i) {
   readMoreDiv.classList.add("read-more");
 
   const readMoreAnchor = document.createElement("a");
-  readMoreAnchor.target = "_blank";
+  readMoreAnchor.target = "_self";
   readMoreAnchor.href = "notice.html";
   readMoreAnchor.classList.add("more-link");
   readMoreAnchor.textContent = "Read More";
@@ -538,7 +538,7 @@ function createPostElement(data, i) {
   //관리자일 때만 게시글 수정, 삭제 버튼 생성
   if (isAdmin) {
     const modifyaAnchor = document.createElement("a");
-    modifyaAnchor.target = "_blank";
+    modifyaAnchor.target = "_self";
     modifyaAnchor.href = "notice-write.html";
     modifyaAnchor.classList.add("btn", "btn-primary");
     modifyaAnchor.textContent = "수정";
@@ -583,6 +583,7 @@ function createPostElement(data, i) {
 }
 
 // 떠날 때 localStorage에 저장된 데이터 삭제 >로그아웃 시 삭제로 대체할 예정
-window.onbeforeunload = function () {
+/* window.onbeforeunload = function () {
   localStorage.clear();
 };
+ */
