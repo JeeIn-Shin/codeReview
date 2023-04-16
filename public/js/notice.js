@@ -23,7 +23,7 @@ console.log("current_block: ", current_block);
 //관리자면 id가 put, delete인 버튼을 보여준다.
 if (isAdmin) {
   putbtn.style.display = "inline-block";
-  putbtn.addEventListener("click", function () {
+  putbtn.addEventListener("mouseover", function () {
     localStorage.setItem("post_mode", "modify");
     localStorage.setItem("post_id", post_id);
   });
