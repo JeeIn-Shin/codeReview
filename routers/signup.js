@@ -40,9 +40,9 @@ router.get('/', async (req, res) => {
 //     "qa" : 0
 // }
 
-
 // http://localhost:8080/signup
 router.post('/', async (req, res) => {
+    console.log(req.body);
     let userInfo = {
         id : req.body.id,
         encryptPwd : await bcrypt.hash(req.body.pwd, 12),

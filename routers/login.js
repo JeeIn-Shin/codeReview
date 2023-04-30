@@ -2,15 +2,14 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const handleResponse = require('../others/handleResponse');
-const { isNotLoggedIn } = require('./middleware');
-require('express-session');
+const jwt = require('jsonwebtoken');
 
 // http://localhost:8080/login
 router.route('/')
 .get((req, res) => {
     res.render('login/login');
 })
-.post(isNotLoggedIn, (req, res, next) => {
+.post((req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         if (err)
             return next(err);
@@ -23,8 +22,12 @@ router.route('/')
                 console.error(loginError);
                 return next(loginError);
             }
-            // 어떤 화면으로 돌아가게하는게 좋을까
-            res.json(info);
+            let token = jwt.sign(
+                { id: user.id },
+                process.env.secret
+            );
+            res.json({token});
+            //res.render('메인페이지', { token });
         });
     }) (req, res, next);
 });
