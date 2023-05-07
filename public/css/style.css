@@ -146,21 +146,21 @@ dl, dt, dd, ol, ul, li {
 }
 
 ::selection {
-	background: #1ABC9C;
-	color: #FFF;
-	text-shadow: none;
+
+
+	
 }
 
 ::-moz-selection {
-	background: #1ABC9C; /* Firefox */
-	color: #FFF;
-	text-shadow: none;
+
+
+	
 }
 
 ::-webkit-selection {
-	background: #1ABC9C; /* Safari */
-	color: #FFF;
-	text-shadow: none;
+
+
+	
 }
 
 :active,
@@ -174,16 +174,16 @@ dl, dt, dd, ol, ul, li {
 
 body {
 	line-height: 1.5;
-	color: #555;
+	color: #000;
 	font-family: 'Noto Sans KR', sans-serif;
 }
 
 a {
 	text-decoration: none !important;
-	color: #1ABC9C;
+	color: #000;
 }
 
-a:hover { color: #222; }
+a:hover { color: #07B2D9; }
 
 a img { border: none; }
 
@@ -211,7 +211,7 @@ h6 {
 	font-weight: 600;
 	line-height: 1.5;
 	margin: 0 0 30px 0;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 h5,
@@ -259,7 +259,7 @@ h2 > span:not(.nocolor):not(.badge),
 h3 > span:not(.nocolor):not(.badge),
 h4 > span:not(.nocolor):not(.badge),
 h5 > span:not(.nocolor):not(.badge),
-h6 > span:not(.nocolor):not(.badge) { color: #1ABC9C; }
+h6 > span:not(.nocolor):not(.badge) { color: #07B2D9; }
 
 p,
 pre,
@@ -273,7 +273,7 @@ table,
 fieldset,
 form { margin-bottom: 30px; }
 
-small { font-family: 'Lato', sans-serif; }
+small { font-family: 'Noto Sans KR', sans-serif; }
 
 
 @media (max-width: 1200px) {
@@ -422,11 +422,11 @@ span.middot {
 
 .nolineheight { line-height: 0 !important; }
 
-.font-body { font-family: 'Lato', sans-serif; }
+.font-body { font-family: 'Noto Sans KR', sans-serif; }
 
-.font-primary { font-family: 'Poppins', sans-serif; }
+.font-primary { font-family: 'Noto Sans KR', sans-serif; }
 
-.font-secondary { font-family: 'PT Serif', serif; }
+.font-secondary { font-family: 'Noto Sans KR', sans-serif; }
 
 .fw-extralight {
 	font-weight: 100 !important;
@@ -3412,7 +3412,7 @@ html[xmlns] .slider-wrap {
 #logo a {
 	width: 100%;
 	color: #000;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-size: 36px;
 }
 
@@ -3628,7 +3628,7 @@ body:not(.top-search-open) .top-search-parent #primary-menu-trigger {
 	font-size: 0.8125rem;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .menu-link span {
@@ -3672,7 +3672,7 @@ body:not(.top-search-open) .top-search-parent #primary-menu-trigger {
 	font-weight: 400;
 	color: #666;
 	letter-spacing: 0;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .sub-menu-container .menu-item:hover > .menu-link {
@@ -4120,7 +4120,7 @@ body:not(.top-search-open) .top-search-parent #primary-menu-trigger {
 	.mega-menu-style-2 .mega-menu-title > .menu-link {
 		font-size: 0.8125rem;
 		font-weight: 700;
-		font-family: 'Poppins', sans-serif;
+		font-family: 'Noto Sans KR', sans-serif;
 		letter-spacing: 1px;
 		text-transform: uppercase !important;
 		margin-bottom: 15px;
@@ -4868,7 +4868,7 @@ body:not(.top-search-open) .top-search-parent #primary-menu-trigger {
 	color: #333;
 	font-weight: 700;
 	margin-top: 0 !important;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	letter-spacing: 2px;
 }
 
@@ -7655,11 +7655,11 @@ body:not(.device-touch) .portfolio {
 
 .entry-title h2 a,
 .entry-title h3 a,
-.entry-title h4 a { color: #333; }
+.entry-title h4 a { color: #000; }
 
 .entry-title h2 a:hover,
 .entry-title h3 a:hover,
-.entry-title h4 a:hover { color: #1ABC9C; }
+.entry-title h4 a:hover { color: #07B2D9; }
 
 .entry-meta {
 	position: relative;
@@ -7680,7 +7680,6 @@ body:not(.device-touch) .portfolio {
 
 .entry-meta ul {
 	display: -ms-flexbox;
-	display: flex;
 	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
 	align-items: center;
@@ -7713,7 +7712,7 @@ body:not(.device-touch) .portfolio {
 }
 
 .entry-meta:not(.no-separator) li::before {
-	content: '\205E';
+	content: '';
 	width: 5px;
 	text-align: center;
 	display: inline-block;
@@ -7755,7 +7754,7 @@ body:not(.device-touch) .portfolio {
 	padding: 30px 0;
 	text-align: center;
 	color: #444;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	font-size: 1.5rem;
@@ -7778,7 +7777,7 @@ body:not(.device-touch) .entry-link {
 .entry-link span {
 	display: block;
 	margin-top: 5px;
-	font-family: 'PT Serif', serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-style: italic;
 	font-weight: normal;
 	text-transform: none;
@@ -7791,7 +7790,7 @@ body:not(.device-touch) .entry-link {
 
 .entry blockquote p {
 	font-weight: 400;
-	font-family: 'PT Serif', serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-style: italic;
 }
 
@@ -7932,7 +7931,7 @@ body:not(.device-touch) .entry-link {
 	font-weight: bold;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 @media (min-width: 992px) {
@@ -7981,13 +7980,13 @@ body:not(.device-touch) .entry-link {
 
 .more-link {
 	display: inline-block;
-	border-bottom: 1px solid #1ABC9C;
+	border-bottom: 1px solid #000;
 	padding: 0 2px;
-	font-family: 'PT Serif', serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-style: italic;
 }
 
-.more-link:hover { border-bottom-color: #555; }
+.more-link:hover { border-bottom-color: #07B2D9; }
 
 .post-navigation + .line { margin-top: 50px; }
 
@@ -8134,7 +8133,7 @@ body:not(.device-touch) .entry-link {
 .comment-content .comment-author span a {
 	font-size: 12px;
 	font-weight: normal;
-	font-family: 'PT Serif', serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-style: italic;
 	color: #AAA;
 }
@@ -8244,7 +8243,7 @@ div.alignright {
 .wp-caption {
 	text-align: center;
 	margin: 10px 20px 13px 20px;
-	font-family: 'Lato', Georgia, "Times New Roman", Times, serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-style: italic;
 }
 
@@ -8936,7 +8935,7 @@ td.actions {
 	padding: 8px 22px;
 	font-size: 0.875rem;
 	line-height: 24px;
-	background-color: #1ABC9C;
+	background-color: #07B2D9;
 	color: #FFF;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -9000,7 +8999,7 @@ body:not(.device-touch) .button {
 	font-size: 1.25rem;
 	height: auto;
 	line-height: 1;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .button.button-desc span {
@@ -9009,7 +9008,7 @@ body:not(.device-touch) .button {
 	font-size: 0.875rem;
 	font-weight: 400;
 	letter-spacing: 1px;
-	font-family: 'PT Serif', serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-style: italic;
 	text-transform: none;
 }
@@ -9099,7 +9098,7 @@ body:not(.device-touch) .button {
 }
 
 .button.button-3d:hover {
-	background-color: #1ABC9C;
+	background-color: #000000;
 	opacity: 0.9;
 }
 
@@ -9715,7 +9714,7 @@ body:not(.device-touch) .button.button-full strong {
 .fbox-content h3 {
 	font-size: 1rem;
 	font-weight: 600;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	text-transform: uppercase;
 	margin-bottom: 0;
 	color: #333;
@@ -10003,7 +10002,7 @@ body:not(.device-touch) .button.button-full strong {
 
 .fbox-center.fbox-italic p {
 	font-style: italic;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 
@@ -11385,7 +11384,7 @@ body:not(.device-touch) .social-icon i {
 .tab-nav-lg li a {
 	display: inline-block;
 	color: #444;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-size: 13px;
 	font-weight: bold;
 	text-transform: uppercase;
@@ -11814,7 +11813,7 @@ body:not(.device-touch) .clients-grid .grid-item a {
 
 .testi-content p {
 	margin-bottom: 0;
-	font-family: 'PT Serif', serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-style: italic;
 }
 
@@ -12004,7 +12003,7 @@ body:not(.device-touch) .clients-grid .grid-item a {
 	display: block;
 	color: #1ABC9C;
 	font-weight: 400;
-	font-family: 'PT Serif', serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-style: italic;
 	font-size: 1rem;
 	margin-top: 5px;
@@ -12277,7 +12276,7 @@ body:not(.device-touch) .clients-grid .grid-item a {
 .counter {
 	font-size: 42px;
 	font-weight: 600;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .counter.counter-small { font-size: 28px; }
@@ -12406,7 +12405,7 @@ body:not(.device-touch) .rounded-skill {
 
 .skills li .progress-percent .counter {
 	font-weight: 400;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .progress-percent::after, .progress-percent::before {
@@ -13432,7 +13431,7 @@ label {
 	display: inline-block;
 	font-size: 13px;
 	font-weight: 700;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	text-transform: uppercase;
 	letter-spacing: 1px;
 	color: #555;
@@ -13826,7 +13825,7 @@ h3.titular-title { font-size: 2rem; }
 	display: block;
 	margin: 0 0 5px;
 	font-size: 1rem;
-	font-family: 'PT Serif', serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-style: italic;
 	font-weight: 400;
 	color: #999;
@@ -14527,7 +14526,7 @@ body:not(.device-touch) .tagcloud a {
 .widget_rss:not(.widget-li-noicon) li::before,
 .widget_recent_comments:not(.widget-li-noicon) li::before {
 	content: "\e7a5";
-	font-family: 'font-icons';
+	font-family: 'Noto Sans KR', sans-serif;
 	display: inline-block;
 	position: relative;
 	top: 1px;
@@ -14728,7 +14727,7 @@ body:not(.device-touch) .tagcloud a {
 .widget-filter-links li a {
 	display: block;
 	color: #444;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	font-weight: 500;
 }
 
@@ -14783,7 +14782,7 @@ body:not(.device-touch) .tagcloud a {
 	font-size: 13px;
 	font-weight: 700;
 	letter-spacing: 2px;
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .nav-tree li i {
@@ -14816,7 +14815,7 @@ body:not(.device-touch) .tagcloud a {
 	font-size: 12px;
 	padding: 6px 0;
 	letter-spacing: 1px;
-	font-family: 'Lato', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .nav-tree ul ul a i.icon-angle-down { font-size: 12px; }
@@ -14837,7 +14836,7 @@ body:not(.device-touch) .tagcloud a {
 	line-height: 1;
 	font-size: 80px;
 	text-shadow: 1px 1px 1px rgba(0,0,0,0.15);
-	font-family: 'Poppins', sans-serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .wedding-head .first-name,
@@ -14863,14 +14862,14 @@ body:not(.device-touch) .tagcloud a {
 	font-size: 56px;
 	font-weight: 400;
 	font-style: italic;
-	font-family: 'PT Serif', serif;
+	font-family: 'Noto Sans KR', sans-serif;
 	text-transform: none;
 }
 
 .wedding-head .and {
 	margin: 0;
 	font-size: 200px;
-	font-family: 'Times New Roman', serif;
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 
@@ -15350,7 +15349,7 @@ input.switch-flat-xlarge.switch-toggle-flat:checked + label::after { margin-left
 .btn-link,
 .page-link,
 .page-link:hover,
-.page-link:focus { color: #1ABC9C; }
+.page-link:focus { color: #000; }
 
 .btn-link:hover,
 .btn-link:focus { color: #222; }
@@ -15388,8 +15387,8 @@ input.switch-flat-xlarge.switch-toggle-flat:checked + label::after { margin-left
 .page-link:hover,
 .page-link:focus {
 	color: #FFF !important;
-	background-color: #1ABC9C !important;
-	border-color: #1ABC9C !important;
+	background-color: #07B2D9 !important;
+	border-color: #07B2D9 !important;
 }
 
 .nav-pills > li.active > a,

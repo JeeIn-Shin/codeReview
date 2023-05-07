@@ -15,7 +15,8 @@ console.clear();
 
 let post_id;
 // 관리자인지 판단하기
-let isAdmin = localStorage.getItem("isAdmin") || true;
+//let isAdmin = localStorage.getItem("isAdmin") || true;
+let isAdmin = true;
 localStorage.setItem("isAdmin", isAdmin);
 console.log("isAdmin : ", isAdmin);
 //  한 페이지 당 출력되는 게시글 갯수
@@ -478,9 +479,11 @@ function createPostElement(data, i) {
   entryMetaDiv.classList.add("entry-meta");
 
   const metaList = document.createElement("ul");
+  metaList.className = "no-bullet-list";
 
   const authorListItem = document.createElement("li");
   const authorIcon = document.createElement("i");
+
   authorIcon.className = "icon-user";
   authorIcon.textContent = " " + data[i - 1].WRITER; // 게시글 작성자
 
@@ -498,20 +501,28 @@ function createPostElement(data, i) {
 
   const entryContentDiv = document.createElement("div");
   entryContentDiv.classList.add("entry-content");
-  //100자 정도가 들어가게 크기를 정하고 100자 아니어도 그 크기로 나옴
-  entryContentDiv.style.width = "300px";
   entryContentDiv.style.height = "100px";
 
   const contentParagraph = document.createElement("p");
   contentParagraph.innerHTML = data[i - 1].DETAILS; // 게시글 내용
   //css 미적용
   contentParagraph.textContent = contentParagraph.textContent;
-  //3줄만
+  //몇글자가 넘으면...으로 표시
+  // 스타일 적용
+  contentParagraph.style.lineHeight = "1.5em";
+  contentParagraph.style.maxHeight = "4.5em"; // line-height (1.5em) x 최대 줄 수 (3)
+  contentParagraph.style.overflow = "hidden";
+  contentParagraph.style.textOverflow = "ellipsis";
+  contentParagraph.style.display = "-webkit-box";
+  contentParagraph.style.webkitLineClamp = "3";
+  contentParagraph.style.webkitBoxOrient = "vertical";
+
+  /*비웹킷에서는 못쓰는 코드 위에 두줄 문제 있으면 지우면 됨
   contentParagraph.style.webkitLineClamp = "3";
   contentParagraph.style.display = "-webkit-box";
   contentParagraph.style.webkitBoxOrient = "vertical";
   contentParagraph.style.overflow = "hidden";
-  contentParagraph.style.textOverflow = "ellipsis";
+  contentParagraph.style.textOverflow = "ellipsis";*/
 
   entryContentDiv.appendChild(contentParagraph);
 
@@ -522,7 +533,7 @@ function createPostElement(data, i) {
   readMoreAnchor.target = "_self";
   readMoreAnchor.href = "notice.html";
   readMoreAnchor.classList.add("more-link");
-  readMoreAnchor.textContent = "Read More";
+  readMoreAnchor.textContent = "자세히 보기";
   readMoreAnchor.onmouseover = function () {
     localStorage.setItem("select_block", select_block);
     localStorage.setItem("post_id", data[i - 1].ID_PK);
@@ -583,7 +594,3 @@ function createPostElement(data, i) {
 }
 
 // 떠날 때 localStorage에 저장된 데이터 삭제 >로그아웃 시 삭제로 대체할 예정
-/* window.onbeforeunload = function () {
-  localStorage.clear();
-};
- */
