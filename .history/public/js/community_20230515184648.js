@@ -1,54 +1,20 @@
 "use strict";
-
-document.cookie =
-  "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; max-age=3600; path=/";
+document.cookie = "testCookie=testValue; max-age=3600; path=/";
 function getCookie(name) {
-  // 쿠키를 받아오는 함수
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-const token = getCookie("token"); //"token"을 받아오는 실제 이름으로 수정
+const token = getCookie("token");
 console.log("token: ", token);
-const decoded = parseJwt(token);
-console.log("decoded: ", decoded);
-
-function parseJwt(token) {
-  //토큰을 받아서 payload를 반환하는 함수
-  const base64Url = token.split(".")[1];
-  console.log("base64Url: ", base64Url);
-  const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-  console.log("base64: ", base64);
-  let jsonPayload;
-
-  if (typeof window === "undefined") {
-    // Node.js 환경
-    jsonPayload = Buffer.from(base64, "base64").toString("utf8");
-    console.log("jsonPayload: ", jsonPayload);
-  } else {
-    // 브라우저 환경
-    jsonPayload = decodeURIComponent(
-      atob(base64)
-        .split("")
-        .map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        })
-        .join("")
-    );
-    console.log("jsonPayload: ", jsonPayload);
-  }
-
-  return JSON.parse(jsonPayload);
-}
-
 const username = localStorage.getItem("username") || "Erhard";
 //id가 comments-user인 span의 value를 username으로 바꾼다.
 const commentsUser = document.getElementById("comments-user");
 commentsUser.innerHTML = username;
 
 const commentsNumber = document.getElementById("comments-number");
-const author = decoded.name; //정의된 payload의 것으로 수정
+const author = localStorage.getItem("author") || "Erhard";
 
 //  한 페이지 당 출력되는 댓글 갯수
 let page_num = 5;
@@ -245,7 +211,6 @@ function getDataByUsername(username) {
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
     },
   })
     .then((response) => {
@@ -270,7 +235,6 @@ function postData(data) {
     mode: "cors",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
     },
     body: JSON.stringify(data),
   })
