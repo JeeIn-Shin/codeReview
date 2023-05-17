@@ -1,4 +1,6 @@
+const { resolve } = require('path');
 const db = require('../config/database');
+const { rejects } = require('assert');
 
 
 const user = {
@@ -103,24 +105,51 @@ const user = {
 
         },
 
-        getUserPK: (id, result) => {
-            db.getConnection((err, connection) => {
-                if (!err) {
-                    let sql = `SELECT ID_PK FROM USER_TB WHERE ID LIKE '${id}'`;
-                    connection.query(sql, (err, res) => {
-                        connection.release();
+        getUserPK: (id) => {
+            return new Promise((resolve, reject) => {
+                db.getConnection((err, connection) => {
+                    if (!err) {
+                        let sql = `SELECT ID_PK FROM USER_TB WHERE ID LIKE '${id}'`;
+                        connection.query(sql, (err, res) => {
+                            connection.release();
+    
+                            if (err) {
+                                console.log("sql error " + err);
+                                reject(err);
+                            }
+                            resolve(res[0]);
+                        })
+                    }
+                    else {
+                        console.log("connection error" + err)
+                        throw err;
+                    }
+                })
+            })
 
-                        if (err) {
-                            console.log("sql error " + err);
-                            return result(null, err);
-                        }
-                        return result(res[0].ID_PK, null);
-                    })
-                }
-                else {
-                    console.log("connection error" + err)
-                    throw err;
-                }
+        },
+
+        setRefreshToken: (id, content) => {
+            return new Promise((resolve, reject) => {
+                db.getConnection((err, connection) => {
+                    if(!err)    {
+                        let sql = `INSERT INTO token_tb VALUES ( ?, ? )`;
+    
+                        connection.query(sql, [id.ID_PK, content], (err, res) => {
+                            connection.release();
+                            
+                            if(err) {
+                                console.log("sql error " + err);
+                                reject(err);
+                            }
+                            resolve(res);
+                        })
+                    }
+                    else    {
+                        console.log("connection error" + err);
+                        throw err;
+                    }
+                })
             })
         }
     }

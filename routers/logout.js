@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { isLoggedIn } = require('./middleware');
+const auth = require('../middleware/auth');
+const client = require('../models/user');
 require('express-session');
 
-router.post('/', isLoggedIn, (req, res, next) => {
+// http://localhost:8080/logout
+router.get('/', auth, async (req, res) => {
+  //사용자 정보 확인 후
 
-    req.logout((err) => {
-        if(err)
-            return next(err);
-        req.session.destroy();
-        res.clearCookie();
-        res.json("logout success");
-    })
+  //Refresh token 은 DB에서 삭제
+  
+  //Access token 은 cache에서 삭제
+  //res.clearCookie();
 });
 
 module.exports = router;
