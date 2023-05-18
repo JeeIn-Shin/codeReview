@@ -1,5 +1,51 @@
 "use strict";
 
+//만료가 되면 토큰이 없을 것이므로 관리자였을 경우 수정, 삭제 버튼이 작동하지 않도록 처리됨.
+
+function getCookie(name) {
+  // 쿠키를 받아오는 함수
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
+let token = getCookie("token"); //"token"을 받아오는 실제 이름으로 수정
+console.log("token: ", token);
+
+let decoded = parseJwt(token);
+console.log("decoded: ", decoded);
+
+function parseJwt(token) {
+  //토큰을 받아서 payload를 반환하는 함수
+  if (!token) {
+    return null;
+  } else {
+    const base64Url = token.split(".")[1];
+    console.log("base64Url: ", base64Url);
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    console.log("base64: ", base64);
+    let jsonPayload;
+
+    if (typeof window === "undefined") {
+      // Node.js 환경
+      jsonPayload = Buffer.from(base64, "base64").toString("utf8");
+      console.log("jsonPayload: ", jsonPayload);
+    } else {
+      // 브라우저 환경
+      jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+      console.log("jsonPayload: ", jsonPayload);
+    }
+
+    return JSON.parse(jsonPayload);
+  }
+}
 // 게시글 제목을 얻어온다.
 const post_id = localStorage.getItem("post_id");
 console.log("post_id: ", post_id);
@@ -23,19 +69,33 @@ console.log("current_block: ", current_block);
 //관리자면 id가 put, delete인 버튼을 보여준다.
 if (isAdmin === "true") {
   putbtn.style.display = "inline-block";
-  putbtn.addEventListener("mouseover", function () {
-    localStorage.setItem("post_mode", "modify");
-    localStorage.setItem("post_id", post_id);
+  putbtn.addEventListener("mouseover", function (e) {
+    token = getCookie("token");
+    decoded = parseJwt(token);
+    if (decoded === null) {
+      e.preventDefault();
+      alert("권한이 없습니다.");
+    } else {
+      localStorage.setItem("post_mode", "modify");
+      localStorage.setItem("post_id", post_id);
+    }
   });
 
   deletebtn.style.display = "inline-block";
 
-  deletebtn.addEventListener("click", function () {
-    let result = confirm("삭제하시겠습니까?");
-    if (result) {
-      deleteDataById(post_id);
+  deletebtn.addEventListener("click", function (e) {
+    token = getCookie("token");
+    decoded = parseJwt(token);
+    if (decoded === null) {
+      e.preventDefault();
+      alert("권한이 없습니다.");
     } else {
-      alert("취소되었습니다.");
+      let result = confirm("삭제하시겠습니까?");
+      if (result) {
+        deleteDataById(post_id);
+      } else {
+        alert("취소되었습니다.");
+      }
     }
   });
 }

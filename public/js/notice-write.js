@@ -1,5 +1,69 @@
 "use strict";
 
+//만료가 되면 토큰이 없을 것이므로 관리자였을 경우 수정, 삭제 버튼이 작동하지 않도록 처리됨.
+
+function getCookie(name) {
+  // 쿠키를 받아오는 함수
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+}
+
+let token = getCookie("token"); //"token"을 받아오는 실제 이름으로 수정
+console.log("token: ", token);
+
+let decoded = parseJwt(token);
+console.log("decoded: ", decoded);
+
+function parseJwt(token) {
+  //토큰을 받아서 payload를 반환하는 함수
+  if (!token) {
+    return null;
+  } else {
+    const base64Url = token.split(".")[1];
+    console.log("base64Url: ", base64Url);
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    console.log("base64: ", base64);
+    let jsonPayload;
+
+    if (typeof window === "undefined") {
+      // Node.js 환경
+      jsonPayload = Buffer.from(base64, "base64").toString("utf8");
+      console.log("jsonPayload: ", jsonPayload);
+    } else {
+      // 브라우저 환경
+      jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map(function (c) {
+            return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join("")
+      );
+      console.log("jsonPayload: ", jsonPayload);
+    }
+
+    return JSON.parse(jsonPayload);
+  }
+}
+let isAdmin = false;
+isAdminCheck();
+// 관리자인지 판단하는 함수
+function isAdminCheck() {
+  if (!token) {
+    isAdmin = false;
+    localStorage.setItem("isAdmin", isAdmin);
+  } else {
+    if (decoded.name === "John Doe") {
+      // john doe를 실제 관리자명으로 수정 name을 실제 페이로드 이름으로 수정
+      isAdmin = true;
+      localStorage.setItem("isAdmin", isAdmin);
+    } else {
+      isAdmin = false;
+      localStorage.setItem("isAdmin", isAdmin);
+    }
+  }
+}
 let post_mode = localStorage.getItem("post_mode");
 console.log("post_mode: ", post_mode);
 
@@ -28,23 +92,31 @@ if (post_mode === "write") {
   date.textContent = YearMonthDate;
 
   writebtn.addEventListener("click", function (submitevent) {
-    if (title.value == "") {
-      alert("제목을 입력해주세요.");
-      title.focus();
-      submitevent.preventDefault();
-    } else if (details.value == "") {
-      alert("내용을 입력해주세요.");
-      details.focus();
-      submitevent.preventDefault();
+    token = getCookie("token");
+    decoded = parseJwt(token);
+    console.log("decoded: ", decoded);
+    isAdminCheck();
+    if (!isAdmin) {
+      alert("권한이 없습니다.");
     } else {
-      submitevent.preventDefault();
+      if (title.value == "") {
+        alert("제목을 입력해주세요.");
+        title.focus();
+        submitevent.preventDefault();
+      } else if (details.value == "") {
+        alert("내용을 입력해주세요.");
+        details.focus();
+        submitevent.preventDefault();
+      } else {
+        submitevent.preventDefault();
 
-      let data = {
-        title: title.value,
-        details: details.value,
-      };
-      console.log(data);
-      postData(data);
+        let data = {
+          title: title.value,
+          details: details.value,
+        };
+        console.log(data);
+        postData(data);
+      }
     }
   });
 }
@@ -62,21 +134,29 @@ if (post_mode === "modify") {
   //게시 버튼이 수정 버튼으로 바뀌고, 수정 버튼을 누르면 데이터를 수정한다.
   writebtn.textContent = "수정";
   writebtn.addEventListener("click", function (submitevent) {
-    if (title.value == "") {
-      alert("제목을 입력해주세요.");
-      title.focus();
-      submitevent.preventDefault();
-    } else if (details.value == "") {
-      alert("내용을 입력해주세요.");
-      details.focus();
-      submitevent.preventDefault();
+    token = getCookie("token");
+    decoded = parseJwt(token);
+    console.log("decoded: ", decoded);
+    isAdminCheck();
+    if (!isAdmin) {
+      alert("권한이 없습니다.");
     } else {
-      submitevent.preventDefault();
-      let data = {
-        title: title.value,
-        details: details.value,
-      };
-      putData(data);
+      if (title.value == "") {
+        alert("제목을 입력해주세요.");
+        title.focus();
+        submitevent.preventDefault();
+      } else if (details.value == "") {
+        alert("내용을 입력해주세요.");
+        details.focus();
+        submitevent.preventDefault();
+      } else {
+        submitevent.preventDefault();
+        let data = {
+          title: title.value,
+          details: details.value,
+        };
+        putData(data);
+      }
     }
   });
 }
