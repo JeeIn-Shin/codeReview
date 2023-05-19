@@ -529,3 +529,11 @@ img{
         stroke-dashoffset: 100;
     }
 }
+
+#message {
+    color: #0D5FA6;
+}
+
+#message.error {
+    color: #ff0000;
+}

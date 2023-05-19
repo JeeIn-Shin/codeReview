@@ -85,15 +85,16 @@
 
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
-                                                        <label for="pwd">비밀번호</label>
-                                                        <input type="password" id="password" required placeholder="8~16자리 영문 대소문자,숫자,특수문자 조합" />
+                                                        <label for="password">비밀번호</label>
+                                                        <input type="password" id="password" name="password" oninput="validatePassword()" required placeholder="8~16자리 영문 대소문자,숫자,특수문자 조합" />
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
-                                                        <label for="pwd">비밀번호확인</label>
-                                                        <input type="password" id="passwordch" name="pwd" required placeholder="동일하게 입력" />
+                                                        <label for="passwordch">비밀번호확인</label>
+                                                        <input type="passwordch" id="passwordch" name="passwordch" oninput="validatePassword()" required placeholder="동일하게 입력" />
+                                                            <div id="message"></div>
                                                     </div>
                                                 </div>
 
@@ -111,27 +112,11 @@
                                                         
                                                     </div>
                                                 </div>
-
-                                                <!--
-                                                <div class="col-sm-6">
-                                                    <div class="single-field">
-                                                        <select name="subject">
-                                                            <option value="Services">Services One</option>
-                                                            <option value="Services Two">Services Two</option>
-                                                            <option value="Services Three">Services Three</option>
-                                                            <option value="Services Four">Services Four</option>
-                                                            <option value="Services Four">Services Four</option>
-                                                            <option value="Services Four1">Services Four</option>
-                                                            <option value="Services Four1">Services Four</option>
-                                                            <option value="Services Four1">Services Four</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                -->
                                                 
                                             </div>
+                                            
                                             <div class="single-field mb-20">
-                                                <button class="firstNext button1 next">다음 <i class="fas fa-angle-double-right"></i></button>
+                                                <button type="submit" class="firstNext button1 next">다음 <i class="fas fa-angle-double-right"></i></button>
                                             </div>
                                         </div>
 
@@ -280,17 +265,17 @@
                                                 <i class="far fa-check-circle"></i>
                                                 <div class="np-btn-success">
                                                     <strong>감사합니다 !<br>앞에 입력하신 정보로 가입하시겠습니까?</strong>
-                                                    <div class="field btns np-btn-success">
-                                                        <button class="prev-3 button1 mr-20 bg prev"><i class="fas fa-angle-double-left"></i> 이전</button>
-                                                        <button type="submit" class="button1">가입하기</button>
+                                                        <div class="field btns np-btn-success">
+                                                            <button class="prev-3 button1 mr-20 bg prev"><i class="fas fa-angle-double-left"></i> 이전</button>
+                                                                <button type="submit" class="button1">가입하기</button>
                                                     </div>
-                                                    <div class="ajax-response"></div>
+                                                        <div class="ajax-response"></div>
                                                 </div>
-                                                <div class="from-successfull-complete-done">
-                                                    <h3>가입 완료</h3>
-                                                    <strong>감사합니다 !</strong>
-                                                </div>
-                                            </div>
+                                                        <div class="from-successfull-complete-done">
+                                                            <h3>가입 완료</h3>
+                                                            <strong>감사합니다 !</strong>
+                                                        </div>
+                                             </div>
                                         </div>
 
                                     </form>
