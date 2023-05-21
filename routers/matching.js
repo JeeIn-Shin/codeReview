@@ -3,17 +3,17 @@ const router = express.Router();
 const matching = require('../models/matching');
 const priorityQueue = require('../others/priorityQueue');
 const thingAboutSubQuery = require('../others/aboutSql');
-const { isLoggedIn } = require('./middleware');
-const getuserPK = require('../others/find_id_pk');
+const { checkTokens } = require('../middleware/auth');
+const { isAdmin } = require('../middleware/adminIdentification');
 require('express-session');
 
 // http://localhost:8080/review-group
-router.get('/', isLoggedIn, async(req, res) => {
+router.get('/', checkTokens, isAdmin, async(req, res) => {
     res.render('review-group/review-group');
 })
 
 // http://localhost:8080/review-group
-router.post('/', isLoggedIn, async (req, res) => {
+router.post('/', checkTokens, isAdmin, async (req, res) => {
     try {
         let pk = await getuserPK(req.session.passport.user.ID)
         
@@ -61,12 +61,12 @@ router.post('/', isLoggedIn, async (req, res) => {
 });
 
 // http://localhost:8080/review-group/modify
-router.get('/update', isLoggedIn, async(req, res) => {
+router.get('/update', checkTokens, isAdmin, async(req, res) => {
     res.render('review-group/update');
 })
 
 // http://localhost:8080/review-group/modify
-router.post('/update', isLoggedIn, async(req, res) => {
+router.post('/update', checkTokens, isAdmin, async(req, res) => {
 
     //req.query.~ 어떻게 들어오더라?
     // { position : '' } 였던거 같은데
@@ -131,12 +131,12 @@ router.post('/update', isLoggedIn, async(req, res) => {
 })
 
 // http://localhost:8080/review-groups/waiting-queue
-router.get('/waiting-queue', isLoggedIn, async(req, res) => {
+router.get('/waiting-queue', checkTokens, isAdmin, async(req, res) => {
     res.render('review-group/pending');
 })
 
 // http://localhost:8080/review-groups/waiting-queue
-router.post('/waiting-queue', isLoggedIn, async(req, res) => {
+router.post('/waiting-queue', checkTokens, isAdmin, async(req, res) => {
     // 1. 대기열에 등록된 리뷰이 리스트를 가져와서
     matching.getRevieweesInfo()
         .then(async(revieweesResult) => {

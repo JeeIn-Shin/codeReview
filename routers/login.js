@@ -19,7 +19,7 @@ router.route('/')
     try {
         const pk = await client.signIn.getUserPKById(req.body.id);
         let userInfo = await client.signIn.getUserById(req.body.id);
-        
+
         let id = userInfo.ID;
         let nickname = userInfo.NICKNAME;
         let isAdmin = userInfo.IS_ADMIN;
@@ -34,7 +34,7 @@ router.route('/')
             refreshToken,
             accessToken
         }
-        await client.signIn.setTokens(pk, tokens); 
+        await client.signIn.setTokens(pk.ID_PK, tokens); 
 
         res.cookie('accessToken', accessToken, { httpOnly : true });
 

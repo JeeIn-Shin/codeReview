@@ -9,7 +9,7 @@ const settings = {
                 if(!err) {
                     
                     let sql = `SELECT GITHUB, NICKNAME, PROFILE_IMG FROM USER_TB 
-                               WHERE ID_PK like ${id}`;
+                               WHERE ID like '${id}'`;
         
                     connection.query(sql, (err, res) => {
                         connection.release();
@@ -39,13 +39,13 @@ const settings = {
             let data = Object.values(updateData);
             let imgData = setProfileImage(data[0]);
             data[0] = imgData;
-        
+            console.log(data);
             db.getConnection(function(err, connection) {
                 
                 if(!err) {
                     let sql = `UPDATE USER_TB SET
                                PROFILE_IMG = ?, NICKNAME = ?, GITHUB = ?
-                               WHERE student_id LIKE ${id}`;                
+                               WHERE ID LIKE '${id}'`;                
                         
                     connection.query(sql, data, (err, res) => {
                         connection.release();
@@ -85,16 +85,16 @@ const settings = {
                     
                     let sql = `SELECT C, CPLUS, CSHARP, JAVA, KOTLIN, SWIFT, PYTHON, GO, JAVASCRIPT, RUST, RUBY
                                FROM LANGUAGE_TB 
-                               WHERE ID_PK like ${id}`;
+                               WHERE id like '${id}'`;
         
                     connection.query(sql, (err, res) => {
                         connection.release();
         
                         if(err) {
                             console.log("query error " + err);
-                            reject(err);
+                            return reject(err);
                         }
-                        resolve(res);
+                        return resolve(res);
                     })
                 }
                 else    {
@@ -118,7 +118,7 @@ const settings = {
                                C = ?, CPLUS = ?, CSHARP = ?, JAVA = ?, 
                                KOTLIN = ?, SWIFT = ?, PYTHON = ?, GO = ? 
                                JAVASCRIPT = ?, RUST = ?, RUBY = ?
-                               WHERE ID_PK LIKE ${id}`;                
+                               WHERE id LIKE '${id}'`;                
                         
                     connection.query(SQL, [updateData], (err, res) => {
                         connection.release();
@@ -147,7 +147,7 @@ const settings = {
                     
                     let sql = `SELECT CODEREVIEW, REFACTORING, QA
                                FROM ACTIVITY_TB 
-                               WHERE ID_PK like ${id}`;
+                               WHERE id like '${id}'`;
         
                     connection.query(sql, (err, res) => {
                         connection.release();
@@ -179,7 +179,7 @@ const settings = {
                 if(!err) {
                     let sql = `UPDATE LANGUAGE_TB SET
                                CODEREVIEW = ?, REFACTORING = ?, QA = ?
-                               WHERE student_id LIKE ${id}`;                
+                               WHERE id LIKE '${id}'`;                
                         
                     connection.query(sql, [updateData], (err, res) => {
                         connection.release();

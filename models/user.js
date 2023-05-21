@@ -41,12 +41,12 @@ const user = {
                         if (!err) {
                             let sql1 = `INSERT INTO USER_TB VALUES ( ID_PK, ?)`;
                             let sql2 = `INSERT INTO LANGUAGE_TB VALUES ( ? )`;
-                            let sql3 = `INSERT INTO ACTIVITY_TB VALUES (?)`;
+                            let sql3 = `INSERT INTO ACTIVITY_TB VALUES ( ? )`;
 
                             connection.query(sql1, [user], (err, res) => {
                                 if (err)
                                     return connection.rollback(() => { throw err });
-
+                                
                                 connection.query(sql2, [language], (err, res) => {
                                     if (err)
                                         return connection.rollback(() => { throw err });
@@ -202,12 +202,13 @@ const user = {
         },
 
         setTokens: (id, tokens) => {
+            console.log(id, tokens)
             return new Promise((resolve, reject) => {
                 db.getConnection((err, connection) => {
                     if(!err)    {
                         let sql = `INSERT INTO token_tb VALUES ( ?, ?, ? )`;
     
-                        connection.query(sql, [id.ID_PK, tokens.refreshToken, tokens.accessToken], (err, res) => {
+                        connection.query(sql, [id, tokens.refreshToken, tokens.accessToken], (err, res) => {
                             connection.release();
                             
                             if(err) {

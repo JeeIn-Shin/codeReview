@@ -1,52 +1,55 @@
 const express = require('express');
 const router = express.Router();
 const settings = require('../models/settings');
-const { isLoggedIn } = require('./middleware');
-require('express-session');
+const client = require('../models/user');
+const { checkTokens } = require('../middleware/auth');
+const jwt = require('jsonwebtoken');
 // const multer = require('multer');
 // const path = require('path');
 // const fs = require('fs');
 
 // 논의된 바 없는 페이지
 // http://localhost:8080/settings
-router.get('/', isLoggedIn, async(req, res) => {
+router.get('/', checkTokens, async(req, res) => {
     res.render('settings/main');
 })
 
 // http://localhost:8080/settings/profile
-router.get('/', isLoggedIn, async(req, res) => {
-    let userId = Object.assign({} , req.session.passport);
-    let result = await settings.getByLoginInfo(userId);
+router.get('/profile', checkTokens, async(req, res) => {
+    let user = jwt.decode(req.cookies.accessToken, process.env.secret);
+    let result = await settings.getByLoginInfo(user.id);
 
+    //res.json(result[0]);
     res.render('settings/profile', { userInfo : result });
 })
 
 //로그인 된게 맞는지
 // http://localhost:8080/settings/profile
-router.post('/profile', async(req, res) => {
-    let userId = Object.assign({} , req.session.passport);
+router.post('/profile', checkTokens, async(req, res) => {
+    let user = jwt.decode(req.cookies.accessToken, process.env.secret);
     let updateInfo = {
         profileImg: req.body.profileImg,
         nickName : req.body.nickName,   
-        github : req.body.GITHUB,        
+        github : req.body.github,
     }
 
-    await settings.updateInfo(userId, updateInfo);
+    await settings.updateInfo(user.id, updateInfo);
     res.redirect('/settings/profile');
 })
 
 // http://localhost:8080/settings/language
-router.get('/language', isLoggedIn, async(req, res) => {
-    let userId = Object.assign({} , req.session.passport);
-    let result = await settings.getUserLanguage(userId);
+router.get('/language', checkTokens, async(req, res) => {
+    let user = jwt.decode(req.cookies.accessToken, process.env.secret);
+    let result = await settings.getUserLanguage(user.id);
 
-    res.render('settings/language', { userLanguage : result });
+    //res.json(result[0]);
+    res.render('settings/language', { userLanguageInfo : result });
 })
 
 // http://localhost:8080/settings/language
-router.post('/language', async(req, res) => {
+router.post('/language', checkTokens, async(req, res) => {
     
-    let userId = Object.assign({} , req.session.passport);
+    let user = jwt.decode(req.cookies.accessToken, process.env.secret);
 
     let updateLanguageData = {
         C : req.body.C, 
@@ -62,29 +65,31 @@ router.post('/language', async(req, res) => {
         ruby : req.body.ruby       
     }
     
-    await settings.updateLanguage(userId, updateLanguageData);
+    await settings.updateLanguage(user.id, updateLanguageData);
 
     res.redirect('/settings/language');
 })
 
 // http://localhost:8080/settings/activity
-router.get('/activity', isLoggedIn, async(req, res) => {
-    let userId = Object.assign({} , req.session.passport);
-    let result = await settings.getUserActivity(userId);
+router.get('/activity', checkTokens, async(req, res) => {
+    let user = jwt.decode(req.cookies.accessToken, process.env.secret);
+    let result = await settings.getUserActivity(user.id);
 
-    res.render('settings/activity', { userActivity : result });
+    //res.json(result[0]);
+    res.render('settings/activity', { userActivity : result[0] });
 })
 
 // http://localhost:8080/settings/activity
-router.post('/activity', async(req, res) => {
-    let userId = Object.assign({} , req.session.passport);
+router.post('/activity', checkTokens, async(req, res) => {
+    let user = jwt.decode(req.cookies.accessToken, process.env.secret);
+    
     let updateInfo = {
         codeReview : req.body.codeReview, 
         refactoring : req.body.refactoring, 
         qa : req.body.qa,   
     }
     
-    await settings.updateActivity(userId, updateInfo);
+    await settings.updateActivity(user.id, updateInfo);
 
     res.redirect('/settings/activity');
 })

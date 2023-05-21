@@ -41,7 +41,6 @@ router.get('/', async (req, res) => {
 
 // http://localhost:8080/signup
 router.post('/', async (req, res) => {
-    console.log(req.body);
     let userInfo = {
         id : req.body.id,
         encryptPwd : await bcrypt.hash(req.body.pwd, 12),
@@ -50,7 +49,7 @@ router.post('/', async (req, res) => {
         email : req.body.email,
         github : req.body.github,
         is_admin : 0,
-        authentication : 0
+        authentication : 1
     }
 
     let languageInfo = {
