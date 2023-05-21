@@ -1,3 +1,4 @@
+// jwt decode 필요
 exports.isLoggedIn = (req, res, next) => {
     if (req.isAuthenticated())
         return next();

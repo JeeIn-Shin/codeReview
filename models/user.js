@@ -1,6 +1,4 @@
-const { resolve } = require('path');
 const db = require('../config/database');
-const { rejects } = require('assert');
 
 
 const user = {
@@ -102,10 +100,84 @@ const user = {
                     }
                 })
             })
-
         },
 
-        getUserPK: (id) => {
+        getUserPKByRefreshToken: (refresh) => {
+            return new Promise((resolve, reject) => {
+                db.getConnection((err, connection) => {
+                    if (!err) {
+                        let sql = `SELECT USER_TB_ID_PK FROM token_tb
+                                   WHERE refresh LIKE '${refresh}'`;
+
+                        connection.query(sql, (err, res) => {
+                            connection.release();
+
+                            if (err) {
+                                console.log("sql error " + err);
+                                reject(err);
+                            }
+                            resolve(res[0]);
+                        })
+                    }
+                    else {
+                        console.log("connection error" + err)
+                        throw err;
+                    }
+                })
+            })
+        },
+
+        getUserPKByAccessToken: (access) => {
+            return new Promise((resolve, reject) => {
+                db.getConnection((err, connection) => {
+                    if (!err) {
+                        let sql = `SELECT USER_TB_ID_PK FROM token_tb
+                                   WHERE access LIKE '${access}'`;
+
+                        connection.query(sql, (err, res) => {
+                            connection.release();
+
+                            if (err) {
+                                console.log("sql error " + err);
+                                reject(err);
+                            }
+                            resolve(res[0]);
+                        })
+                    }
+                    else {
+                        console.log("connection error" + err)
+                        throw err;
+                    }
+                })
+            })
+        },
+
+        getUserByPK: (pk) => {
+            return new Promise((resolve, reject) => {
+                db.getConnection((err, connection) => {
+                    if (!err) {
+                        let sql = `SELECT ID, NICKNAME, IS_ADMIN FROM USER_TB
+                                   WHERE ID_PK LIKE '${pk}'`;
+
+                        connection.query(sql, (err, res) => {
+                            connection.release();
+
+                            if (err) {
+                                console.log("sql error " + err);
+                                reject(err);
+                            }
+                            resolve(res[0]);
+                        })
+                    }
+                    else {
+                        console.log("connection error" + err)
+                        throw err;
+                    }
+                })
+            })
+        },
+
+        getUserPKById: (id) => {
             return new Promise((resolve, reject) => {
                 db.getConnection((err, connection) => {
                     if (!err) {
@@ -129,13 +201,38 @@ const user = {
 
         },
 
-        setRefreshToken: (id, content) => {
+        setTokens: (id, tokens) => {
             return new Promise((resolve, reject) => {
                 db.getConnection((err, connection) => {
                     if(!err)    {
-                        let sql = `INSERT INTO token_tb VALUES ( ?, ? )`;
+                        let sql = `INSERT INTO token_tb VALUES ( ?, ?, ? )`;
     
-                        connection.query(sql, [id.ID_PK, content], (err, res) => {
+                        connection.query(sql, [id.ID_PK, tokens.refreshToken, tokens.accessToken], (err, res) => {
+                            connection.release();
+                            
+                            if(err) {
+                                console.log("sql error " + err);
+                                reject(err);
+                            }
+                            resolve(res);
+                        })
+                    }
+                    else    {
+                        console.log("connection error" + err);
+                        throw err;
+                    }
+                })
+            })
+        },
+
+        updateTokens: (id, tokens) => {
+            return new Promise((resolve, reject) => {
+                db.getConnection((err, connection) => {
+                    if(!err)    {
+                        let sql = `UPDATE token_tb SET refresh = ?, access = ?
+                        WHERE USER_TB_ID_PK LIKE ${id}`;
+    
+                        connection.query(sql, tokens, (err, res) => {
                             connection.release();
                             
                             if(err) {

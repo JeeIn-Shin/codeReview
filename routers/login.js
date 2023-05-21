@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
 
 const jwt = require('jsonwebtoken');
 const client = require('../models/user');
@@ -11,15 +10,14 @@ router.route('/')
     res.render('login/login');
 })
 .post(async(req, res, next) => {
-    const REFRESHTOKEN = jwt.sign({},
+    const refreshToken = jwt.sign({},
         process.env.secret, {
             expiresIn: '14d',
             issuer: 'cotak'
         });
     
     try {
-        const PK = await client.signIn.getUserPK(req.body.id);
-        let newToken = await client.signIn.setRefreshToken(PK, REFRESHTOKEN); 
+        const pk = await client.signIn.getUserPKById(req.body.id);
         let userInfo = await client.signIn.getUserById(req.body.id);
         
         let id = userInfo.ID;
@@ -31,12 +29,16 @@ router.route('/')
                 expiresIn: '1h',
                 issuer: 'cotak'
             });
-        
+
+        let tokens = {
+            refreshToken,
+            accessToken
+        }
+        await client.signIn.setTokens(pk, tokens); 
+
         res.cookie('accessToken', accessToken);
-        res.cookie('refreshToken', REFRESHTOKEN);
-        
+
         res.json(accessToken);
-        //성공적으로 저장이 잘 됐다면 메인페이지로 하지만 아직 미정
         //res.redirect('/');
     }
     catch(err)  {

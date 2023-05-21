@@ -14,6 +14,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
+app.use(cookieParser());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -54,7 +55,7 @@ const matchingRouter = require("./routers/matching");
 const chatRouter = require("./routers/chat");
 const noticeBoardRouter = require('./routers/notice_board');
 const loginRouter = require('./routers/login');
-const logoutRouter = require('./routers/logout');
+//const logoutRouter = require('./routers/logout');
 const guestbookRouter = require('./routers/guestbook');
 
 app.set('port', process.env.PORT || 8080);
@@ -72,7 +73,7 @@ app.use('/review-group', matchingRouter);
 app.use('/direct', chatRouter);
 app.use('/notice', noticeBoardRouter);
 app.use('/login', loginRouter);
-app.use('/logout', logoutRouter);
+//app.use('/logout', logoutRouter);
 app.use('/guestbook', guestbookRouter);
 
 app.listen(app.get('port'), () => {

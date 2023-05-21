@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const noticeboard = require('../models/notice_board');
+const { checkTokens } = require('../middleware/auth');
+const { isAdmin } = require('../middleware/adminIdentification');
 
-
-router.get('/', async(req, res) => {
+router.get('/', checkTokens, async(req, res) => {
     let idx = req.query.idx;
     let data;
     if(!(idx)) {
@@ -24,7 +25,7 @@ router.get('/', async(req, res) => {
 })
 
 // http://localhost:8080/notice/post
-router.post('/post', async(req, res) => {
+router.post('/post', checkTokens, isAdmin, async(req, res) => {
 
     let inputData = {
         title : req.body.title,
@@ -41,7 +42,7 @@ router.post('/post', async(req, res) => {
 })
 
 // http://localhost:8080/notice/post?idx=
-router.put('/post', async(req, res) => {
+router.put('/post', checkTokens, isAdmin, async(req, res) => {
     let idx = req.query.idx;
     let updateData;
     let data;
@@ -64,7 +65,7 @@ router.put('/post', async(req, res) => {
 })
 
 // http://localhost:8080/notice/?idx=
-router.delete('/', async(req, res) => {
+router.delete('/', checkTokens, isAdmin, async(req, res) => {
     let idx;
     let data;
     

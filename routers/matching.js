@@ -60,13 +60,13 @@ router.post('/', isLoggedIn, async (req, res) => {
     }
 });
 
-// http://localhost:8080/review-group/update
+// http://localhost:8080/review-group/modify
 router.get('/update', isLoggedIn, async(req, res) => {
     res.render('review-group/update');
 })
 
-// http://localhost:8080/review-group/update
-router.post('/update', async(req, res) => {
+// http://localhost:8080/review-group/modify
+router.post('/update', isLoggedIn, async(req, res) => {
 
     //req.query.~ 어떻게 들어오더라?
     // { position : '' } 였던거 같은데
@@ -130,13 +130,13 @@ router.post('/update', async(req, res) => {
     }
 })
 
-// http://localhost:8080/review-groups/pending
-router.get('/pending', async(req, res) => {
+// http://localhost:8080/review-groups/waiting-queue
+router.get('/waiting-queue', isLoggedIn, async(req, res) => {
     res.render('review-group/pending');
 })
 
-// http://localhost:8080/review-groups/pending
-router.post('/pending', async(req, res) => {
+// http://localhost:8080/review-groups/waiting-queue
+router.post('/waiting-queue', isLoggedIn, async(req, res) => {
     // 1. 대기열에 등록된 리뷰이 리스트를 가져와서
     matching.getRevieweesInfo()
         .then(async(revieweesResult) => {

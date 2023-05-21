@@ -3,7 +3,6 @@ const router = express.Router();
 const user = require('../models/user');
 const bcrypt = require('bcrypt');
 const setProfileImage = require('../others/setProfileImage');
-const smtpTransport = require('../config/email');
 
 //회원가입
 //이메일 인증은 어떻게 구현하지?
