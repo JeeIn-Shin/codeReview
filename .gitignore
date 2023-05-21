@@ -10,4 +10,9 @@ package-lock.json
 package.json
 server.js
 .history/
-
+public/assets/
+public/style.css
+views/login/
+views/signup/
+middleware/
+util/
