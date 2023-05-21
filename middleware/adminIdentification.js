@@ -7,5 +7,12 @@ module.exports = {
         if(decodedToken.isAdmin === 0) {
             res.status(403).json({ message : "Forbidden" });
         }
+    },
+    async isNormalUser(req, res, next)  {
+        let decodedToken = jwt.verify(req.cookies.accessToken, process.env.secret);
+        
+        if(decodedToken.isAdmin === 1) {
+            res.status(403).json({ message : "Forbidden" });
+        }
     }
 }

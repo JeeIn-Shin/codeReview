@@ -27,7 +27,7 @@ router.route('/')
         let accessToken = jwt.sign({ id, nickname, isAdmin }, 
             process.env.secret, {
                 expiresIn: '1h',
-                issuer: 'cotak'
+                issuer: 'cotak',
             });
 
         let tokens = {
@@ -36,7 +36,7 @@ router.route('/')
         }
         await client.signIn.setTokens(pk, tokens); 
 
-        res.cookie('accessToken', accessToken);
+        res.cookie('accessToken', accessToken, { httpOnly : true });
 
         res.json(accessToken);
         //res.redirect('/');

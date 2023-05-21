@@ -14,7 +14,6 @@ module.exports = {
 
     getTokens: (access) => {
         return new Promise((resolve, reject) => {
-            console.log(access);
             db.getConnection((err, connection) => {
                 if(!err)    {
                     let sql = `SELECT refresh, access FROM token_tb WHERE access LIKE '${access}'`;
@@ -26,7 +25,6 @@ module.exports = {
                             console.log("sql error " + err);
                             reject(err);
                         }
-                        console.log(res);
                         resolve(res);
                     })
                 }
