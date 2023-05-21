@@ -16,3 +16,5 @@ views/login/
 views/signup/
 middleware/
 util/
+views/notice/login.html
+views/notice/login.js
