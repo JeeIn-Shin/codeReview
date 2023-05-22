@@ -9,16 +9,13 @@ module.exports = {
          * access token 자체가 없는 경우엔 에러(401)를 반환
          * 클라이언트측에선 401을 응답받으면 로그인 페이지로 이동시킴
          */
-        // console.log(req.cookies.accessToken);
-        // if (req.cookies.accessToken === undefined)  {
-        //     res.status(401).json({ message : "Theres is No access token"});
-        // }
-        //클라에서 넘어온 accesstoken이 진짜 서버단에서 발급해준 token이 맞는지(DB에 저장되어 있는지) 확인해주고,
-        let Tokens = await getTokens(req.cookies.accessToken);
-
-        if(Tokens === null)
+        if((!req.headers.authorization))
             return res.status(500).json({ message : "Internal Server Error" });
         
+        let AT =  req.headers.authorization.split('Bearer ')[1];
+
+        let Tokens = await getTokens(AT);
+
         const accessToken = verifyToken(Tokens[0].access);
         const refreshToken = verifyToken(Tokens[0].refresh);
 
