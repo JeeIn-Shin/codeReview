@@ -39,3 +39,5 @@ function validatePassword() {
             messageElement.classList.remove("error");
         }
     }
+
+    

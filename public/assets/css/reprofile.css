@@ -7,12 +7,12 @@ body {
   }
 
   form {
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto;
   }
 
   label {
-    display: block;
+
     margin-top: 10px;
   }
 
@@ -47,42 +47,98 @@ body {
     margin-top: 20px;
   }
 
-  .error-message {
-    color: red;
-  }
 
-  /* 현재 비밀번호 입력칸 스타일 */
-  #passwordContainer {
-    max-width: 400px;
-    margin: 0 auto;
-    margin-top: 20px;
-  }
+  
+/*프로필 사진 클릭시 변하는 CSS*/
+.profile_select {
+  width: 700px;
+}
 
-  #passwordContainer label {
-    display: block;
-    margin-top: 10px;
-  }
 
-  #passwordInput {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-top: 5px;
-  }
+.profile_select > div > button{
 
-  #passwordContainer button {
-    margin-top: 10px;
-    padding: 8px 12px;
-    background-color: #0D5FA6;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+  border: none;
 
-  #passwordContainer button:hover {
-    background-color: #0D5FA6;
-  }
+  margin-top: 40px;
+  padding: 0px;
+  width: 170px;
+  height:200px;
 
+  background-color: white;
+  float: left;
+}
+
+.profile_select > div > button.active,
+.profile_select > div > button:hover {
+      background-color:#cfcfcf;
+      transition: 0.7s;
+}
+
+
+.field_btns {
+  height: 200px;
+  margin-top: 280px;
+
+}
+
+
+
+/*라디오 박스 css*/
+
+.language_select {
+  margin-top: 0px;
+  padding: 0px;
+  width: 750px;
+  height:0px;
+}
+
+.listselect1 {
+  padding-top: 0px;
+  padding-bottom: 10px;
+}
+
+.listselect2 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.listselect3 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.active_selectone {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  padding-top: 210px;
+  
+}
+
+.mtstart2 {
+  display: inline-block;
+  padding: 30px 50px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: #f0f0f0;
+  color: #333333;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* 버튼 호버 효과 */
+.mtstart2:hover {
+  background-color: #F2F2F2;
+}
+
+/* 버튼 활성화 효과 */
+.mtstart2:active {
+  background-color: #0D5FA6;
+}
+
+.selectbt {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
