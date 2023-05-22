@@ -9,18 +9,18 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-let token = getCookie("token"); //"token"을 받아오는 실제 이름으로 수정
-console.log("token: ", token);
+let accessToken = getCookie("accessToken"); //accessToken
+console.log("taccessToken: ", accessToken);
 
-let decoded = parseJwt(token);
+let decoded = parseJwt(accessToken);
 console.log("decoded: ", decoded);
 
-function parseJwt(token) {
+function parseJwt(accessToken) {
   //토큰을 받아서 payload를 반환하는 함수
-  if (!token) {
+  if (!accessToken) {
     return null;
   } else {
-    const base64Url = token.split(".")[1];
+    const base64Url = accessToken.split(".")[1];
     console.log("base64Url: ", base64Url);
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     console.log("base64: ", base64);
@@ -50,11 +50,11 @@ let isAdmin = false;
 isAdminCheck();
 // 관리자인지 판단하는 함수
 function isAdminCheck() {
-  if (!token) {
+  if (!accessToken) {
     isAdmin = false;
     localStorage.setItem("isAdmin", isAdmin);
   } else {
-    if (decoded.name === "John Doe") {
+    if (decoded.isAdmin === 1) {
       // john doe를 실제 관리자명으로 수정 name을 실제 페이로드 이름으로 수정
       isAdmin = true;
       localStorage.setItem("isAdmin", isAdmin);
@@ -92,31 +92,23 @@ if (post_mode === "write") {
   date.textContent = YearMonthDate;
 
   writebtn.addEventListener("click", function (submitevent) {
-    token = getCookie("token");
-    decoded = parseJwt(token);
-    console.log("decoded: ", decoded);
-    isAdminCheck();
-    if (!isAdmin) {
-      alert("권한이 없습니다.");
+    if (title.value == "") {
+      alert("제목을 입력해주세요.");
+      title.focus();
+      submitevent.preventDefault();
+    } else if (details.value == "") {
+      alert("내용을 입력해주세요.");
+      details.focus();
+      submitevent.preventDefault();
     } else {
-      if (title.value == "") {
-        alert("제목을 입력해주세요.");
-        title.focus();
-        submitevent.preventDefault();
-      } else if (details.value == "") {
-        alert("내용을 입력해주세요.");
-        details.focus();
-        submitevent.preventDefault();
-      } else {
-        submitevent.preventDefault();
+      submitevent.preventDefault();
 
-        let data = {
-          title: title.value,
-          details: details.value,
-        };
-        console.log(data);
-        postData(data);
-      }
+      let data = {
+        title: title.value,
+        details: details.value,
+      };
+      console.log(data);
+      postData(data);
     }
   });
 }
@@ -134,29 +126,21 @@ if (post_mode === "modify") {
   //게시 버튼이 수정 버튼으로 바뀌고, 수정 버튼을 누르면 데이터를 수정한다.
   writebtn.textContent = "수정";
   writebtn.addEventListener("click", function (submitevent) {
-    token = getCookie("token");
-    decoded = parseJwt(token);
-    console.log("decoded: ", decoded);
-    isAdminCheck();
-    if (!isAdmin) {
-      alert("권한이 없습니다.");
+    if (title.value == "") {
+      alert("제목을 입력해주세요.");
+      title.focus();
+      submitevent.preventDefault();
+    } else if (details.value == "") {
+      alert("내용을 입력해주세요.");
+      details.focus();
+      submitevent.preventDefault();
     } else {
-      if (title.value == "") {
-        alert("제목을 입력해주세요.");
-        title.focus();
-        submitevent.preventDefault();
-      } else if (details.value == "") {
-        alert("내용을 입력해주세요.");
-        details.focus();
-        submitevent.preventDefault();
-      } else {
-        submitevent.preventDefault();
-        let data = {
-          title: title.value,
-          details: details.value,
-        };
-        putData(data);
-      }
+      submitevent.preventDefault();
+      let data = {
+        title: title.value,
+        details: details.value,
+      };
+      putData(data);
     }
   });
 }
@@ -171,6 +155,7 @@ async function getSelectData(post_id) {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
       },
     });
 
@@ -183,7 +168,7 @@ async function getSelectData(post_id) {
 }
 
 function postData(Data) {
-  const url = `http://localhost:8080/notice/post?type=create`;
+  const url = `http://localhost:8080/notice/post`; //?type=create
   console.log("noticeData: ", Data);
   console.log("noticeData.TITLE: ", Data.title);
   console.log("noticeData.DETAILS: ", Data.details);
@@ -194,6 +179,7 @@ function postData(Data) {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
       },
       body: JSON.stringify(Data),
     }
@@ -202,6 +188,7 @@ function postData(Data) {
     .then((response) => response.json())
     .then((notice) => {
       //onbeforeunload를 막는다.
+      console.log("notice:", notice);
       window.onbeforeunload = null;
       localStorage.setItem("post_id", notice.insertId);
       location.href = "notice.html";
@@ -210,17 +197,19 @@ function postData(Data) {
     .catch((err) => console.error(err));
 }
 
-function putData(Data) {
+function putData(data) {
   const url = `http://localhost:8080/notice/post?idx=${post_id}`;
-  console.log("noticeData: ", Data);
-  console.log("noticeData.TITLE: ", Data.title);
-  console.log("noticeData.DETAILS: ", Data.details);
+  console.log("noticeData: ", data);
+  console.log("noticeData.TITLE: ", data.title);
+  console.log("noticeData.DETAILS: ", data.details);
   fetch(url, {
     method: "PUT",
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer " + accessToken,
     },
-    body: JSON.stringify(Data),
+    body: JSON.stringify(data),
   })
     .then((response) => {
       if (response.ok) {

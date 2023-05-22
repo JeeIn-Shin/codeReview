@@ -1,7 +1,8 @@
 "use strict";
-document.cookie =
-  "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; max-age=3600; path=/";
-//위는 테스트용 토큰을 담은 테스트용 쿠키를 브라우저에 생성하는 것으로서 실제 환경에서 사용되는 것은 아님.
+//document.cookie =
+// "taccessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; max-age=3600; path=/";
+
+//위는 테스트용 토큰을  담은 테스트용 쿠키를 브라우저에 생성하는 것으로서 실제 환경에서 사용되는 것은 아님.
 //실제 쿠키는 로그인 시 전 페이지에 저장되도록 하고 리프레쉬 토큰을 이용하여 만료시간을 연장시키는 방식을 구현하는 것은 내 역할이 아님.
 //만료가 되면 토큰이 없을 것이므로 관리자였을 경우 글쓰기, 수정, 삭제 버튼이 작동하지 않도록 처리됨.
 
@@ -12,18 +13,18 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-let token = getCookie("token"); //"token"을 받아오는 실제 이름으로 수정
-console.log("token: ", token);
+let accessToken = getCookie("accessToken"); //accessToken
+console.log("accessToken: ", accessToken);
 
-let decoded = parseJwt(token);
+let decoded = parseJwt(accessToken);
 console.log("decoded: ", decoded);
 
-function parseJwt(token) {
+function parseJwt(accessToken) {
   //토큰을 받아서 payload를 반환하는 함수
-  if (!token) {
+  if (!accessToken) {
     return null;
   } else {
-    const base64Url = token.split(".")[1];
+    const base64Url = accessToken.split(".")[1];
     console.log("base64Url: ", base64Url);
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     console.log("base64: ", base64);
@@ -60,7 +61,7 @@ data: 게시글 데이터를 담고 있는 객체 배열
 post_data_print(select_block) : 게시글 데이터 출력하기 / 매개변수 : 선택 블럭 
 block_print(front_block) : 블럭 출력하기 / 매개변수 : 가장 앞에 오는 블럭
 */
-console.clear();
+
 // 이동을 감지하는 변수
 
 let post_id;
@@ -69,11 +70,11 @@ let isAdmin = false;
 isAdminCheck();
 // 관리자인지 판단하는 함수
 function isAdminCheck() {
-  if (!token) {
+  if (!accessToken) {
     isAdmin = false;
     localStorage.setItem("isAdmin", isAdmin);
   } else {
-    if (decoded.name === "John Doe") {
+    if (decoded.isAdmin === 1) {
       // john doe를 실제 관리자명으로 수정 name을 실제 페이로드 이름으로 수정
       isAdmin = true;
       localStorage.setItem("isAdmin", isAdmin);
@@ -135,14 +136,19 @@ async function getData() {
 
     const response = await fetch(url, {
       method: "GET",
+      //credentials: "include",
+      //withCredentials: true,
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+
+        Authorization: "Bearer " + accessToken,
       },
     });
 
     //data를 리턴한다.
     data = await response.json();
+    console.log("data : ", data);
     return data;
   } catch (error) {
     console.log("error : ", error);
@@ -376,30 +382,28 @@ function block_print(front_block) {
     document.querySelector(".last_move").style.visibility = "visible";
     document.querySelector(".next_move").style.visibility = "visible";
   }
-
-  //관리자만 글쓰기 기능을 이용하게 하기
-  const writebutton = document.getElementById("write");
-  console.log("isAdmin? : ", isAdmin);
-  if (isAdmin) {
-    console.log("isAdmin?? : ", isAdmin);
-    writebutton.style.display = "inline-block";
-    writebutton.onmouseover = function () {
-      token = getCookie("token");
-      decoded = parseJwt(token);
-      isAdminCheck();
-      if (isAdmin) {
-        localStorage.setItem("select_block", select_block);
-        localStorage.setItem("post_mode", "write");
-      } else {
-        alert("권한이 없습니다.");
-      }
-    };
-  } else {
-    console.log("isAdmin???  : ", isAdmin);
-    writebutton.style.display = "none";
-  }
 }
-
+//관리자만 글쓰기 기능을 이용하게 하기
+const writebutton = document.getElementById("write");
+console.log("isAdmin? : ", isAdmin);
+if (isAdmin) {
+  console.log("isAdmin?? : ", isAdmin);
+  writebutton.style.display = "inline-block";
+  writebutton.onmouseover = function () {
+    accessToken = getCookie("accessToken");
+    decoded = parseJwt(accessToken);
+    isAdminCheck();
+    if (isAdmin) {
+      localStorage.setItem("select_block", select_block);
+      localStorage.setItem("post_mode", "write");
+    } else {
+      alert("권한이 없습니다.");
+    }
+  };
+} else {
+  console.log("isAdmin???  : ", isAdmin);
+  writebutton.style.display = "none";
+}
 function before() {
   console.clear();
   block_print(current_block - block_num);
@@ -432,12 +436,14 @@ function last() {
 
 function deleteDataById(post_id) {
   try {
+    console.log("post_id : ", post_id);
     const url = `http://localhost:8080/notice`;
     fetch(url, {
       method: "GET",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
       },
     })
       .then((response) => response.json())
@@ -448,6 +454,7 @@ function deleteDataById(post_id) {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
+            Authorization: "Bearer " + accessToken,
           },
         });
       })
@@ -467,6 +474,7 @@ function getDataByTitle(title) {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
       },
     })
       .then((response) => response.json())
@@ -490,6 +498,7 @@ function getDataByDetails(details) {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
       },
     })
       .then((response) => response.json())
@@ -541,8 +550,8 @@ function createPostElement(data, i) {
   titleAnchor.textContent = data[i - 1].TITLE; // 게시글 제목
 
   titleAnchor.onmouseover = function () {
-    token = getCookie("token");
-    decoded = parseJwt(token);
+    accessToken = getCookie("accessToken");
+    decoded = parseJwt(accessToken);
     isAdminCheck();
     localStorage.setItem("post_id", data[i - 1].ID_PK);
     localStorage.setItem("select_block", select_block);
@@ -611,8 +620,8 @@ function createPostElement(data, i) {
   readMoreAnchor.classList.add("more-link");
   readMoreAnchor.textContent = "자세히 보기";
   readMoreAnchor.onmouseover = function () {
-    token = getCookie("token");
-    decoded = parseJwt(token);
+    accessToken = getCookie("accessToken");
+    decoded = parseJwt(accessToken);
     isAdminCheck();
     localStorage.setItem("select_block", select_block);
     localStorage.setItem("post_id", data[i - 1].ID_PK);
@@ -634,7 +643,7 @@ function createPostElement(data, i) {
     modifyaAnchor.textContent = "수정";
     modifyaAnchor.onmouseover = function () {
       //토큰이 없으면
-      if (token == null) {
+      if (accessToken == null) {
         alert("권한이 없습니다.");
       } else {
         localStorage.setItem("select_block", select_block);
@@ -648,24 +657,17 @@ function createPostElement(data, i) {
     deleteButton.id = "delete";
     deleteButton.textContent = "삭제";
     deleteButton.addEventListener("click", function () {
-      token = getCookie("token");
-      decoded = parseJwt(token);
-      isAdminCheck();
-      if (isAdmin) {
-        if (
-          confirm(
-            data[i - 1].ID_PK +
-              "번 " +
-              data[i - 1].TITLE +
-              " 정말 삭제하시겠습니까?"
-          )
-        ) {
-          deleteDataById(data[i - 1].ID_PK);
-        } else {
-          alert("취소되었습니다.");
-        }
+      if (
+        confirm(
+          data[i - 1].ID_PK +
+            "번 " +
+            data[i - 1].TITLE +
+            " 정말 삭제하시겠습니까?"
+        )
+      ) {
+        deleteDataById(data[i - 1].ID_PK);
       } else {
-        alert("권한이 없습니다.");
+        alert("취소되었습니다.");
       }
     });
 

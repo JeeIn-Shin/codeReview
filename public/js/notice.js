@@ -9,18 +9,18 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-let token = getCookie("token"); //"token"을 받아오는 실제 이름으로 수정
-console.log("token: ", token);
+let accessToken = getCookie("accessToken"); //accessToken
+console.log("accessToken: ", accessToken);
 
-let decoded = parseJwt(token);
+let decoded = parseJwt(accessToken);
 console.log("decoded: ", decoded);
 
-function parseJwt(token) {
+function parseJwt(accessToken) {
   //토큰을 받아서 payload를 반환하는 함수
-  if (!token) {
+  if (!accessToken) {
     return null;
   } else {
-    const base64Url = token.split(".")[1];
+    const base64Url = accessToken.split(".")[1];
     console.log("base64Url: ", base64Url);
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     console.log("base64: ", base64);
@@ -70,32 +70,18 @@ console.log("current_block: ", current_block);
 if (isAdmin === "true") {
   putbtn.style.display = "inline-block";
   putbtn.addEventListener("mouseover", function (e) {
-    token = getCookie("token");
-    decoded = parseJwt(token);
-    if (decoded === null) {
-      e.preventDefault();
-      alert("권한이 없습니다.");
-    } else {
-      localStorage.setItem("post_mode", "modify");
-      localStorage.setItem("post_id", post_id);
-    }
+    localStorage.setItem("post_mode", "modify");
+    localStorage.setItem("post_id", post_id);
   });
 
   deletebtn.style.display = "inline-block";
 
   deletebtn.addEventListener("click", function (e) {
-    token = getCookie("token");
-    decoded = parseJwt(token);
-    if (decoded === null) {
-      e.preventDefault();
-      alert("권한이 없습니다.");
+    let result = confirm("삭제하시겠습니까?");
+    if (result) {
+      deleteDataById(post_id);
     } else {
-      let result = confirm("삭제하시겠습니까?");
-      if (result) {
-        deleteDataById(post_id);
-      } else {
-        alert("취소되었습니다.");
-      }
+      alert("취소되었습니다.");
     }
   });
 }
@@ -113,6 +99,7 @@ async function getSelectData(post_id) {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
@@ -161,6 +148,7 @@ function deleteDataById(post_id) {
           mode: "cors",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
           },
         });
       })
