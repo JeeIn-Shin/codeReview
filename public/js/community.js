@@ -58,7 +58,7 @@ const commentsUser = document.getElementById("comments-user");
 commentsUser.innerHTML = username;
 
 const commentsNumber = document.getElementById("comments-number");
-const author = decoded.name; //정의된 payload의 것으로 수정
+const author = decoded.nickname;
 
 //  한 페이지 당 출력되는 댓글 갯수
 let page_num = 5;
