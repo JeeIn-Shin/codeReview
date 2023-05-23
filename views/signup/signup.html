@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../../public/assets/css/normalize.css">
 	<link rel="stylesheet" href="../../public/style.css">
 	<link rel="stylesheet" href="../../public/assets/css/responsive.css">
-    <link rel="stylesheet" href="../../public/assets/css/profile.css">
+    <link rel="stylesheet" href="../../public/assets/css/signup.css">
 
 </head>
 <body>
@@ -86,14 +86,14 @@
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
                                                         <label for="password">비밀번호</label>
-                                                        <input type="password" id="password" name="password" oninput="validatePassword()" required placeholder="8~16자리 영문 대소문자,숫자,특수문자 조합" />
+                                                        <input type="password" id="pwd" name="pwd" oninput="validatePassword()" required placeholder="8~16자리 영문 대소문자,숫자,특수문자 조합" />
                                                     </div>
                                                 </div>
 
                                                 <div class="col-sm-6">
                                                     <div class="single-field">
                                                         <label for="passwordch">비밀번호확인</label>
-                                                        <input type="passwordch" id="passwordch" name="passwordch" oninput="validatePassword()" required placeholder="동일하게 입력" />
+                                                        <input type="password" id="passwordch" name="passwordch" oninput="validatePassword()" required placeholder="동일하게 입력" />
                                                             <div id="message"></div>
                                                     </div>
                                                 </div>
@@ -164,80 +164,79 @@
                                                     <div class="listselect1">
                                                         <p><strong>- 개발 경험이 많은 언어</strong></p>
                                                         <div class="radiobox">
-                                                        <input type="radio" name="c" id="c" checked value="c"> 
+                                                            <input type="radio" name="c" id="c" checked value="2"> 
                                                             <label for='c'>C</label>
-                                                        <input type="radio" name="cPlus" id="cPlus" value="cPlus">
+                                                        <input type="radio" name="cPlus" id="cPlus" value="2">
                                                             <label for='cPlus'>C++</label>
-                                                        <input type="radio" name="cSharp" id="cSharp" value="cSharp">
+                                                        <input type="radio" name="cSharp" id="cSharp" value="2">
                                                             <label for='cSharp'>C#</label>
-                                                        <input type="radio" name="java" id="java" value="java">
+                                                        <input type="radio" name="java" id="java" value="2">
                                                             <label for='java'>JAVA</label>
-                                                        <input type="radio" name="kotlin" id="kotlin" value="kotlin">
+                                                        <input type="radio" name="kotlin" id="kotlin" value="2">
                                                             <label for='kotlin'>Kotiln</label>
-                                                        <input type="radio" name="swift" id="swift" value="swift">
+                                                        <input type="radio" name="swift" id="swift" value="2">
                                                             <label for='swift'>Swift</label>
-                                                       <input type="radio" name="python" id="python" value="python">
+                                                       <input type="radio" name="python" id="python" value="2">
                                                             <label for='python'>Python</label>
-                                                        <input type="radio" name="go" id="go" value="go">
+                                                        <input type="radio" name="go" id="go" value="2">
                                                             <label for='go'>GO</label>
-                                                        <input type="radio" name="javascript" id="javaScript" value="javascript">
+                                                        <input type="radio" name="javascript" id="javaScript" value="2">
                                                             <label for='javaScript'>JavaScript</label>
-                                                        <input type="radio" name="rust" id="rust" value="rust">
+                                                        <input type="radio" name="rust" id="rust" value="2">
                                                             <label for='rust'>Rust</label>
-                                                        <input type="radio" name="ruby" id="ruby" value="ruby">
+                                                        <input type="radio" name="ruby" id="ruby" value="2">
                                                             <label for='ruby'>Ruby</label>    
                                                         </div>
                                                     </div>
 
                                                     <div class="listselect2">
                                                         <p><strong>- 개발 경험이 있는 언어</strong></p>
-                                                        <input type="radio" name="c" id="c2" value="c"> 
+                                                        <input type="radio" name="c" id="c2" value="1"> 
                                                             <label for='c2'>C</label>
-                                                        <input type="radio" name="cPlus" id="cPlus2" value="cPlus">
+                                                        <input type="radio" name="cPlus" id="cPlus2" value="1">
                                                             <label for='cPlus2'>C++</label>
-                                                        <input type="radio" name="cSharp" id="cSharp2" value="cSharp">
+                                                        <input type="radio" name="cSharp" id="cSharp2" value="1">
                                                             <label for='cSharp2'>C#</label>
-                                                        <input type="radio" name="java" id="java2" value="java">
+                                                        <input type="radio" name="java" id="java2" value="1">
                                                             <label for='java2'>JAVA</label>
-                                                        <input type="radio" name="kotlin" id="kotlin2" value="kotlin">
+                                                        <input type="radio" name="kotlin" id="kotlin2" value="1">
                                                             <label for='kotlin2'>Kotiln</label>
-                                                        <input type="radio" name="swift" id="swift2" value="swift">
+                                                        <input type="radio" name="swift" id="swift2" value="1">
                                                             <label for='swift2'>Swift</label>
-                                                        <input type="radio" name="python" id="python2" value="python">
+                                                        <input type="radio" name="python" id="python2" value="1">
                                                             <label for='python2'>Python</label>
-                                                        <input type="radio" name="go" id="go2" value="go">
+                                                        <input type="radio" name="go" id="go2" value="1">
                                                             <label for='go2'>GO</label>
-                                                        <input type="radio" name="javascript" id="javaScript2" value="javascript">
+                                                        <input type="radio" name="javascript" id="javaScript2" value="1">
                                                             <label for='javaScript2'>JavaScript</label>
-                                                        <input type="radio" name="rust" id="rust2" value="rust"> 
+                                                        <input type="radio" name="rust" id="rust2" value="1"> 
                                                             <label for='rust2'>Rust</label>
-                                                        <input type="radio" name="ruby" id="ruby2" value="ruby">
+                                                        <input type="radio" name="ruby" id="ruby2" value="1">
                                                             <label for='ruby2'>Ruby</label> 
-
                                                     </div>
                                                     <div class="listselect3">
                                                         <p><strong>- 개발 경험이 없는 언어</strong></p>
-                                                        <input type="radio" name="c" id="c3" value="c"> 
+                                                        <input type="radio" name="c" id="c3" value="0"> 
                                                             <label for='c3'>C</label>
-                                                        <input type="radio" name="cPlus" id="cPlus3" value="cPlus">
+                                                        <input type="radio" name="cPlus" id="cPlus3" value="0">
                                                             <label for='cPlus3'>C++</label>
-                                                        <input type="radio" name="cSharp" id="cSharp3" value="cSharp">
+                                                        <input type="radio" name="cSharp" id="cSharp3" value="0">
                                                             <label for='cSharp3'>C#</label>
-                                                        <input type="radio" name="java" id="java3" value="java">
+                                                        <input type="radio" name="java" id="java3" value="0">
                                                             <label for='java3'>JAVA</label>
-                                                        <input type="radio" name="kotlin" id="kotlin3" value="kotlin">
+                                                        <input type="radio" name="kotlin" id="kotlin3" value="0">
                                                             <label for='kotlin3'>Kotiln</label>
-                                                        <input type="radio" name="swift" id="swift3" value="swift">
+                                                        <input type="radio" name="swift" id="swift3" value="0">
                                                             <label for='swift3'>Swift</label>
-                                                        <input type="radio" name="python" id="python3" value="python">
+                                                        <input type="radio" name="python" id="python3" value="0">
                                                             <label for='python3'>Python</label>
-                                                        <input type="radio" name="go" id="go3" value="go">
+                                                        <input type="radio" name="go" id="go3" value="0">
                                                             <label for='go3'>GO</label>
-                                                        <input type="radio" name="javascript" id="javaScript3" value="javascript">
+                                                        <input type="radio" name="javascript" id="javaScript3" value="0">
                                                             <label for='javaScript3'>JavaScript</label>
-                                                        <input type="radio" name="rust" id="rust3" value="rust">
+                                                        <input type="radio" name="rust" id="rust3" value="0">
                                                             <label for='rust3'>Rust</label>
-                                                        <input type="radio" name="ruby" id="ruby3" value="ruby">
+                                                        <input type="radio" name="ruby" id="ruby3" value="0">
                                                             <label for='ruby3'>Ruby</label> 
                                                     </div>
                                                     
@@ -246,12 +245,15 @@
                                             <div class="language_select">
                                                 <div class="active_selectone">
                                                     <p><strong><span style="color: rgb(255, 81, 81);">활동 설정</span>을 선택 해주세요.</strong></p>
-                                                    <input type="radio" name="codeReview" value="codeReview" id="codereivew1">
-                                                        <label for="codereivew1">코드 리뷰</label>
-                                                    <input type="radio" name="refactoring" value="refactoring" id="repactoring1">
-                                                        <label for="repactoring1">코드 수정</label>
-                                                    <input type="radio" name="qa" value="qa" id="qa1">
-                                                        <label for="qa1">코드 검증</label>
+                                                    <input type="checkbox" name="codereview" value='1' id="codereview" onclick='is_checked()'/>
+                                                    <input type="hidden" name="codereview" value='0' id="codereview_hidden" onclick='is_checked()'/>
+                                                        <label for="codereivew">코드 리뷰</label>
+                                                    <input type="checkbox" name="refactoring" value='1' id="refactoring" onclick='is_checked()'/>
+                                                    <input type="hidden" name="refactoring" value='0' id="refactoring_hidden" onclick='is_checked()'/>
+                                                        <label for="refactoring">코드 수정</label>
+                                                    <input type="checkbox" name="qa" value='1' id="qa" onclick='is_checked()'/>
+                                                    <input type="hidden" name="qa" value='0' id="qa_hidden" onclick='is_checked()'/>
+                                                        <label for="qa">코드 검증</label>
  
                                                 </div>
                                             </div>
@@ -297,7 +299,7 @@
     <script src="../../public/assets/js/jquery.nice-select.min.js"></script>
     <script src="../../public/assets/js/script.js"></script>
     <script src="../../public/assets/js/multifrom.js"></script>
-    <script src="../../public/assets/js/profile.js"></script>
+    <script src="../../public/assets/js/signup.js"></script>
 
 </body>
 </html>
