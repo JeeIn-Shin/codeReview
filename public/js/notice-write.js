@@ -1,7 +1,5 @@
 "use strict";
 
-//만료가 되면 토큰이 없을 것이므로 관리자였을 경우 수정, 삭제 버튼이 작동하지 않도록 처리됨.
-
 function getCookie(name) {
   // 쿠키를 받아오는 함수
   const value = `; ${document.cookie}`;
@@ -10,7 +8,7 @@ function getCookie(name) {
 }
 
 let accessToken = getCookie("accessToken"); //accessToken
-console.log("taccessToken: ", accessToken);
+console.log("accessToken: ", accessToken);
 
 let decoded = parseJwt(accessToken);
 console.log("decoded: ", decoded);
@@ -194,7 +192,7 @@ function postData(Data) {
       location.href = "notice.html";
     })
     .then((json) => console.log(json))
-    .catch((err) => console.error(err));
+    .catch((err) => console.error(err), alert("글쓰기에 실패하였습니다."));
 }
 
 function putData(data) {
@@ -222,7 +220,7 @@ function putData(data) {
       window.onbeforeunload = null;
       location.href = "notice.html";
     })
-    .catch((err) => console.error(err));
+    .catch((err) => console.error(err), alert("수정에 실패하였습니다."));
 }
 
 window.onbeforeunload = function (event) {

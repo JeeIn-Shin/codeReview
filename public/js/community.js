@@ -1,8 +1,5 @@
 "use strict";
 
-//위는 테스트용 토큰을 담은 테스트용 쿠키를 브라우저에 생성하는 것으로서 실제 환경에서 사용되는 것은 아님.
-//실제 쿠키는 로그인 시 전 페이지에 저장되도록 하고 리프레쉬 토큰을 이용하여 만료시간을 연장시키는 방식을 구현하는 것은 내 역할이 아님.
-//토큰이 만료되었을 경우 댓글을 게시하지 못하도록 함.
 function getCookie(name) {
   // 쿠키를 받아오는 함수
   const value = `; ${document.cookie}`;
@@ -12,11 +9,7 @@ function getCookie(name) {
 
 let accessToken = getCookie("accessToken"); //accessToken
 console.log("accessToken: ", accessToken);
-//토큰이 없으면
-if (!accessToken) {
-  alert("로그인이 필요합니다.");
-  location.href = "../../views/notice/login.html"; // 경로 수정
-}
+
 let decoded = parseJwt(accessToken);
 console.log("decoded: ", decoded);
 
@@ -58,7 +51,8 @@ const commentsUser = document.getElementById("comments-user");
 commentsUser.innerHTML = username;
 
 const commentsNumber = document.getElementById("comments-number");
-const author = decoded.nickname;
+
+const author = accessToken ? decoded.nickname : null;
 
 //  한 페이지 당 출력되는 댓글 갯수
 let page_num = 5;
@@ -84,19 +78,28 @@ localStorage.setItem("select_block", select_block);
 
 let data;
 let totalPage = localStorage.getItem("totalPage");
-getDataByUsername(username)
-  .then((result) => {
-    data = result;
-    totalPage = data.length;
-    console.log("data: ", data);
-    commentsNumber.innerHTML = data.length;
 
-    post_data_print(select_block);
-    block_print(current_block);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+//실행될 때 액세스 토큰이 없으면 로그인 페이지로 이동
+window.onload = function () {
+  if (!accessToken) {
+    alert("로그인이 필요합니다.");
+    location.href = "/views/notice/login.html"; //경로 수정
+  } else {
+    getDataByUsername(username)
+      .then((result) => {
+        data = result;
+        totalPage = data.length;
+        console.log("data: ", data);
+        commentsNumber.innerHTML = data.length;
+
+        post_data_print(select_block);
+        block_print(current_block);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+};
 
 function post_data_print(block) {
   // 초기화
@@ -296,6 +299,7 @@ function postData(data) {
       location.reload();
     })
     .catch((error) => {
+      alert("댓글 작성에 실패했습니다.");
       console.error("Error:", error);
     });
 }

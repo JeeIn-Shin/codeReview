@@ -1,10 +1,4 @@
 "use strict";
-//document.cookie =
-// "taccessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c; max-age=3600; path=/";
-
-//위는 테스트용 토큰을  담은 테스트용 쿠키를 브라우저에 생성하는 것으로서 실제 환경에서 사용되는 것은 아님.
-//실제 쿠키는 로그인 시 전 페이지에 저장되도록 하고 리프레쉬 토큰을 이용하여 만료시간을 연장시키는 방식을 구현하는 것은 내 역할이 아님.
-//만료가 되면 토큰이 없을 것이므로 관리자였을 경우 글쓰기, 수정, 삭제 버튼이 작동하지 않도록 처리됨.
 
 function getCookie(name) {
   // 쿠키를 받아오는 함수
@@ -115,20 +109,28 @@ localStorage.setItem("select_block", select_block);
 let data;
 let totalPage = localStorage.getItem("totalPage");
 
-getData()
-  .then((data) => {
-    totalPage = data.length;
-    localStorage.setItem("totalPage", totalPage);
-    console.log("getTotalPage : ", totalPage);
-    console.log("getData : ", data);
+//실행될 때 액세스 토큰이 없으면 로그인 페이지로 이동
+window.onload = function () {
+  if (!accessToken) {
+    alert("로그인이 필요합니다.");
+    location.href = "login.html"; //경로 수정
+  } else {
+    getData()
+      .then((data) => {
+        totalPage = data.length;
+        localStorage.setItem("totalPage", totalPage);
+        console.log("getTotalPage : ", totalPage);
+        console.log("getData : ", data);
 
-    // 데이터 로드가 완료된 후에 출력 및 페이지네이션 블록 출력 처리
-    post_data_print(select_block);
-    block_print(current_block);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
+        // 데이터 로드가 완료된 후에 출력 및 페이지네이션 블록 출력 처리
+        post_data_print(select_block);
+        block_print(current_block);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+};
 
 async function getData() {
   try {
@@ -462,6 +464,7 @@ function deleteDataById(post_id) {
       .then((json) => alert("삭제되었습니다."))
       .then((json) => location.reload());
   } catch (error) {
+    alert("삭제에 실패하였습니다.");
     console.log("error : ", error);
   }
 }

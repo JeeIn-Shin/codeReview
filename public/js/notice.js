@@ -1,7 +1,5 @@
 "use strict";
 
-//만료가 되면 토큰이 없을 것이므로 관리자였을 경우 수정, 삭제 버튼이 작동하지 않도록 처리됨.
-
 function getCookie(name) {
   // 쿠키를 받아오는 함수
   const value = `; ${document.cookie}`;
@@ -138,6 +136,7 @@ function deleteDataById(post_id) {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
     })
       .then((response) => response.json())
@@ -160,6 +159,7 @@ function deleteDataById(post_id) {
           (window.location.href = "notice-board.html")
       );
   } catch (error) {
+    alert("삭제에 실패하였습니다.");
     console.log("error: ", error);
   }
 }
