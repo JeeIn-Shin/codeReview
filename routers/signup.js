@@ -41,6 +41,7 @@ router.get('/', async (req, res) => {
 
 // http://localhost:8080/signup
 router.post('/', async (req, res) => {
+    conso
     let userInfo = {
         id : req.body.id,
         encryptPwd : await bcrypt.hash(req.body.pwd, 12),

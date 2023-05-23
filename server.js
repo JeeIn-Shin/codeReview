@@ -56,6 +56,7 @@ const matchingRouter = require("./routers/matching");
 const noticeBoardRouter = require('./routers/notice_board');
 const loginRouter = require('./routers/login');
 //const logoutRouter = require('./routers/logout');
+const reviewRouter = require('./routers/reviews');
 const guestbookRouter = require('./routers/guestbook');
 
 app.set('port', process.env.PORT || 8080);
@@ -74,6 +75,7 @@ app.use('/review-group', matchingRouter);
 app.use('/notice', noticeBoardRouter);
 app.use('/login', loginRouter);
 //app.use('/logout', logoutRouter);
+app.use('/reviews', reviewRouter);
 app.use('/guestbook', guestbookRouter);
 
 app.listen(app.get('port'), () => {

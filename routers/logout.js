@@ -11,7 +11,7 @@ router.get('/', auth, async (req, res) => {
   //Refresh token 은 DB에서 삭제
   
   //Access token 은 cache에서 삭제
-  //res.clearCookie();
+  res.clearCookie();
 });
 
 module.exports = router;
