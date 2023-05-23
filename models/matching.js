@@ -1,7 +1,6 @@
 const db = require('../config/database');
 const thingAboutSubQuery = require('../others/aboutSql');
 
-
 const matching = {
     //대기열 등록
     registerQueueByReviewer: (enrollInfo, AdditionalData) => {

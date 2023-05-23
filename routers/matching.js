@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const matching = require('../models/matching');
+const client = require('../models/user');
 const priorityQueue = require('../others/priorityQueue');
 const thingAboutSubQuery = require('../others/aboutSql');
 const { checkTokens } = require('../middleware/auth');
@@ -8,14 +9,16 @@ const { isAdmin } = require('../middleware/adminIdentification');
 require('express-session');
 
 // http://localhost:8080/review-group
-router.get('/', checkTokens, isAdmin, async(req, res) => {
+router.get('/', checkTokens, async(req, res) => {
     res.render('review-group/review-group');
 })
 
 // http://localhost:8080/review-group
-router.post('/', checkTokens, isAdmin, async (req, res) => {
+router.post('/', checkTokens, async (req, res) => {
     try {
-        let pk = await getuserPK(req.session.passport.user.ID)
+        let AT =  req.headers.authorization.split('Bearer ')[1];
+        let user = jwt.decode(AT, process.env.secret);
+        let pk = await client.signIn.getUserPKById(user.id);
         
         let enrollInfo = {
             createdAt: Date.now(),
@@ -61,26 +64,23 @@ router.post('/', checkTokens, isAdmin, async (req, res) => {
 });
 
 // http://localhost:8080/review-group/modify
-router.get('/update', checkTokens, isAdmin, async(req, res) => {
+router.get('/update', checkTokens, async(req, res) => {
     res.render('review-group/update');
 })
 
 // http://localhost:8080/review-group/modify
-router.post('/update', checkTokens, isAdmin, async(req, res) => {
-
-    //req.query.~ 어떻게 들어오더라?
-    // { position : '' } 였던거 같은데
+router.post('/update', checkTokens, async(req, res) => {
     let classification = Object.values(req.query.position);
 
-    //로그인 확인
-    let testRevieweeId = '2071111';
-    let testReviewerId = '2072222';
+    let AT =  req.headers.authorization.split('Bearer ')[1];
+    let user = jwt.decode(AT, process.env.secret);
+    let pk = await client.signIn.getUserPKById(user.id);
 
     // 0이 reviewer
     if (classification === 0) {
         let reviewerUpdateData = {
             //ID_PK 부분은 로그인 정보가 들어가야함
-            ID_PK: req.body.ID_PK,
+            ID_PK: pk,
             MON: req.body.MON,
             TUE: req.body.TUE,
             WED: req.body.WED,
@@ -88,7 +88,7 @@ router.post('/update', checkTokens, isAdmin, async(req, res) => {
             FRI: req.body.FRI
         }
 
-        await matching.updatePlan(testReviewerId, reviewerUpdateData, (err, res) => {
+        await matching.updatePlan(user.id, reviewerUpdateData, (err, res) => {
             try {
                 res.json(data);
             }
@@ -102,7 +102,7 @@ router.post('/update', checkTokens, isAdmin, async(req, res) => {
 
         let revieweeUpdateData = {
             //ID_PK 부분은 로그인 정보가 들어가야함
-            ID_PK: req.body.ID_PK,
+            ID_PK: pk,
             MON: req.body.MON,
             TUE: req.body.TUE,
             WED: req.body.WED,
@@ -112,7 +112,7 @@ router.post('/update', checkTokens, isAdmin, async(req, res) => {
             ACTIVITY: req.body.ACTIVITY
         }
 
-        await matching.updatePlanAndPrefer(testRevieweeId, revieweeUpdateData, (err, res) => {
+        await matching.updatePlanAndPrefer(user.id, revieweeUpdateData, (err, res) => {
             try {
                 res.json(data);
             }
@@ -131,12 +131,12 @@ router.post('/update', checkTokens, isAdmin, async(req, res) => {
 })
 
 // http://localhost:8080/review-groups/waiting-queue
-router.get('/waiting-queue', checkTokens, isAdmin, async(req, res) => {
+router.get('/waiting-queue', checkTokens, async(req, res) => {
     res.render('review-group/pending');
 })
 
 // http://localhost:8080/review-groups/waiting-queue
-router.post('/waiting-queue', checkTokens, isAdmin, async(req, res) => {
+router.post('/waiting-queue', checkTokens, async(req, res) => {
     // 1. 대기열에 등록된 리뷰이 리스트를 가져와서
     matching.getRevieweesInfo()
         .then(async(revieweesResult) => {
@@ -193,12 +193,6 @@ router.post('/waiting-queue', checkTokens, isAdmin, async(req, res) => {
 
                 })
 
-                //////// 왜 어째서 revieweeInfo.ID_PK가 헛돌지.............
-                //해결함 revieweeinfo (176번 라인)에서 들어오는 값이 이상하게 오고있어서
-                //근데 이렇게 되면 마지막에 들어온 사람대로 되는거 아닌가?
-                //그렇다면 데베로부터 값을 받아올때 정렬해서 가져오면 되는거지!
-
-
                 MatchedDateAndTime = thingAboutSubQuery.findSameWeekdayAndTimeZoneBetweenMatchedPeople(revieweeInfo, MatchedReviewerId);
                 
                 console.log(MatchedDateAndTime.weekday.concat(MatchedDateAndTime.time));
@@ -210,8 +204,8 @@ router.post('/waiting-queue', checkTokens, isAdmin, async(req, res) => {
                     "state" : 0,
                 }
 
-                console.log(root.id);
-                console.log(revieweeInfo.ID_PK);
+                // console.log(root.id);
+                // console.log(revieweeInfo.ID_PK);
                 // 8. 매칭된 두 사람(리뷰이와, 리뷰어)은 대기열 목록에서 지워짐
                 // 9. 그런 다음 CODEREVIEW_ACT_INFO_TB에 두 사람의 데이터를 집어야함
                 await Promise.all([matching.deleteRevieweeFromQueue(revieweeInfo.ID_PK), matching.deleteReviewerFromQueue(root.id), matching.setReviewActInfo(matchingData)])
@@ -225,7 +219,7 @@ router.post('/waiting-queue', checkTokens, isAdmin, async(req, res) => {
             //꼭 보내지 않아도 되나?
             //근데 여기서 웹 푸시 알림 같은걸 보내긴 해야하는데...
             //이건 어떻게?
-            res.json("success");
+            res.json({ message : "matching success" });
         })
         .catch((err) => {
             console.log(err);
