@@ -259,7 +259,7 @@ submitButton.addEventListener("click", function (event) {
 });
 
 function getDataByUsername(usernamefk) {
-  const url = `http://localhost:8080/guestbook`; //json-server http://localhost:3000/community
+  const url = `http://localhost:8080/guestbook`;
   return fetch(url, {
     method: "GET",
     mode: "cors",
@@ -284,7 +284,7 @@ function getDataByUsername(usernamefk) {
 }
 
 function postData(data) {
-  const url = `http://localhost:8080/guestbook/?reviewer=${usernamefk}`; //json-server http://localhost:3000/community
+  const url = `http://localhost:8080/guestbook/?reviewer=${usernamefk}`;
   fetch(url, {
     method: "POST",
     mode: "cors",
