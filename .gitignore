@@ -18,3 +18,5 @@ middleware/
 util/
 views/notice/login.html
 views/notice/login.js
+views/matching/
+views/settings/
