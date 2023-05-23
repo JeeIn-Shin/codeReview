@@ -1,5 +1,5 @@
 "use strict";
-
+//COMMENT, DATE, REVIEWEE_FK, REVIEWER_FK 이거 DATA 받는거 대문자인 부분들 안되면 소문자로..
 function getCookie(name) {
   // 쿠키를 받아오는 함수
   const value = `; ${document.cookie}`;
@@ -45,7 +45,9 @@ function parseJwt(accessToken) {
   }
 }
 
-const username = localStorage.getItem("username") || "Erhard";
+const username = localStorage.getItem("reviewrname"); // "여기 reviewr 넘겨주기"
+const usernamefk = localStorage.getItem("reviewrfk"); //reviewerfk 넘겨주기
+
 //id가 comments-user인 span의 value를 username으로 바꾼다.
 const commentsUser = document.getElementById("comments-user");
 commentsUser.innerHTML = username;
@@ -249,18 +251,17 @@ submitButton.addEventListener("click", function (event) {
       location.href = "/login"; // 경로 수정
     } else {
       data = {
-        username: username,
-        author: author,
-        comment: commentTextarea.value,
+        REVIEWER_FK: usernamefk,
+        COMMENT: commentTextarea.value,
       };
       postData(data);
     }
   }
 });
 
-function getDataByUsername(username) {
-  const url = `http://localhost:8080/community`;
-  return fetch("http://localhost:3000/community", {
+function getDataByUsername(usernamefk) {
+  const url = `http://localhost:8080/guestbook`; //json-server http://localhost:3000/community
+  return fetch(url, {
     method: "GET",
     mode: "cors",
     headers: {
@@ -276,7 +277,7 @@ function getDataByUsername(username) {
     })
     .then((data) => {
       // 데이터를 필터링하여 username이 일치하는 데이터만 반환
-      return data.filter((item) => item.username === username);
+      return data.filter((item) => item.REVIEWER_FK === usernamefk);
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -284,8 +285,8 @@ function getDataByUsername(username) {
 }
 
 function postData(data) {
-  const url = `http://localhost:8080/community/post?type=create`;
-  fetch("http://localhost:3000/community", {
+  const url = `http://localhost:8080/guestbook/?reviewer=${usernamefk}`; //json-server http://localhost:3000/community
+  fetch(url, {
     method: "POST",
     mode: "cors",
     headers: {
@@ -307,7 +308,7 @@ function postData(data) {
 function createCommentList(data) {
   const ol = document.getElementById("commentol");
 
-  data.forEach(({ comment, date, author }) => {
+  data.forEach(({ COMMENT, DATE, REVIEWEE_FK }) => {
     const li = document.createElement("li");
     li.className =
       "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1";
@@ -343,10 +344,10 @@ function createCommentList(data) {
 
     const commentDetails = document.createElement("div");
     commentDetails.className = "comment-author";
-    commentDetails.innerHTML = `<span class='author-name text-black'>${author}</span><span><span class="comment-date" title="Permalink to this comment">${date}</span></span>`;
+    commentDetails.innerHTML = `<span class='author-name text-black'>${REVIEWEE_FK}</span><span><span class="comment-date" title="Permalink to this comment">${DATE}</span></span>`;
 
     const commentText = document.createElement("p");
-    commentText.innerText = comment;
+    commentText.innerText = COMMENT;
 
     commentContent.appendChild(commentDetails);
     commentContent.appendChild(commentText);
@@ -401,13 +402,13 @@ function createCommentList(data, i) {
   const commentDetails = document.createElement("div");
   commentDetails.className = "comment-author";
   commentDetails.innerHTML = `<span class='author-name text-black'>${
-    data[i - 1].author
+    data[i - 1].REVIEWEE_FK
   }</span><span><span class="comment-date" title="Permalink to this comment">${
-    data[i - 1].date
+    data[i - 1].DATE
   }</span></span>`;
 
   const commentText = document.createElement("p");
-  commentText.innerText = data[i - 1].comment;
+  commentText.innerText = data[i - 1].COMMENT;
 
   commentContent.appendChild(commentDetails);
   commentContent.appendChild(commentText);
