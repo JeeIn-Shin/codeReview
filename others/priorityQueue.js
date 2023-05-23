@@ -15,7 +15,7 @@ class priorityQueue {
         
 
 
-        while(index > 1 ) {
+        while(index > 1) {
             if(heap[parent].data > heap[index].data)
                 [heap[parent], heap[index]] = [heap[index], heap[parent]]
 

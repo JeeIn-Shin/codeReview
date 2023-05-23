@@ -11,7 +11,7 @@ router.get('/', checkTokens, async(req, res) => {
     let user = jwt.decode(AT, process.env.secret);
     
     /// ?????
-    let reviewerList = await client.signIn.getUserPKById(user.id);
+    let reviewerList = await guestBook.getCodereviewActInfo(user.id);
 
     res.json(reviewerList);
 })
