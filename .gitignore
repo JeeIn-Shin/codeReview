@@ -21,3 +21,5 @@ views/notice/login.js
 views/notice/index.html
 views/matching/
 views/settings/
+views/community/userroomname.html
+views/community/userroomname.js
