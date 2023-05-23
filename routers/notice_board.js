@@ -25,7 +25,7 @@ router.get('/', checkTokens, async(req, res) => {
 })
 
 // http://localhost:8080/notice/post
-router.post('/post', async(req, res) => {
+router.post('/post', checkTokens, isAdmin, async(req, res) => {
 
     let inputData = {
         title : req.body.title,
