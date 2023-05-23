@@ -31,10 +31,10 @@ router.post('/', checkTokens, async(req, res) => {
     let reviewer = Object.values(req.query);
 
     let commentData = {
-        comment : req.body.comment,
-        date : new Date().toLocaleDateString(),
-        revieweeFk : reviewee,
-        reviewerFk : reviewer
+        COMMENT : req.body.comment,
+        DATE : new Date().toLocaleDateString(),
+        REVIEWEE_FK : reviewee,
+        REVIEWER_FK : reviewer
     }
 
     let needReviewAfter = await guestbook.setComment(commentData);
