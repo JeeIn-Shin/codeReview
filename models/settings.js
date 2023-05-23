@@ -2,33 +2,6 @@ const db = require("../config/database.js");
 const setProfileImage = require("../others/setProfileImage");
 
 const settings = {
-    getByLoginInfo : (id) => {
-        return new Promise((resolve, reject) => {
-            db.getConnection((err, connection) => {
-                if(!err) {
-                    
-                    let sql = `SELECT GITHUB, NICKNAME, PROFILE_IMG FROM USER_TB 
-                               WHERE ID like '${id}'`;
-        
-                    connection.query(sql, (err, res) => {
-                        connection.release();
-        
-                        if(err) {
-                            console.log("error " + err);
-                            reject(err);
-                        }
-                        resolve(res);
-                    })
-                }
-                else    {
-                    console.error();
-                    throw err;
-                }
-            })
-        })
-
-    },
-
     getByLoginInfo: (userInfo, languageInfo, activityInfo) => {
         return new Promise((resolve, reject) => {
             let user = Object.values(userInfo);
