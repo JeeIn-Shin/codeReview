@@ -251,7 +251,6 @@ submitButton.addEventListener("click", function (event) {
       location.href = "/login"; // 경로 수정
     } else {
       data = {
-        REVIEWER_FK: usernamefk,
         COMMENT: commentTextarea.value,
       };
       postData(data);
