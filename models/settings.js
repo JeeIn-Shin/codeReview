@@ -2,7 +2,6 @@ const db = require("../config/database.js");
 const setProfileImage = require("../others/setProfileImage");
 
 const settings = {
-    //사용자 정보 불러오기
     getByLoginInfo : (id) => {
         return new Promise((resolve, reject) => {
             db.getConnection((err, connection) => {
@@ -28,174 +27,130 @@ const settings = {
             })
         })
 
-    }, 
+    },
 
-    //프로필 이미지, 닉네임, 이메일, 깃허브 주소 변경
-    //이메일 변경을 따로 두는게 맞을까?
-    //대부분은 이메일 변경을 따로 두는구나ㅇㅋ
-    updateInfo : (id, updateData) => {
-        
+    getByLoginInfo: (userInfo, languageInfo, activityInfo) => {
         return new Promise((resolve, reject) => {
-            let data = Object.values(updateData);
-            let imgData = setProfileImage(data[0]);
-            data[0] = imgData;
-            console.log(data);
-            db.getConnection(function(err, connection) {
-                
-                if(!err) {
-                    let sql = `UPDATE USER_TB SET
-                               PROFILE_IMG = ?, NICKNAME = ?, GITHUB = ?
-                               WHERE ID LIKE '${id}'`;                
-                        
-                    connection.query(sql, data, (err, res) => {
-                        connection.release();
-        
-                        if(err) {
-                            console.log("error " + err);
-                            reject(err);
-                        }
-                        resolve(res);
-                    })
-                }
-                else    {
-                    console.error(err);
-                    throw err;
-                }
-            })
-        })
+            let user = Object.values(userInfo);
+            let language = Object.values(languageInfo);
+            let activity = Object.values(activityInfo);
 
-    },
-
-    //사용자 비밀번호 변경
-    //메일링 서비스 연동
-    //나중에 구현
-    updatePassword : () => {
-
-    },
-
-    updateEmail : () => {
-
-    },
-
-    /**  프로그래밍 언어 관련 정보 불러오기 */
-    getUserLanguage : (id) => {
-        return new Promise((resolve, reject) => {
             db.getConnection((err, connection) => {
-                if(!err) {
-                    
-                    let sql = `SELECT C, CPLUS, CSHARP, JAVA, KOTLIN, SWIFT, PYTHON, GO, JAVASCRIPT, RUST, RUBY
-                               FROM LANGUAGE_TB 
-                               WHERE id like '${id}'`;
-        
-                    connection.query(sql, (err, res) => {
-                        connection.release();
-        
-                        if(err) {
-                            console.log("query error " + err);
-                            return reject(err);
-                        }
-                        return resolve(res);
-                    })
-                }
-                else    {
-                    console.error("connection error " + err);
-                    throw err;
-                }
+                connection.beginTransaction((err) => {
+                    if (!err) {
+                        let sql1 = `SELECT
+                                        GITHUB,
+                                        NICKNAME,
+                                        PROFILE_IMG
+                                    FROM
+                                        USER_TB 
+                                    WHERE
+                                        ID like '${id}'`;
+                        let sql2 = `SELECT
+                                        C,
+                                        CPLUS,
+                                        CSHARP,
+                                        JAVA,
+                                        KOTLIN,
+                                        SWIFT,
+                                        PYTHON,
+                                        GO,
+                                        JAVASCRIPT,
+                                        RUST,
+                                        RUBY
+                                    FROM
+                                        LANGUAGE_TB
+                                    WHERE
+                                        id LIKE '${id}'`;
+                        let sql3 = `SELECT
+                                        CODEREVIEW,
+                                        REFACTORING,
+                                        QA
+                                    FROM
+                                        ACTIVITY_TB
+                                    WHERE
+                                        id LIKE '${id}'`;
+
+                        connection.query(sql1, (err, res) => {
+                            if (err)
+                                return connection.rollback(() => { throw err });
+                            
+                            connection.query(sql2, (err, res) => {
+                                if (err)
+                                    return connection.rollback(() => { throw err });
+
+                                connection.query(sql3, (err, res) => {
+                                    if (err)
+                                        return connection.rollback(() => { throw err });
+
+                                    connection.commit((err) => {
+                                        if (err)
+                                            return connection.rollback(() => { throw err });
+                                    })
+                                    resolve(res);
+                                })
+                            })
+                        })
+                    }
+                    else {
+                        console.log("connection error" + err)
+                        throw err;
+                    }
+                })
+
             })
         })
-
     },
 
-    /** 프로그래밍 언어 관련 정보 수정하기 */ 
-    updateLanguage : (id, data) => {
+    updateUserInfo: (userInfo, languageInfo, activityInfo) => {
         return new Promise((resolve, reject) => {
-            let updateData = Object.values(data);
-    
-            db.getConnection(function(err, connection) {
-                
-                if(!err) {
-                    let SQL = `UPDATE LANGUAGE_TB SET
-                               C = ?, CPLUS = ?, CSHARP = ?, JAVA = ?, 
-                               KOTLIN = ?, SWIFT = ?, PYTHON = ?, GO = ? 
-                               JAVASCRIPT = ?, RUST = ?, RUBY = ?
-                               WHERE id LIKE '${id}'`;                
-                        
-                    connection.query(SQL, [updateData], (err, res) => {
-                        connection.release();
-        
-                        if(err) {
-                            console.log("error " + err);
-                            reject(err);
-                        }
-                        resolve(res);
-                    })
-                }
-                else    {
-                    console.error(err);
-                    throw err;
-                }
-            })
-        })
+            let user = Object.values(userInfo);
+            let language = Object.values(languageInfo);
+            let activity = Object.values(activityInfo);
 
-    },
-
-    /** 관심 활동 관련 정보 불러오기 */
-    getUserActivity : (id) => {
-        return new Promise((resolve, reject) => {
             db.getConnection((err, connection) => {
-                if(!err) {
-                    
-                    let sql = `SELECT CODEREVIEW, REFACTORING, QA
-                               FROM ACTIVITY_TB 
-                               WHERE id like '${id}'`;
-        
-                    connection.query(sql, (err, res) => {
-                        connection.release();
-        
-                        if(err) {
-                            console.log("query error " + err);
-                            reject(err);
-                        }
-                        resolve(res);
-                    })
-                }
-                else    {
-                    console.error("connection error " + err);
-                    throw err;
-                }
+                connection.beginTransaction((err) => {
+                    if (!err) {
+                        let sql1 = `UPDATE USER_TB SET
+                                    PROFILE_IMG = ?, NICKNAME = ?, GITHUB = ?
+                                    WHERE ID LIKE '${id}'`;
+                        let sql2 = `UPDATE LANGUAGE_TB SET
+                                    C = ?, CPLUS = ?, CSHARP = ?, JAVA = ?, 
+                                    KOTLIN = ?, SWIFT = ?, PYTHON = ?, GO = ? 
+                                    JAVASCRIPT = ?, RUST = ?, RUBY = ?
+                                    WHERE id LIKE '${id}'`;
+                        let sql3 = `UPDATE LANGUAGE_TB SET
+                                    CODEREVIEW = ?, REFACTORING = ?, QA = ?
+                                    WHERE id LIKE '${id}'`;
+
+                        connection.query(sql1, user, (err, res) => {
+                            if (err)
+                                return connection.rollback(() => { throw err });
+                            
+                            connection.query(sql2, language, (err, res) => {
+                                if (err)
+                                    return connection.rollback(() => { throw err });
+
+                                connection.query(sql3, activity, (err, res) => {
+                                    if (err)
+                                        return connection.rollback(() => { throw err });
+
+                                    connection.commit((err) => {
+                                        if (err)
+                                            return connection.rollback(() => { throw err });
+                                    })
+                                    resolve(res);
+                                })
+                            })
+                        })
+                    }
+                    else {
+                        console.log("connection error" + err)
+                        throw err;
+                    }
+                })
+
             })
-        })
-
-    },
-
-    /** 관심 활동 관련 정보 수정하기 */
-    updateActivity : (id, data) => {
-
-        return new Promise((resolve, reject) => {
-            let updateData = Object.values(data);
-    
-            db.getConnection(function(err, connection) {
-                
-                if(!err) {
-                    let sql = `UPDATE LANGUAGE_TB SET
-                               CODEREVIEW = ?, REFACTORING = ?, QA = ?
-                               WHERE id LIKE '${id}'`;                
-                        
-                    connection.query(sql, [updateData], (err, res) => {
-                        connection.release();
-        
-                        if(err) {
-                            console.log("query error " + err);
-                            reject(err);
-                        }
-                        resolve(res);
-                    })
-                }
-                else    {
-                    console.error("connection error " + err);
-                    throw err;
-                }
-            }) 
         })
     }
 }
