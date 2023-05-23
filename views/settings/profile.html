@@ -19,15 +19,12 @@
       -->    
 
             <div id="formContainer" >
-                <form action="" method="post">
+                <form action="http://localhost:8080/settings/profile" method="post" id="profileform">
                         <label for="name">아이디(학번):</label>
                             <input type="text" id="name" name="name" value="" required>
 
                         <label for="nickname">닉네임:</label>
-                            <input type="text" id="nickname" name="nickname" value="" required>
-
-                        <label for="email">이메일:</label>
-                            <input type="email" id="email" name="email" required>
+                            <input type="text" id="nickName" name="nickName" value="" required>
 
                         <label for="github">깃허브:</label>
                             <input type="text" id="github" name="github" value="" required>
@@ -63,7 +60,7 @@
                                         <img src="../../public/assets/img/profile4.png" alt="img error" width="180">
                                     </button>
                                 </div>
-                                <input value="" type="hidden" name="profileImgNumber">
+                                <input value="" type="hidden" name="profileImg">
                             </div>
                         </div>
 
@@ -154,11 +151,11 @@
                                     <hr>
 
                                     <p><strong>활동 설정</strong></p>
-                                    <input type="radio" name="active" value="COODERRIVIEW" id="codereivew1">
+                                    <input type="radio" name="codeReview" value="codeReview" id="codereivew1">
                                         <label for="codereivew1">코드 리뷰</label>
-                                    <input type="radio" name="active" value="REPACTORING" id="repactoring1">
+                                    <input type="radio" name="refactoring" value="refactoring" id="repactoring1">
                                         <label for="repactoring1">코드 수정</label>
-                                    <input type="radio" name="active" value="QA" id="qa1">
+                                    <input type="radio" name="qa" value="qa" id="qa1">
                                         <label for="qa1">코드 검증</label>
                                     </div>
                                     <button class="mtstart2" type="submit">수정하기</button>
