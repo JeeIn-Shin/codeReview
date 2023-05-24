@@ -41,17 +41,17 @@ function validatePassword() {
     }
 
     
-    function is_checked() {
-        if(document.getElementById("codereview").checked) 
-        {
-            document.getElementById("codereview_hidden").disabled = true;
-        }
-        if(document.getElementById("refactoring").checked) 
-        {
-            document.getElementById("refactoring_hidden").disabled = true;
-        }
-        if(document.getElementById("qa").checked) 
-        {
-            document.getElementById("qa_hidden").disabled = true;
-        }
+function is_checked() {
+    if(document.getElementById("codereview").checked) 
+    {
+        document.getElementById("codereview_hidden").disabled = true;
     }
+    if(document.getElementById("refactoring").checked) 
+    {
+        document.getElementById("refactoring_hidden").disabled = true;
+    }
+    if(document.getElementById("qa").checked) 
+    {
+        document.getElementById("qa_hidden").disabled = true;
+    }
+}

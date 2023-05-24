@@ -9,29 +9,34 @@
 
 <body>
     <div class="langselect-com">
-        <h1>언어 선택</h1>
-        <form id="langselect" action="http://localhost:8080/matchingStart" method="POST">
-            <label><input type="checkbox" name="language" value="C"> C</label>
-            <label><input type="checkbox" name="language" value="C++"> C++</label>
-            <label><input type="checkbox" name="language" value="C#"> C#</label>
-            <label><input type="checkbox" name="language" value="Java"> Java</label>
-            <label><input type="checkbox" name="language" value="Kotlin"> Kotlin</label>
-            <label><input type="checkbox" name="language" value="Swift"> Swift</label>
-            <label><input type="checkbox" name="language" value="Python"> Python</label>
-            <label><input type="checkbox" name="language" value="Go"> Go</label>
-            <label><input type="checkbox" name="language" value="JavaScript"> JavaScript</label>
-            <label><input type="checkbox" name="language" value="Rust"> Rust</label>
-            <label><input type="checkbox" name="language" value="Ruby"> Ruby</label>
+        <form id="matchingform" action="http://localhost:8080/review-group" method="POST">
+            <div class="selectbt">
+                <h1>활동 선택</h1>
+                <label><input type="radio" id = "position1" name="position" value="1" onchange="toggleRadio()">리뷰하기</label>
+                <label><input type="radio" id = "position2" name="position" value="0" onchange="toggleRadio()">리뷰받기</label>
+            </div>
+
+            <h1>언어 선택</h1>
+            <label><input type="radio" id = "language1" name="language" value="C"> C</label>
+            <label><input type="radio" id = "language2" name="language" value="C++"> C++</label>
+            <label><input type="radio" id = "language3" name="language" value="C#"> C#</label>
+            <label><input type="radio" id = "language4" name="language" value="Java"> Java</label>
+            <label><input type="radio" id = "language5" name="language" value="Kotlin"> Kotlin</label>
+            <label><input type="radio" id = "language6" name="language" value="Swift"> Swift</label>
+            <label><input type="radio" id = "language7" name="language" value="Python"> Python</label>
+            <label><input type="radio" id = "language8" name="language" value="Go"> Go</label>
+            <label><input type="radio" id = "language9" name="language" value="JavaScript"> JavaScript</label>
+            <label><input type="radio" id = "language10" name="language" value="Rust"> Rust</label>
+            <label><input type="radio" id = "language11" name="language" value="Ruby"> Ruby</label>
+            
             <h1>일정 테이블</h1>
             <table id="scheduleTable">
               <tr>
               </tr>
             </table>
-            <div class="selectbt">
-                <p2>해당 시간에 리뷰를</p2>
-                <label><input type="radio" name="select" value="CODEREVIEW"> 하고 싶어요.</label>
-                <label><input type="radio" name="select" value="RIVEWER"> 받고 싶어요.</label>
-            </div>
+
+            <p></p>
+
             <div class="matstart-com">
                 <button class="mtstart2" type="submit">매칭 시작</button>
             </div>
