@@ -23,34 +23,33 @@ router.post('/', checkTokens, async (req, res) => {
         let enrollInfo = {
             createdAt: Date.now(),
             position: req.body.position,
-            id_pk : pk
+            USER_TB_ID : pk,
         }   
         //1이면 reviewer
         //0이면 reviewee
         if(enrollInfo.position === "1")   {
             let additionalplan = {
-                id_pk: pk,
                 mon: req.body.mon,
                 tue: req.body.tue,
                 wed: req.body.wed,
                 thurs: req.body.thurs,
-                fri: req.body.fri
+                fri: req.body.fri,
+                USER_TB_ID : pk,
             }
             await matching.registerQueueByReviewer(enrollInfo, additionalplan)
         }
         else if(enrollInfo.position === "0")  {
             let additionalPlan = {
-                id_pk: pk,
                 mon: req.body.mon,
                 tue: req.body.tue,
                 wed: req.body.wed,
                 thurs: req.body.thurs,
-                fri: req.body.fri
+                fri: req.body.fri,
+                USER_TB_ID : pk,
             }
             let preferData = {
-                id_pk: pk,
                 language: req.body.language,
-                activity: req.body.activity
+                USER_TB_ID : pk,
             }
             await matching.registerQueueByReviewee(enrollInfo, additionalPlan, preferData)
         }
@@ -80,12 +79,12 @@ router.post('/update', checkTokens, async(req, res) => {
     if (classification === 0) {
         let reviewerUpdateData = {
             //ID_PK 부분은 로그인 정보가 들어가야함
-            ID_PK: pk,
-            MON: req.body.MON,
-            TUE: req.body.TUE,
-            WED: req.body.WED,
-            THURS: req.body.THURS,
-            FRI: req.body.FRI
+            mon: req.body.mon,
+            tue: req.body.tue,
+            wed: req.body.wed,
+            thurs: req.body.thurs,
+            fri: req.body.fri,
+            USER_TB_ID : pk,
         }
 
         await matching.updatePlan(user.id, reviewerUpdateData, (err, res) => {
@@ -102,14 +101,12 @@ router.post('/update', checkTokens, async(req, res) => {
 
         let revieweeUpdateData = {
             //ID_PK 부분은 로그인 정보가 들어가야함
-            ID_PK: pk,
-            MON: req.body.MON,
-            TUE: req.body.TUE,
-            WED: req.body.WED,
-            THURS: req.body.THURS,
-            FRI: req.body.FRI,
-            LANGUAGE: req.body.LANGUAGE,
-            ACTIVITY: req.body.ACTIVITY
+            mon: req.body.mon,
+            tue: req.body.tue,
+            wed: req.body.wed,
+            thurs: req.body.thurs,
+            fri: req.body.fri,
+            language: req.body.language
         }
 
         await matching.updatePlanAndPrefer(user.id, revieweeUpdateData, (err, res) => {
