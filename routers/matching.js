@@ -27,7 +27,7 @@ router.post('/', checkTokens, async (req, res) => {
         }   
         //1이면 reviewer
         //0이면 reviewee
-        if(enrollInfo.position === 1)   {
+        if(enrollInfo.position === "1")   {
             let additionalplan = {
                 id_pk: pk,
                 mon: req.body.mon,
@@ -38,7 +38,7 @@ router.post('/', checkTokens, async (req, res) => {
             }
             await matching.registerQueueByReviewer(enrollInfo, additionalplan)
         }
-        else if(enrollInfo.position === 0)  {
+        else if(enrollInfo.position === "0")  {
             let additionalPlan = {
                 id_pk: pk,
                 mon: req.body.mon,
