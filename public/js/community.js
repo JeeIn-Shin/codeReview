@@ -233,32 +233,6 @@ function last() {
   console.log("마지막");
 }
 
-// author input과 password input, comment textarea, submit button을 가져온다.
-const commentTextarea = document.getElementById("comment");
-const submitButton = document.getElementById("submit-button");
-
-// submit button을 클릭하면 실행되는 함수를 만든다.
-submitButton.addEventListener("click", function (event) {
-  event.preventDefault();
-  window.onbeforeunload = null;
-  if (commentTextarea.value === "") {
-    alert("댓글을 입력해주세요.");
-    commentTextarea.focus();
-  } else {
-    accessToken = getCookie("accessToken");
-    decoded = parseJwt(accessToken);
-    if (!accessToken) {
-      alert("로그인이 필요합니다.");
-      location.href = "/login"; // 경로 수정
-    } else {
-      data = {
-        COMMENT: commentTextarea.value,
-      };
-      postData(data);
-    }
-  }
-});
-
 function getDataByUsername(usernamefk) {
   const url = `http://localhost:8080/guestbook`;
   return fetch(url, {
@@ -282,85 +256,6 @@ function getDataByUsername(usernamefk) {
     .catch((error) => {
       console.error("Error:", error);
     });
-}
-
-function postData(data) {
-  const url = `http://localhost:8080/guestbook/?reviewer=${usernamefk}`;
-  fetch(url, {
-    method: "POST",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + accessToken,
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      location.reload();
-    })
-    .catch((error) => {
-      alert("댓글 작성에 실패했습니다.");
-      console.error("Error:", error);
-    });
-}
-
-function createCommentList(data) {
-  const ol = document.getElementById("commentol");
-
-  data.forEach(({ COMMENT, DATE, REVIEWEE_FK }) => {
-    const li = document.createElement("li");
-    li.className =
-      "comment byuser comment-author-_smcl_admin even thread-odd thread-alt depth-1";
-    li.id = `li-comment-${Math.floor(Math.random() * 100000)}`;
-
-    const commentWrap = document.createElement("div");
-    commentWrap.id = li.id.replace("li-", "");
-    commentWrap.className = "comment-wrap clearfix";
-
-    const commentMeta = document.createElement("div");
-    commentMeta.className = "comment-meta";
-
-    const commentAuthor = document.createElement("div");
-    commentAuthor.className = "comment-author vcard";
-
-    const commentAvatar = document.createElement("span");
-    commentAvatar.className = "comment-avatar clearfix";
-
-    const avatar = document.createElement("img");
-    avatar.alt = "Image";
-    avatar.src =
-      "https://1.gravatar.com/avatar/30110f1f3a4238c619bcceb10f4c4484?s=60&amp;d=http%3A%2F%2F1.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D60&amp;r=G";
-    avatar.className = "avatar avatar-60 photo";
-    avatar.height = "60";
-    avatar.width = "60";
-
-    commentAvatar.appendChild(avatar);
-    commentAuthor.appendChild(commentAvatar);
-    commentMeta.appendChild(commentAuthor);
-
-    const commentContent = document.createElement("div");
-    commentContent.className = "comment-content clearfix";
-
-    const commentDetails = document.createElement("div");
-    commentDetails.className = "comment-author";
-    commentDetails.innerHTML = `<span class='author-name text-black'>${REVIEWEE_FK}</span><span><span class="comment-date" title="Permalink to this comment">${DATE}</span></span>`;
-
-    const commentText = document.createElement("p");
-    commentText.innerText = COMMENT;
-
-    commentContent.appendChild(commentDetails);
-    commentContent.appendChild(commentText);
-    commentWrap.appendChild(commentMeta);
-    commentWrap.appendChild(commentContent);
-
-    const clearDiv = document.createElement("div");
-    clearDiv.className = "clear";
-
-    commentWrap.appendChild(clearDiv);
-    li.appendChild(commentWrap);
-    ol.appendChild(li);
-  });
 }
 
 function createCommentList(data, i) {
