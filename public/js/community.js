@@ -87,7 +87,7 @@ window.onload = function () {
     alert("로그인이 필요합니다.");
     location.href = "/views/notice/login.html"; //경로 수정
   } else {
-    getDataByUsername(username)
+    getDataByUsername(usernamefk)
       .then((result) => {
         data = result;
         totalPage = data.length;
