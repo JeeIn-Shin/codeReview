@@ -59,7 +59,7 @@ const loginRouter = require('./routers/login');
 const reviewRouter = require('./routers/reviews');
 const guestbookRouter = require('./routers/guestbook');
 
-app.set('port', process.env.PORT || 8082);
+app.set('port', process.env.PORT || 8080);
 
 app.use(cors({ origin: true, credentials: true }))
 app.use('/public', express.static(path.join(__dirname, 'public')));

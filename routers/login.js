@@ -38,7 +38,8 @@ router.route('/')
 
         res.cookie('accessToken', accessToken, { httpOnly : true });
 
-        res.render('MainLayout/index.html');
+        res.json(accessToken);
+        //res.render('MainLayout/index.html', accessToken);
     }
     catch(err)  {
         next(err);
