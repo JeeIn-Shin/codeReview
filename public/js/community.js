@@ -240,6 +240,7 @@ const submitButton = document.getElementById("submit-button");
 // submit button을 클릭하면 실행되는 함수를 만든다.
 submitButton.addEventListener("click", function (event) {
   event.preventDefault();
+  window.onbeforeunload = null;
   if (commentTextarea.value === "") {
     alert("댓글을 입력해주세요.");
     commentTextarea.focus();
