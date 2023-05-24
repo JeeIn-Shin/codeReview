@@ -51,7 +51,7 @@ router.post('/', checkTokens, async (req, res) => {
                 language: req.body.language,
                 activity: req.body.activity
             }
-            await matching.setPlanAndPrefer(enrollInfo, additionalPlan, preferData)
+            await matching.registerQueueByReviewee(enrollInfo, additionalPlan, preferData)
         }
 
         res.redirect('/review-group/')

@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const chat = require('../models/chat');
-const { isLoggedIn } = require('./middleware');
-const handleResponse = require('../others/handleResponse');
+const { checkTokens } = require('../middleware/auth');
 require('express-session');
 
 // 실은 매칭하는 그 단계에서 채팅방 까지 다 구성되어야하는거 아닌가? 그렇다면..
@@ -13,13 +12,14 @@ require('express-session');
 
 // 채팅방 목록
 // http://localhost:8080/direct
-router.get('/', isLoggedIn, async(req, res) => {
+router.get('/', checkTokens, async(req, res) => {
 
     //로그인 정보
-    let user = req.session.passport
+    let AT =  req.headers.authorization.split('Bearer ')[1];
+    let user = jwt.decode(AT, process.env.secret);
     
     await chat.getChatRoomsList(user.id)
-    .catch((err) => handleResponse(res, 404, err))
+    .catch((err) => res.status(404).json({ message : "Forbidden" }))
     .then((list) => res.json(list));
 })
 
