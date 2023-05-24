@@ -119,7 +119,7 @@ const matching = {
                                ON SCHEDULE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
                                SET
                                SCHEDULE_TB.MON = ?, SCHEDULE_TB.TUE = ?, SCHEDULE_TB.WED = ?, SCHEDULE_TB.THURS = ?, SCHEDULE_TB.FRI = ?,
-                               REVIEWEE_PREFER_TB.LANGUAGE = ?, REVIEWEE_PREFER_TB.ACTIVITY = ?
+                               REVIEWEE_PREFER_TB.LANGUAGE = ?
                                WHERE SCHEDULE_TB.ID_PK LIKE ${id};`;
 
                     connection.query(sql, scheduleInfo, (err, res) => {

@@ -23,7 +23,7 @@ router.post('/', checkTokens, async (req, res) => {
         let enrollInfo = {
             createdAt: Date.now(),
             position: req.body.position,
-            USER_TB_ID : pk,
+            USER_TB_ID : pk.ID_PK,
         }   
         //1이면 reviewer
         //0이면 reviewee
@@ -34,7 +34,7 @@ router.post('/', checkTokens, async (req, res) => {
                 wed: req.body.wed,
                 thurs: req.body.thurs,
                 fri: req.body.fri,
-                USER_TB_ID : pk,
+                USER_TB_ID : pk.ID_PK,
             }
             await matching.registerQueueByReviewer(enrollInfo, additionalplan)
         }
@@ -45,11 +45,11 @@ router.post('/', checkTokens, async (req, res) => {
                 wed: req.body.wed,
                 thurs: req.body.thurs,
                 fri: req.body.fri,
-                USER_TB_ID : pk,
+                USER_TB_ID : pk.ID_PK,
             }
             let preferData = {
                 language: req.body.language,
-                USER_TB_ID : pk,
+                USER_TB_ID : pk.ID_PK,
             }
             await matching.registerQueueByReviewee(enrollInfo, additionalPlan, preferData)
         }
@@ -84,10 +84,9 @@ router.post('/update', checkTokens, async(req, res) => {
             wed: req.body.wed,
             thurs: req.body.thurs,
             fri: req.body.fri,
-            USER_TB_ID : pk,
         }
 
-        await matching.updatePlan(user.id, reviewerUpdateData, (err, res) => {
+        await matching.updatePlan(pk.ID_PK, reviewerUpdateData, (err, res) => {
             try {
                 res.json(data);
             }
@@ -100,7 +99,6 @@ router.post('/update', checkTokens, async(req, res) => {
     else if (classification === 1) {
 
         let revieweeUpdateData = {
-            //ID_PK 부분은 로그인 정보가 들어가야함
             mon: req.body.mon,
             tue: req.body.tue,
             wed: req.body.wed,
@@ -109,7 +107,7 @@ router.post('/update', checkTokens, async(req, res) => {
             language: req.body.language
         }
 
-        await matching.updatePlanAndPrefer(user.id, revieweeUpdateData, (err, res) => {
+        await matching.updatePlanAndPrefer(pk.ID_PK, revieweeUpdateData, (err, res) => {
             try {
                 res.json(data);
             }
