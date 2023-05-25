@@ -8,10 +8,8 @@ function getCookie(name) {
 }
 
 let accessToken = getCookie("accessToken"); //accessToken
-console.log("accessToken: ", accessToken);
 
 let decoded = parseJwt(accessToken);
-console.log("decoded: ", decoded);
 
 function parseJwt(accessToken) {
   //토큰을 받아서 payload를 반환하는 함수
@@ -19,15 +17,14 @@ function parseJwt(accessToken) {
     return null;
   } else {
     const base64Url = accessToken.split(".")[1];
-    console.log("base64Url: ", base64Url);
+
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    console.log("base64: ", base64);
+
     let jsonPayload;
 
     if (typeof window === "undefined") {
       // Node.js 환경
       jsonPayload = Buffer.from(base64, "base64").toString("utf8");
-      console.log("jsonPayload: ", jsonPayload);
     } else {
       // 브라우저 환경
       jsonPayload = decodeURIComponent(
@@ -38,7 +35,6 @@ function parseJwt(accessToken) {
           })
           .join("")
       );
-      console.log("jsonPayload: ", jsonPayload);
     }
 
     return JSON.parse(jsonPayload);
@@ -69,13 +65,13 @@ const first_block = 1;
 let current_block = localStorage.getItem("current_block") || 1;
 //number 타입으로 변환
 current_block = Number(current_block);
-console.log("current_block 값: ", current_block);
+
 localStorage.setItem("current_block", current_block);
 
 //선책한 블록
 let select_block = localStorage.getItem("select_block") || 1;
 select_block = Number(select_block);
-console.log("select_block 값: ", select_block);
+
 localStorage.setItem("select_block", select_block);
 
 let data;
@@ -91,7 +87,6 @@ window.onload = function () {
       .then((result) => {
         data = result;
         totalPage = data.length;
-        console.log("data: ", data);
         commentsNumber.innerHTML = data.length;
 
         post_data_print(select_block);
@@ -133,9 +128,6 @@ function block_print(front_block) {
   block_box.replaceChildren();
 
   //front_block부터 total_block 또는 block_num까지 생성 및 추가
-  console.log("front_block : ", front_block);
-  console.log("total_block : ", total_block);
-  console.log("block_num : ", block_num);
   for (
     let i = front_block;
     i <= total_block && i < front_block + block_num;
@@ -156,11 +148,9 @@ function block_print(front_block) {
       post_data_print(i);
 
       localStorage.setItem("current_block", current_block);
-      console.log("current_block 설정 : ", current_block);
       localStorage.setItem("select_block", i);
 
       select_block = localStorage.getItem("select_block");
-      console.log("selct_block 설정 : ", select_block);
 
       event.target.disabled = true;
 
@@ -204,25 +194,18 @@ function block_print(front_block) {
 }
 
 function before() {
-  console.clear();
   block_print(current_block - block_num);
-  console.log("이전");
 }
 
 function next() {
-  console.clear();
   block_print(current_block + block_num);
-  console.log("다음");
 }
 
 function first() {
-  console.clear();
   block_print(first_block);
-  console.log("처음");
 }
 
 function last() {
-  console.clear();
   // 블록의 총 수를 계산한다.
   let total_block =
     totalPage % page_num == 0 ? totalPage / page_num : totalPage / page_num + 1;
@@ -230,7 +213,6 @@ function last() {
   let last_block = total_block - ((total_block - 1) % 10);
 
   block_print(last_block);
-  console.log("마지막");
 }
 
 function getDataByUsername(usernamefk) {

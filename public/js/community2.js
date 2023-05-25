@@ -8,10 +8,8 @@ function getCookie(name) {
 }
 
 //let accessToken = getCookie('accessToken'); //accessToken
-console.log("accessToken: ", accessToken);
 
 //let decoded = parseJwt(accessToken);
-console.log("decoded: ", decoded);
 
 function parseJwt(accessToken) {
   //토큰을 받아서 payload를 반환하는 함수
@@ -19,15 +17,14 @@ function parseJwt(accessToken) {
     return null;
   } else {
     const base64Url = accessToken.split(".")[1];
-    console.log("base64Url: ", base64Url);
+
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    console.log("base64: ", base64);
+
     let jsonPayload;
 
     if (typeof window === "undefined") {
       // Node.js 환경
       jsonPayload = Buffer.from(base64, "base64").toString("utf8");
-      console.log("jsonPayload: ", jsonPayload);
     } else {
       // 브라우저 환경
       jsonPayload = decodeURIComponent(
@@ -38,7 +35,6 @@ function parseJwt(accessToken) {
           })
           .join("")
       );
-      console.log("jsonPayload: ", jsonPayload);
     }
 
     return JSON.parse(jsonPayload);

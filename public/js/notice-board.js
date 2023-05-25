@@ -8,10 +8,8 @@ function getCookie(name) {
 }
 
 let accessToken = getCookie("accessToken"); //accessToken
-console.log("accessToken: ", accessToken);
 
 let decoded = parseJwt(accessToken);
-console.log("decoded: ", decoded);
 
 function parseJwt(accessToken) {
   //토큰을 받아서 payload를 반환하는 함수
@@ -19,15 +17,14 @@ function parseJwt(accessToken) {
     return null;
   } else {
     const base64Url = accessToken.split(".")[1];
-    console.log("base64Url: ", base64Url);
+
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    console.log("base64: ", base64);
+
     let jsonPayload;
 
     if (typeof window === "undefined") {
       // Node.js 환경
       jsonPayload = Buffer.from(base64, "base64").toString("utf8");
-      console.log("jsonPayload: ", jsonPayload);
     } else {
       // 브라우저 환경
       jsonPayload = decodeURIComponent(
@@ -38,7 +35,6 @@ function parseJwt(accessToken) {
           })
           .join("")
       );
-      console.log("jsonPayload: ", jsonPayload);
     }
 
     return JSON.parse(jsonPayload);
@@ -79,10 +75,8 @@ function isAdminCheck() {
   }
 }
 
-console.log("isAdmin : ", isAdmin);
 //  한 페이지 당 출력되는 게시글 갯수
 let page_num = 8;
-console.log("page_num : ", page_num);
 
 //   한번에 출력될 수 있는 최대 블록 수
 // ex ) [1][2][3][4][5] -> 블록
@@ -95,13 +89,13 @@ const first_block = 1;
 let current_block = localStorage.getItem("current_block") || 1;
 //number 타입으로 변환
 current_block = Number(current_block);
-console.log("current_block 값: ", current_block);
+
 localStorage.setItem("current_block", current_block);
 
 //선책한 블록
 let select_block = localStorage.getItem("select_block") || 1;
 select_block = Number(select_block);
-console.log("select_block 값: ", select_block);
+
 localStorage.setItem("select_block", select_block);
 
 //number 타입으로 변환
@@ -119,8 +113,6 @@ getData()
   .then((data) => {
     totalPage = data.length;
     localStorage.setItem("totalPage", totalPage);
-    console.log("getTotalPage : ", totalPage);
-    console.log("getData : ", data);
 
     // 데이터 로드가 완료된 후에 출력 및 페이지네이션 블록 출력 처리
     post_data_print(select_block);
@@ -150,41 +142,12 @@ async function getData() {
 
     //data를 리턴한다.
     data = await response.json();
-    console.log("data : ", data);
+
     return data;
   } catch (error) {
     console.log("error : ", error);
   }
 }
-
-/* getData().then((result) => {
-  data = result;
-  console.log("data : ", data);
-  totalPage = data.length;
-  localStorage.setItem("totalPage", totalPage);
-  post_data_print(select_block);
-  // 페이지네이션 블록 출력하기
-  block_print(current_block);
-}); */
-
-/* function getData() {
-  return fetch("http://localhost:8080/notice", {
-    method: "GET",
-    mode: "cors",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error("Network response was not ok.");
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-} */
 
 //검색 내용이 들어갈 때만 검색이 되게 합니다.
 const searchbtn = document.getElementById("searchbtn");
@@ -196,7 +159,6 @@ let optionValue = "title";
 //검색 조건을 선택하면 option value 값이 들어간다.
 scombox1.addEventListener("change", function () {
   optionValue = scombox1.value;
-  console.log("optionValue : ", optionValue);
 });
 
 searchbtn.addEventListener("click", function (searchevent) {
@@ -208,9 +170,7 @@ searchbtn.addEventListener("click", function (searchevent) {
     scontent.focus();
   } else {
     searchevent.preventDefault();
-    console.clear();
-    console.log("검색어 : ", scontent.value);
-    console.log("검색조건 : ", optionValue);
+
     //optionValue(title, details)에 따라서 검색이 되게 합니다.
     if (optionValue == "title") {
       getDataByTitle(scontent.value)
@@ -224,8 +184,6 @@ searchbtn.addEventListener("click", function (searchevent) {
               .then((data) => {
                 totalPage = data.length;
                 localStorage.setItem("totalPage", totalPage);
-                console.log("getTotalPage : ", totalPage);
-                console.log("getData : ", data);
 
                 // 데이터 로드가 완료된 후에 출력 및 페이지네이션 블록 출력 처리
                 post_data_print(select_block);
@@ -235,13 +193,12 @@ searchbtn.addEventListener("click", function (searchevent) {
                 console.error("Error:", error);
               });
           }
-          console.log("getDataByTitle : ", data);
+
           totalPage = data.length;
-          console.log("totalPage : ", totalPage);
+
           localStorage.setItem("totalPage", totalPage);
           localStorage.setItem("current_block", 1);
           localStorage.setItem("select_block", 1);
-          console.log("getTotalPage : ", totalPage);
         })
         .then(() => {
           // 게시글 데이터 출력하기
@@ -259,8 +216,6 @@ searchbtn.addEventListener("click", function (searchevent) {
               .then((data) => {
                 totalPage = data.length;
                 localStorage.setItem("totalPage", totalPage);
-                console.log("getTotalPage : ", totalPage);
-                console.log("getData : ", data);
 
                 // 데이터 로드가 완료된 후에 출력 및 페이지네이션 블록 출력 처리
                 post_data_print(select_block);
@@ -270,12 +225,11 @@ searchbtn.addEventListener("click", function (searchevent) {
                 console.error("Error:", error);
               });
           }
-          console.log("getDataByDetails : ", data);
+
           totalPage = data.length;
           localStorage.setItem("totalPage", totalPage);
           localStorage.setItem("current_block", 1);
           localStorage.setItem("select_block", 1);
-          console.log("getTotalPage : ", totalPage);
         })
         .then(() => {
           // 게시글 데이터 출력하기
@@ -334,9 +288,6 @@ function block_print(front_block) {
   block_box.replaceChildren();
 
   //front_block부터 total_block 또는 block_num까지 생성 및 추가
-  console.log("front_block : ", front_block);
-  console.log("total_block : ", total_block);
-  console.log("block_num : ", block_num);
   for (
     let i = front_block;
     i <= total_block && i < front_block + block_num;
@@ -355,7 +306,6 @@ function block_print(front_block) {
 
     // 버튼을 클릭하면 게시글이 변경되는 이벤트 추가
     button.addEventListener("click", function (event) {
-      console.clear();
       //focus 이동
       window.scrollTo(0, 100);
 
@@ -365,11 +315,9 @@ function block_print(front_block) {
       //});
       // 현재 블록을 저장한다.
       localStorage.setItem("current_block", current_block);
-      console.log("current_block 설정 : ", current_block);
       localStorage.setItem("select_block", i);
 
       select_block = localStorage.getItem("select_block");
-      console.log("selct_block 설정 : ", select_block);
       // 누른 버튼은 못누르게 한다.
       event.target.disabled = true;
       //누른 버튼은 계속 눌린 상태로 보이게 한다.
@@ -413,39 +361,29 @@ function block_print(front_block) {
 }
 //관리자만 글쓰기 기능을 이용하게 하기
 const writebutton = document.getElementById("writes");
-console.log("isAdmin? : ", isAdmin);
+
 if (isAdmin) {
-  console.log("isAdmin?? : ", isAdmin);
   writebutton.style.display = "inline-block";
   writebutton.onmouseover = function () {
     localStorage.setItem("select_block", select_block);
     localStorage.setItem("post_mode", "write");
-    console.log("post_mode : ", localStorage.getItem("post_mode"));
   };
 } else {
-  console.log("isAdmin???  : ", isAdmin);
   writebutton.style.display = "none";
 }
 function before() {
-  console.clear();
   block_print(current_block - block_num);
-  console.log("이전");
 }
 
 function next() {
-  console.clear();
   block_print(current_block + block_num);
-  console.log("다음");
 }
 
 function first() {
-  console.clear();
   block_print(first_block);
-  console.log("처음");
 }
 
 function last() {
-  console.clear();
   // 블록의 총 수를 계산한다.
   let total_block =
     totalPage % page_num == 0 ? totalPage / page_num : totalPage / page_num + 1;
@@ -453,12 +391,10 @@ function last() {
   let last_block = total_block - ((total_block - 1) % 10);
 
   block_print(last_block);
-  console.log("마지막");
 }
 
 function deleteDataById(post_id) {
   try {
-    console.log("post_id : ", post_id);
     const url = `http://localhost:8080/notice`;
     fetch(url, {
       method: "GET",
@@ -715,8 +651,6 @@ function noticeInit() {
     .then((data) => {
       totalPage = data.length;
       localStorage.setItem("totalPage", totalPage);
-      console.log("getTotalPage : ", totalPage);
-      console.log("getData : ", data);
 
       // 데이터 로드가 완료된 후에 출력 및 페이지네이션 블록 출력 처리
       post_data_print(select_block);
