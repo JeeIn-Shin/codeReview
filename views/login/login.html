@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF=8" />
+    <title>HOME</title>
+    <link rel="stylesheet" href="../../public/css/somincss/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/fontawesome.all.min.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/nice-select.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/normalize.css" />
+    <link rel="stylesheet" href="../../public/css/sominSyle.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/responsive.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/profile.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/login.css" />
+  </head>
+
+  <body>
+    <main>
+      <div class="preloader" id="preloader">
+        <svg id="loader" width="100%" height="100%">
+          <path id="corners" d="m 0 12.5 l 0 -12.5 l 50 0 l 0 50 l -50 0 l 0 -37.5" />
+          <path id="L" d="m 18 9 l 0 30 l 16 0" />
+        </svg>
+      </div>
+      <!-- Start Servey From Section -->
+      <section class="survey-from-full" style="background-image: url('assets/img/slider1.jpg')">
+        <div class="survey-from-full-bg-overly">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 align-self-center">
+                <div class="survey-from-full-main">
+                  <div class="survy-form-outer-full">
+                    <div class="survy-form-outer">
+                      <form id="contact-form" action="http://localhost:8080/login" method="POST">
+                        <div class="page slide-page">
+                          <div class="title"><strong>CodeReview</strong></div>
+                          <div class="row">
+                            <div class="boxlogin">
+                              <div class="col-sm-61">
+                                <div class="single-field1">
+                                  <input
+                                    type="text"
+                                    id="ID"
+                                    name="id"
+                                    value=""
+                                    placeholder="아이디(ID)"
+                                    autocomplete="on"
+                                  />
+                                  <!--아이디 입력-->
+                                </div>
+                              </div>
+                              <div class="col-sm-61">
+                                <div class="single-field1">
+                                  <input
+                                    type="password"
+                                    id="PASSWORD"
+                                    name="pwd"
+                                    value=""
+                                    placeholder="비밀번호(Password)"
+                                  />
+                                  <!--비밀번호 입력-->
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="field btns np-btn-success">
+                            <button type="submit" class="button1">로그인</button>
+                            <button
+                              class="prev-3 button1 mr-20 bg prev"
+                              onclick="location.href='http://localhost:8080/signup'"
+                            >
+                              회원가입
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Js File -->
+    <script src="../../public/js/sominjs/modernizr.min.js"></script>
+    <script src="../../public/js/sominjs/jquery-3.6.0.min.js"></script>
+    <script src="../../public/js/sominjs/popper.min.js"></script>
+    <script src="../../public/js/sominjs/bootstrap.min.js"></script>
+    <script src="../../public/js/sominjs/jquery.nice-select.min.js"></script>
+    <script src="../../public/js/sominjs/script.js"></script>
+    <script src="../../public/js/sominjs/multifrom.js"></script>
+    <script src="../../public/js/sominjs/profile.js"></script>
+  </body>
+</html>

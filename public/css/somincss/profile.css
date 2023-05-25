@@ -1,0 +1,187 @@
+h1 {
+  text-align: center;
+}
+
+form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+label {
+  margin-top: 10px;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+
+input[type='submit'] {
+  width: 100%;
+  background-color: #0d5fa6;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+input[type='submit']:hover {
+  background-color: #0d5fa6;
+}
+
+hr {
+  border: 1px solid #f2f2f2;
+  margin-top: 20px;
+}
+
+/* 내가 추가 */
+.page {
+  display: inline-block;
+  width: 150%;
+}
+/* 요기까지 */
+
+/*프로필 사진 클릭시 변하는 CSS*/
+.profile_select {
+  /* width: 700px; */
+  width: 100%;
+}
+
+.profile_select > div > button {
+  border: none;
+
+  margin-top: 40px;
+  padding: 0px;
+  width: 170px;
+  height: 200px;
+
+  background-color: white;
+  float: left;
+}
+
+.profile_select > div > button.active,
+.profile_select > div > button:hover {
+  background-color: #cfcfcf;
+  transition: 0.7s;
+}
+
+.field_btns {
+  height: 200px;
+  margin-top: 280px;
+}
+
+/*라디오 박스 css*/
+.language_select {
+  margin-top: 0px;
+  padding: 0px;
+  width: 750px;
+  height: 0px;
+}
+
+.listselect1 {
+  padding-top: 0px;
+  padding-bottom: 10px;
+}
+
+.listselect2 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.listselect3 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.active_selectone {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  padding-top: 210px;
+}
+
+.mtstart2 {
+  display: inline-block;
+  padding: 30px 50px;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  background-color: #f0f0f0;
+  color: #333333;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* 버튼 호버 효과 */
+.mtstart2:hover {
+  background-color: #f2f2f2;
+}
+
+/* 버튼 활성화 효과 */
+.mtstart2:active {
+  background-color: #0d5fa6;
+}
+
+.selectbt {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+@media screen and (max-width: 767px) {
+  /* 화면 폭이 767px 이하인 경우에만 적용됩니다 */
+
+  form {
+    max-width: 100%;
+    padding: 0 10px;
+  }
+
+  input[type='text'],
+  input[type='email'],
+  input[type='password'] {
+    width: 100%;
+  }
+
+  .profile_select > div > button {
+    width: 90px;
+    height: 150px;
+    margin: 10px;
+  }
+
+  .field_btns {
+    margin-top: 10px;
+  }
+
+  .language_select {
+    width: 100%;
+    padding: 0 10px;
+  }
+
+  .listselect1,
+  .listselect2,
+  .listselect3 {
+    width: 65%;
+    float: left;
+    box-sizing: border-box;
+    padding: 5px;
+  }
+
+  .active_selectone {
+    padding-top: 10px;
+  }
+
+  .mtstart2 {
+    width: 60%;
+    padding: 20px;
+    font-size: 20px;
+    box-sizing: border-box;
+  }
+}

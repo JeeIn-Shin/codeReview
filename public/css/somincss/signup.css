@@ -1,0 +1,57 @@
+/*프로필 사진 클릭시 변하는 CSS*/
+.profile_select {
+  width: 900px;
+}
+
+.profile_select > div > button {
+  border: none;
+
+  margin-top: 40px;
+  padding: 0px;
+  width: 170px;
+  height: 200px;
+
+  background-color: white;
+  float: left;
+}
+
+.profile_select > div > button.active,
+.profile_select > div > button:hover {
+  background-color: #cfcfcf;
+  transition: 0.7s;
+}
+
+.field_btns {
+  height: 100px;
+  margin-top: 280px;
+}
+
+/*라디오 박스 css*/
+
+.language_select {
+  margin-top: 0px;
+  padding: 0px;
+  width: 900px;
+  height: 0px;
+}
+
+.listselect1 {
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
+.listselect2 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.listselect3 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.active_selectone {
+  margin-top: 40px;
+  margin-bottom: 10px;
+  padding-top: 210px;
+}

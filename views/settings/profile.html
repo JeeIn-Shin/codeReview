@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF=8">
+    <link rel="stylesheet" href="../../public/assets/css/reprofile.css">
+    <title>개인정보 수정 폼</title>
+</head>
+
+
+    <body>
+        <h1>개인정보 수정</h1>
+
+      <!--  <div id="passwordContainer">
+            <label for="passwordInput">현재 비밀번호:</label>
+                <input type="password" id="passwordInput" required>
+                <button onclick="showForm()">확인</button>
+        </div>
+      -->    
+
+            <div id="formContainer" >
+                <form action="http://localhost:8080/settings/profile" method="post" id="profileform">
+                        <label for="name">아이디(학번):</label>
+                            <input type="text" id="name" name="name" value="" required>
+
+                        <label for="nickname">닉네임:</label>
+                            <input type="text" id="nickName" name="nickName" value="" required>
+
+                        <label for="github">깃허브:</label>
+                            <input type="text" id="github" name="github" value="" required>
+                        
+                        <hr>
+                        <div class="page">
+
+                            <div class="title">
+                                <strong>프로필 설정</strong>
+                            </div>
+
+                            <div class="profile_select">
+                                <div class="profile01">
+                                    <button class='button' type="button" onclick="select(event)">
+                                        <img src="../../public/assets/img/profile1.png" alt="img error" width="180">
+                                    </button>
+                                </div>
+
+                                <div class="profile02">
+                                    <button class='button' type="button" onclick="select(event)">
+                                        <img src="../../public/assets/img/profile2.png" alt="img error" width="180">
+                                    </button>
+                                </div>
+                                
+                                <div class="profile03">
+                                    <button class='button' type="button" onclick="select(event)">
+                                        <img src="../../public/assets/img/profile3.png" alt="img error" width="180">
+                                    </button>
+                                </div>
+
+                                <div class="profile04">
+                                    <button class='button' type="button" onclick="select(event)">
+                                        <img src="../../public/assets/img/profile4.png" alt="img error" width="180">
+                                    </button>
+                                </div>
+                                <input value="" type="hidden" name="profileImg">
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="page">
+                            <div class="language_select">
+                                <p><strong>언어 설정</strong></p>
+                                    <div class="listselect1">
+                                        <p>- 개발 경험이 많은 언어</p>
+                                        <div class="radiobox">
+                                        <input type="radio" name="c" id="c" checked value="c"> 
+                                            <label for='c'>C</label>
+                                        <input type="radio" name="cPlus" id="cPlus" value="cPlus">
+                                            <label for='cPlus'>C++</label>
+                                        <input type="radio" name="cSharp" id="cSharp" value="cSharp">
+                                            <label for='cSharp'>C#</label>
+                                        <input type="radio" name="java" id="java" value="java">
+                                            <label for='java'>JAVA</label>
+                                        <input type="radio" name="kotlin" id="kotlin" value="kotlin">
+                                            <label for='kotlin'>Kotiln</label>
+                                        <input type="radio" name="swift" id="swift" value="swift">
+                                            <label for='swift'>Swift</label>
+                                    <input type="radio" name="python" id="python" value="python">
+                                            <label for='python'>Python</label>
+                                        <input type="radio" name="go" id="go" value="go">
+                                            <label for='go'>GO</label>
+                                        <input type="radio" name="javascript" id="javaScript" value="javascript">
+                                            <label for='javaScript'>JavaScript</label>
+                                        <input type="radio" name="rust" id="rust" value="rust">
+                                            <label for='rust'>Rust</label>
+                                        <input type="radio" name="ruby" id="ruby" value="ruby">
+                                            <label for='ruby'>Ruby</label>    
+                                        </div>
+                                    </div>
+
+                                    <div class="listselect2">
+                                        <p>- 개발 경험이 있는 언어</p>
+                                        <input type="radio" name="c" id="c2" value="c"> 
+                                            <label for='c2'>C</label>
+                                        <input type="radio" name="cPlus" id="cPlus2" value="cPlus">
+                                            <label for='cPlus2'>C++</label>
+                                        <input type="radio" name="cSharp" id="cSharp2" value="cSharp">
+                                            <label for='cSharp2'>C#</label>
+                                        <input type="radio" name="java" id="java2" value="java">
+                                            <label for='java2'>JAVA</label>
+                                        <input type="radio" name="kotlin" id="kotlin2" value="kotlin">
+                                            <label for='kotlin2'>Kotiln</label>
+                                        <input type="radio" name="swift" id="swift2" value="swift">
+                                            <label for='swift2'>Swift</label>
+                                        <input type="radio" name="python" id="python2" value="python">
+                                            <label for='python2'>Python</label>
+                                        <input type="radio" name="go" id="go2" value="go">
+                                            <label for='go2'>GO</label>
+                                        <input type="radio" name="javascript" id="javaScript2" value="javascript">
+                                            <label for='javaScript2'>JavaScript</label>
+                                        <input type="radio" name="rust" id="rust2" value="rust"> 
+                                            <label for='rust2'>Rust</label>
+                                        <input type="radio" name="ruby" id="ruby2" value="ruby">
+                                            <label for='ruby2'>Ruby</label> 
+
+                                    </div>
+                                    <div class="listselect3">
+                                        <p>- 개발 경험이 없는 언어</p>
+                                        <input type="radio" name="c" id="c3" value="c"> 
+                                            <label for='c3'>C</label>
+                                        <input type="radio" name="cPlus" id="cPlus3" value="cPlus">
+                                            <label for='cPlus3'>C++</label>
+                                        <input type="radio" name="cSharp" id="cSharp3" value="cSharp">
+                                            <label for='cSharp3'>C#</label>
+                                        <input type="radio" name="java" id="java3" value="java">
+                                            <label for='java3'>JAVA</label>
+                                        <input type="radio" name="kotlin" id="kotlin3" value="kotlin">
+                                            <label for='kotlin3'>Kotiln</label>
+                                        <input type="radio" name="swift" id="swift3" value="swift">
+                                            <label for='swift3'>Swift</label>
+                                        <input type="radio" name="python" id="python3" value="python">
+                                            <label for='python3'>Python</label>
+                                        <input type="radio" name="go" id="go3" value="go">
+                                            <label for='go3'>GO</label>
+                                        <input type="radio" name="javascript" id="javaScript3" value="javascript">
+                                            <label for='javaScript3'>JavaScript</label>
+                                        <input type="radio" name="rust" id="rust3" value="rust">
+                                            <label for='rust3'>Rust</label>
+                                        <input type="radio" name="ruby" id="ruby3" value="ruby">
+                                            <label for='ruby3'>Ruby</label> 
+
+                                    <hr>
+
+                                    <p><strong>활동 설정</strong></p>
+                                    <input type="radio" name="codeReview" value="codeReview" id="codereivew1">
+                                        <label for="codereivew1">코드 리뷰</label>
+                                    <input type="radio" name="refactoring" value="refactoring" id="repactoring1">
+                                        <label for="repactoring1">코드 수정</label>
+                                    <input type="radio" name="qa" value="qa" id="qa1">
+                                        <label for="qa1">코드 검증</label>
+                                    </div>
+                                    <button class="mtstart2" type="submit">수정하기</button>
+                            </div>
+                      </form>
+                    </div>
+                  </body>
+
+
+    <script src="../../public/assets/js/reprofile.js"></script>
+
+    </html>
+    
