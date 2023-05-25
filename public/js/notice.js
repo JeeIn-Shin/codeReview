@@ -155,7 +155,7 @@ function deleteDataById(post_id) {
       .then(
         (json) =>
           //notce-board로 이동
-          (window.location.href = "notice-board.html")
+          (window.location.href = "../../views/noticeboard/noticeboard.html")
       );
   } catch (error) {
     alert("삭제에 실패하였습니다.");

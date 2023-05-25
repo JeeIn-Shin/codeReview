@@ -53,7 +53,6 @@ function isAdminCheck() {
     localStorage.setItem("isAdmin", isAdmin);
   } else {
     if (decoded.isAdmin === 1) {
-      // john doe를 실제 관리자명으로 수정 name을 실제 페이로드 이름으로 수정
       isAdmin = true;
       localStorage.setItem("isAdmin", isAdmin);
     } else {
@@ -63,7 +62,7 @@ function isAdminCheck() {
   }
 }
 let post_mode = localStorage.getItem("post_mode");
-console.log("post_mode: ", post_mode);
+console.log("write의 post_mode: ", post_mode);
 
 //let current_block = localStorage.getItem("current_block");
 console.log("current_block: ", current_block);
@@ -86,7 +85,7 @@ let day = createDate.getDate();
 let YearMonthDate = year + "-" + month + "-" + day; //ex) 2021-10-07
 
 if (post_mode === "write") {
-  document.querySelector("h1").textContent = "공지사항 글쓰기";
+  document.querySelector("h1").textContent = "공지사항";
   date.textContent = YearMonthDate;
 
   writebtn.addEventListener("click", function (submitevent) {
@@ -218,9 +217,9 @@ function putData(data) {
     })
     .then((notice) => {
       window.onbeforeunload = null;
-      location.href = "notice.html";
+      location.href = "../../views/notic/notice.html";
     })
-    .catch((err) => console.error(err), alert("수정에 실패하였습니다."));
+    .catch((err) => console.error(err));
 }
 
 /* window.onbeforeunload = function (event) {

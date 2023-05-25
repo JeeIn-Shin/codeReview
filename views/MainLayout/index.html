@@ -374,7 +374,7 @@
                           글쓰기
                         </button></a
                       >
-                      <a href="#calls-content"><button class="page-item page-link">목록</button></a>
+                      <button class="page-item page-link" onclick="noticeInit()">목록</button>
                     </div>
                   </div>
                 </div>
@@ -419,8 +419,8 @@
                     <!-- <a href="notice-board.html" id="back" class="button button-border button-rounded button-fill fill-from-right button-blue" title="작성을 취소하고 돌아갑니다"><span>목록</span></a> -->
                     <!-- 주석, 링크 수정, 앵커타면 새 탭으로 열림 -->
                     <a
-                      href="#"
-                      target="#calls-content"
+                      href="#calls-content"
+                      target="_self"
                       id="back"
                       class="button button-border button-rounded button-fill fill-from-right button-blue"
                       title="작성을 취소하고 돌아갑니다"
@@ -1215,7 +1215,7 @@
     <script src="../../public/js/functions.js"></script>
     <script
       id="noticeboard"
-      src="../../public/js/notice-board.js?v=<%= Math.floor(Math.random() * 1000000) %>"
+      src="../../public/js/notice-board.js"
     ></script>
 
     <script src="../../public/js/community2.js"></script>

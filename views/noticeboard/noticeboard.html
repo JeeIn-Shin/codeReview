@@ -13,26 +13,22 @@
     <meta name="subject" content="communication" />
     <meta name="copyright" content="frontendmatters" />
     <meta name="revised" content="Tuesday, November 10th, 2020, 08:00 am" />
-    <title>notice</title>
+    <title>Main Page</title>
     <!-- Favicon and Touch Icons-->
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="./../../../public/images/apple-touch-icon.png"
-    />
+    <link rel="apple-touch-icon" sizes="180x180" href="../../public/images/apple-touch-icon.png" />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="./../../../public/images/favicon-32x32.png"
+      href="./../../public/images/favicon-32x32.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="./../../../public/images/favicon-16x16.png"
+      href="./../../public/images/favicon-16x16.png"
     />
-    <link rel="shortcut icon" href="./../../../public/images/favicon.ico" />
+    <link rel="shortcut icon" href="./../../public/images/favicon.ico" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
 
@@ -48,12 +44,13 @@
     <link rel="stylesheet" href="../../public/css/animate.css" type="text/css" />
     <link rel="stylesheet" href="../../public/css/magnific-popup.css" type="text/css" />
     <link rel="stylesheet" href="../../public/css/custom.css" type="text/css" />
+
     <!--Bootstrap Select CSS -->
     <link rel="stylesheet" href="../../public/css/components/bs-select.css" type="text/css" />
     <link rel="stylesheet" href="./../../public/css/app.min.css" />
 
     <!-- somin -->
-    <link rel="stylesheet" href="../../public/css/somincss/reprofile.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/profile.css" />
   </head>
   <body class="chats-tab-open">
     <!-- 주석 -->
@@ -61,7 +58,7 @@
       <div id="logoBox">
         <img
           id="hansungLogo"
-          src="../../../public/images/hansungImg/상상부기 PNG 파일/상상부기 10.png"
+          src="../../public/images/hansungImg/상상부기 PNG 파일/상상부기 10.png"
           alt="클릭 시 메인 페이지로 이동"
           style="display: inline"
         />
@@ -74,8 +71,11 @@
       <!-- Navigation Start -->
       <div class="navigation navbar navbar-light bg-primary">
         <!-- Logo Start -->
-        <!-- 원래는 밑에 href에 index.html이 들어가지만 작업 중에만 없애기 -->
-        <a class="d-none d-xl-block bg-light rounded p-1" href="../MainLayout/index.html">
+        <a
+          class="d-none d-xl-block bg-light rounded p-1"
+          href="http://127.0.0.1:8080/mainLayout/index.html"
+        >
+          <!-- Default :: Inline SVG -->
           <svg height="30" width="30" viewBox="0 0 512 511">
             <g>
               <path
@@ -87,6 +87,8 @@
               />
             </g>
           </svg>
+          <!-- Alternate :: External File link -->
+          <!-- <img class="injectable" src="./../assets/media/logo.svg" alt=""> -->
         </a>
         <!-- Logo End -->
 
@@ -115,7 +117,7 @@
               </svg>
 
               <!-- Alternate :: External File link -->
-              <!-- <img class="injectable hw-24" src="./../../public/images/media/heroicons/outline/chat-alt-2.svg" alt="Chat icon"> -->
+              <!-- <img class="injectable hw-24" src="./../assets/media/heroicons/outline/chat-alt-2.svg" alt="Chat icon"> -->
             </a>
           </li>
           <!-- Chats Tab End -->
@@ -134,7 +136,7 @@
               </svg>
 
               <!-- Alternate :: External File link -->
-              <!-- <img class="injectable hw-24" src="./../../public/images/media/heroicons/outline/phone.svg" alt="Phone icon"> -->
+              <!-- <img class="injectable hw-24" src="./../assets/media/heroicons/outline/phone.svg" alt="Phone icon"> -->
             </a>
           </li>
           <!-- Calls Tab End -->
@@ -190,7 +192,7 @@
         <!-- Main Nav End -->
       </div>
       <!-- Navigation End -->
-
+      <!-- 리스트 바, 탭을 바꿀때마다 리스트 내용이 달라짐 -->
       <!-- Sidebar Start -->
       <aside class="sidebar">
         <!-- Tab Content Start -->
@@ -208,6 +210,7 @@
 
                     <ul class="nav flex-nowrap">
                       <li class="nav-item list-inline-item mr-1">
+                        <!-- 종 모양 아이콘 설정, 링크란이 비어 잇음 -->
                         <a
                           class="nav-link text-muted px-1"
                           href="#"
@@ -227,18 +230,15 @@
                           </svg>
 
                           <!-- Alternate :: External File link -->
-                          <!-- <img class="injectable hw-20" src="./../assets/media/heroicons/outline/bell.svg" alt=""> -->
+                          <!-- <img src="./../assets/media/heroicons/outline/bell.svg" alt="" class="injectable hw-20"> -->
                         </a>
                       </li>
                     </ul>
                   </div>
-
-                  <!-- Sidebar Header End -->
                 </div>
                 <!-- Chat Header End -->
 
                 <!-- 채팅방 리스트, 새 채팅방 생성시 새로운 방이 보여야 한다. -->
-                <!-- Chat Contact List Start -->
                 <ul class="contacts-list" id="chatContactTab" data-chat-list="">
                   <!-- Chat Item Start -->
                   <li class="contacts-item friends">
@@ -259,7 +259,7 @@
                         <div class="contacts-texts">
                           <p class="text-truncate">
                             I’m sorry,
-                            <!-- 주석,마지막 메세지 한줄 출력 -->
+                            <!-- 주석, 마지막 메세지 한줄 출력 -->
                           </p>
                         </div>
                       </div>
@@ -271,12 +271,13 @@
             </div>
           </div>
         </div>
+        <!-- Tab Content End -->
       </aside>
-      <!-- Sidebar End -->
 
       <!-- Main Start -->
-      <main class="main main-visible">
+      <main class="main">
         <!-- Chats Page Start -->
+        <!-- index 처음 들어왔을때 보이는 화면 -->
         <div class="chats">
           <div class="d-flex flex-column justify-content-center text-center h-100 w-100">
             <div class="container">
@@ -290,80 +291,147 @@
         </div>
         <!-- Chats Page End -->
 
-        <!-- notice -->
+        <!-- Call Log Page Start -->
+        <!-- 공지 게시판으로 대체 -->
         <div class="calls px-0 py-2 p-xl-3">
-          <div class="stretched">
+          <!-- 주석, display 조절용 id -->
+          <!-- 게시판 글목록 -->
+          <div class="stretched" id="announceShowBorad">
             <div id="wrapper" class="clearfix">
               <!-- Page Title-->
+              <section id="page-title">
+                <div class="container clearfix">
+                  <h1 class="text-center">공지 게시판</h1>
+                </div>
+              </section>
+              <!-- #page-title end -->
+
+              <section id="search">
+                <div class="container clearfix">
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <div class="search-form">
+                        <form action="#" method="get" class="float-end">
+                          <div class="input-group">
+                            <select name="scombox1" id="scombox1">
+                              <optgroup id="s_opt">
+                                <option value="title">제목</option>
+                                <option value="details">내용</option>
+                              </optgroup>
+                            </select>
+                            <input type="text" id="scontent" placeholder="검색어 입력" />
+                            <input type="submit" value="검색" id="searchbtn" />
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section id="content">
+                <div class="content-wrap">
+                  <div class="container clearfix notice_board">
+                    <!-- Posts
+                                    ============================================= -->
+                    <div
+                      id="posts"
+                      class="post-grid row grid-container gutter-30"
+                      data-layout="fitRows"
+                    >
+                      <!-- 게시글 추가로 들어오는 위치 -->
+                    </div>
+                    <!-- 페이지 블럭 -->
+                    <div class="pagination mt-5 pagination-circle justify-content-center">
+                      <button class="page-item page-link first_move" onclick="first()" title="최신">
+                        최신
+                      </button>
+                      <button
+                        class="page-item page-link before_move"
+                        onclick="before()"
+                        title="이전"
+                      >
+                        이전
+                      </button>
+
+                      <div class="pagination block">
+                        <!-- 블럭 추가로 들어오는 위치 -->
+                      </div>
+                      <button class="page-item page-link next_move" onclick="next()" title="다음">
+                        다음
+                      </button>
+                      <button class="page-item page-link last_move" onclick="last()" title="마지막">
+                        마지막
+                      </button>
+                    </div>
+
+                    <div class="pagination mt-5 pagination-circle justify-content-center">
+                      <!-- 주석, 여기를 조절해서 write, board 전환하기 -->
+                      <!-- 그전에 여기 페이지에도 write 옴겨 놓기 -->
+                      <!-- <button id="write" class="page-item page-link">글쓰기</button> -->
+                      <a href="#calls-content" target="_self" title="관리자 글쓰기"
+                        ><button id="write" style="display: none" class="page-item page-link">
+                          글쓰기
+                        </button></a
+                      >
+                      <button class="page-item page-link" onclick="noticeInit()">목록</button>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+            <div id="gotoTop" class="icon-angle-up"></div>
+          </div>
+          <!-- 게시판 글 작성 ,주석, display 조절용 id -->
+          <div class="stretched" id="announceWriteBorad">
+            <div id="wrapper" class="clearfix">
               <section id="page-title">
                 <div class="container clearfix">
                   <h1 class="center">공지사항</h1>
                 </div>
               </section>
               <!-- #page-title end -->
-              <!-- Content-->
+
+              <!-- Content
+                      ============================================= -->
               <section id="content">
                 <div class="content-wrap">
                   <div class="container clearfix">
-                    <div class="single-post mb-0 mw-sm mx-auto">
-                      <!-- Single Post-->
-                      <div class="entry clearfix">
-                        <!-- Entry Title-->
-                        <div class="entry-title center">
-                          <h2 id="noticetitle"></h2>
-                        </div>
-                        <!-- .entry-title end -->
+                    <p>작성일 <span id="date"></span></p>
+                    <div class="col-12 bottommargin-sm">
+                      <label for="writer">admin<small class="text-danger">*</small></label>
+                      <!-- <input type="text" id="writer" name="writer" value="" class="form-control required" placeholder="직책을 입력하십시오." /> -->
+                    </div>
+                    <div class="col-12 bottommargin-sm">
+                      <label for="title">제목<small class="text-danger">*</small></label>
+                      <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value=""
+                        class="form-control required"
+                        placeholder="제목을 입력하십시오."
+                      />
+                    </div>
 
-                        <div class="row align-items-center mt-2">
-                          <div class="col-md-2">
-                            <!-- Entry Meta-->
-                            <div>
-                              <ul class="d-flex flex-column entry-meta no-separator">
-                                <li class="me-0">
-                                  <i id="noticedate" class="icon-calendar3"> </i>
-                                </li>
-                                <li class="me-0">
-                                  <i id="noticewriter" class="icon-user"> </i>
-                                </li>
-                              </ul>
-                            </div>
-                            <!-- .entry-meta end -->
-                          </div>
-                        </div>
-                        <!-- Entry Content-->
-                        <div id="noticedetails" class="entry-content mt-3 line"></div>
-                      </div>
-                      <!-- .entry end -->
-                    </div>
-                    <div class="center">
-                      <!-- 수정, 기능 제대로 수행 되면 display: none 추가하기, -->
-                      <!-- 주석, 경로 수정, 목록페이지로 이동 시키기 -->
-                      <!-- onclick="goWirte()" -->
-                      <a
-                        href="../mainLayout/index.html"
-                        target="_self"
-                        id="put"
-                        style="display: none"
-                        class="button button-border button-rounded button-fill fill-from-right button-green"
-                        ><span>수정</span></a
-                      >
-                      <!-- 목록 -->
-                      <a
-                        href="../noticeboard/noticeboard.html"
-                        id="backs"
-                        class="button button-border button-rounded button-fill fill-from-right button-blue"
-                        title="돌아갑니다"
-                        ><span>목록</span></a
-                      >
-                      <!-- <a href="../mainLayout/index.html" target="#chats-content" title="돌아갑니다"><span>목록</span></a> -->
-                      <!-- 삭제 -->
-                      <a
-                        id="delete"
-                        style="display: none"
-                        class="button button-border button-rounded button-fill fill-from-right button-red"
-                        ><span>삭제</span></a
-                      >
-                    </div>
+                    <textarea id="wysiwyg-editor"></textarea>
+                    <!-- <a href="notice-board.html" id="back" class="button button-border button-rounded button-fill fill-from-right button-blue" title="작성을 취소하고 돌아갑니다"><span>목록</span></a> -->
+                    <!-- 주석, 링크 수정, 앵커타면 새 탭으로 열림 -->
+                    <a
+                      href="#calls-content"
+                      target="_self"
+                      id="back"
+                      class="button button-border button-rounded button-fill fill-from-right button-blue"
+                      title="작성을 취소하고 돌아갑니다"
+                      ><span>목록</span></a
+                    >
+                    <button
+                      id="writebtn"
+                      class="button button-border button-rounded button-fill button-red float-end"
+                    >
+                      <span>게시</span>
+                    </button>
                   </div>
                 </div>
               </section>
@@ -477,8 +545,9 @@
             <!-- Main Nav End -->
           </div>
         </div>
+        <!-- Call Log Page End -->
 
-        <!-- friends 메인 화면, -->
+        <!-- Friends Page Start -->
         <div class="friends px-0 py-2 p-xl-3">
           <div class="stretched">
             <!-- Document Wrapper-->
@@ -580,6 +649,7 @@
             </div>
             <!-- #wrapper end -->
           </div>
+          <!-- 후기 작성란 -->
           <div class="stretched">
             <!-- Document Wrapper-->
             <div id="wrapper" class="clearfix">
@@ -744,20 +814,18 @@
             <!-- Main Nav End -->
           </div>
         </div>
+        <!-- Friends Page End -->
 
-        <!-- profile 메인 화면 -->
+        <!-- Profile Settings Start -->
         <div class="profile">
           <h1>개인정보 수정</h1>
           <div id="formContainer">
-            <form action="" method="post">
+            <form action="http://localhost:8080/settings/profile" method="post" id="profileform">
               <label for="name">아이디(학번):</label>
               <input type="text" id="name" name="name" value="" required />
 
               <label for="nickname">닉네임:</label>
-              <input type="text" id="nickname" name="nickname" value="" required />
-
-              <label for="email">이메일:</label>
-              <input type="email" id="email" name="email" required />
+              <input type="text" id="nickName" name="nickName" value="" required />
 
               <label for="github">깃허브:</label>
               <input type="text" id="github" name="github" value="" required />
@@ -809,7 +877,7 @@
                       />
                     </button>
                   </div>
-                  <input value="" type="hidden" name="profileImgNumber" />
+                  <input value="" type="hidden" name="profileImg" />
                 </div>
               </div>
 
@@ -821,90 +889,124 @@
                   <div class="listselect1">
                     <p>- 개발 경험이 많은 언어</p>
                     <div class="radiobox">
-                      <input type="radio" name="c" id="c" checked value="c" />
+                      <input type="radio" name="c" id="c" checked value="0" />
                       <label for="c">C</label>
-                      <input type="radio" name="cPlus" id="cPlus" value="cPlus" />
+                      <input type="radio" name="cPlus" id="cPlus" value="0" />
                       <label for="cPlus">C++</label>
-                      <input type="radio" name="cSharp" id="cSharp" value="cSharp" />
+                      <input type="radio" name="cSharp" id="cSharp" value="0" />
                       <label for="cSharp">C#</label>
-                      <input type="radio" name="java" id="java" value="java" />
+                      <input type="radio" name="java" id="java" value="0" />
                       <label for="java">JAVA</label>
-                      <input type="radio" name="kotlin" id="kotlin" value="kotlin" />
+                      <input type="radio" name="kotlin" id="kotlin" value="0" />
                       <label for="kotlin">Kotiln</label>
-                      <input type="radio" name="swift" id="swift" value="swift" />
+                      <input type="radio" name="swift" id="swift" value="0" />
                       <label for="swift">Swift</label>
-                      <input type="radio" name="python" id="python" value="python" />
+                      <input type="radio" name="python" id="python" value="0" />
                       <label for="python">Python</label>
-                      <input type="radio" name="go" id="go" value="go" />
+                      <input type="radio" name="go" id="go" value="0" />
                       <label for="go">GO</label>
-                      <input type="radio" name="javascript" id="javaScript" value="javascript" />
+                      <input type="radio" name="javascript" id="javaScript" value="0" />
                       <label for="javaScript">JavaScript</label>
-                      <input type="radio" name="rust" id="rust" value="rust" />
+                      <input type="radio" name="rust" id="rust" value="0" />
                       <label for="rust">Rust</label>
-                      <input type="radio" name="ruby" id="ruby" value="ruby" />
+                      <input type="radio" name="ruby" id="ruby" value="0" />
                       <label for="ruby">Ruby</label>
                     </div>
                   </div>
 
                   <div class="listselect2">
                     <p>- 개발 경험이 있는 언어</p>
-                    <input type="radio" name="c" id="c2" value="c" />
+                    <input type="radio" name="c" id="c2" value="1" />
                     <label for="c2">C</label>
-                    <input type="radio" name="cPlus" id="cPlus2" value="cPlus" />
+                    <input type="radio" name="cPlus" id="cPlus2" value="1" />
                     <label for="cPlus2">C++</label>
-                    <input type="radio" name="cSharp" id="cSharp2" value="cSharp" />
+                    <input type="radio" name="cSharp" id="cSharp2" value="1" />
                     <label for="cSharp2">C#</label>
-                    <input type="radio" name="java" id="java2" value="java" />
+                    <input type="radio" name="java" id="java2" value="1" />
                     <label for="java2">JAVA</label>
-                    <input type="radio" name="kotlin" id="kotlin2" value="kotlin" />
+                    <input type="radio" name="kotlin" id="kotlin2" value="1" />
                     <label for="kotlin2">Kotiln</label>
-                    <input type="radio" name="swift" id="swift2" value="swift" />
+                    <input type="radio" name="swift" id="swift2" value="1" />
                     <label for="swift2">Swift</label>
-                    <input type="radio" name="python" id="python2" value="python" />
+                    <input type="radio" name="python" id="python2" value="1" />
                     <label for="python2">Python</label>
-                    <input type="radio" name="go" id="go2" value="go" />
+                    <input type="radio" name="go" id="go2" value="1" />
                     <label for="go2">GO</label>
-                    <input type="radio" name="javascript" id="javaScript2" value="javascript" />
+                    <input type="radio" name="javascript" id="javaScript2" value="1" />
                     <label for="javaScript2">JavaScript</label>
-                    <input type="radio" name="rust" id="rust2" value="rust" />
+                    <input type="radio" name="rust" id="rust2" value="1" />
                     <label for="rust2">Rust</label>
-                    <input type="radio" name="ruby" id="ruby2" value="ruby" />
+                    <input type="radio" name="ruby" id="ruby2" value="1" />
                     <label for="ruby2">Ruby</label>
                   </div>
+
                   <div class="listselect3">
                     <p>- 개발 경험이 없는 언어</p>
-                    <input type="radio" name="c" id="c3" value="c" />
+                    <input type="radio" name="c" id="c3" value="2" />
                     <label for="c3">C</label>
-                    <input type="radio" name="cPlus" id="cPlus3" value="cPlus" />
+                    <input type="radio" name="cPlus" id="cPlus3" value="2" />
                     <label for="cPlus3">C++</label>
-                    <input type="radio" name="cSharp" id="cSharp3" value="cSharp" />
+                    <input type="radio" name="cSharp" id="cSharp3" value="2" />
                     <label for="cSharp3">C#</label>
-                    <input type="radio" name="java" id="java3" value="java" />
+                    <input type="radio" name="java" id="java3" value="2" />
                     <label for="java3">JAVA</label>
-                    <input type="radio" name="kotlin" id="kotlin3" value="kotlin" />
+                    <input type="radio" name="kotlin" id="kotlin3" value="2" />
                     <label for="kotlin3">Kotiln</label>
-                    <input type="radio" name="swift" id="swift3" value="swift" />
+                    <input type="radio" name="swift" id="swift3" value="2" />
                     <label for="swift3">Swift</label>
-                    <input type="radio" name="python" id="python3" value="python" />
+                    <input type="radio" name="python" id="python3" value="2" />
                     <label for="python3">Python</label>
-                    <input type="radio" name="go" id="go3" value="go" />
+                    <input type="radio" name="go" id="go3" value="2" />
                     <label for="go3">GO</label>
-                    <input type="radio" name="javascript" id="javaScript3" value="javascript" />
+                    <input type="radio" name="javascript" id="javaScript3" value="2" />
                     <label for="javaScript3">JavaScript</label>
-                    <input type="radio" name="rust" id="rust3" value="rust" />
+                    <input type="radio" name="rust" id="rust3" value="2" />
                     <label for="rust3">Rust</label>
-                    <input type="radio" name="ruby" id="ruby3" value="ruby" />
+                    <input type="radio" name="ruby" id="ruby3" value="2" />
                     <label for="ruby3">Ruby</label>
 
                     <hr />
 
                     <p><strong>활동 설정</strong></p>
-                    <input type="radio" name="active" value="COODERRIVIEW" id="codereivew1" />
-                    <label for="codereivew1">코드 리뷰</label>
-                    <input type="radio" name="active" value="REPACTORING" id="repactoring1" />
-                    <label for="repactoring1">코드 수정</label>
-                    <input type="radio" name="active" value="QA" id="qa1" />
-                    <label for="qa1">코드 검증</label>
+                    <input
+                      type="checkbox"
+                      name="codeReview"
+                      value="0"
+                      id="codeReview"
+                      onclick="is_checked()"
+                    />
+                    <input
+                      type="hidden"
+                      name="codeReview"
+                      value="1"
+                      id="codeReview_hidden"
+                      onclick="is_checked()"
+                    />
+                    <label for="codereivew">코드 리뷰</label>
+                    <input
+                      type="checkbox"
+                      name="refactoring"
+                      value="0"
+                      id="refactoring"
+                      onclick="is_checked()"
+                    />
+                    <input
+                      type="hidden"
+                      name="refactoring"
+                      value="1"
+                      id="refactoring_hidden"
+                      onclick="is_checked()"
+                    />
+                    <label for="refactoring">코드 수정</label>
+                    <input type="checkbox" name="qa" value="0" id="qa" onclick="is_checked()" />
+                    <input
+                      type="hidden"
+                      name="qa"
+                      value="1"
+                      id="qa_hidden"
+                      onclick="is_checked()"
+                    />
+                    <label for="qa">코드 검증</label>
                   </div>
                   <button class="mtstart2" type="submit">수정하기</button>
                 </div>
@@ -1017,164 +1119,82 @@
             <!-- Main Nav End -->
           </div>
         </div>
+        <!-- Profile Settings End -->
       </main>
       <!-- Main End -->
-      <div class="backdrop"></div>
+      <!-- _____________________설정 종료_________________________________ -->
+    </div>
+    <div class="backdrop"></div>
 
-      <!-- Modal 4 :: Notifications -->
-      <div
-        class="modal modal-lg-fullscreen fade"
-        id="notificationModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="notificationModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-zoom">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body p-0 hide-scrollbar">
-              <div class="row">
-                <div class="col-12">
-                  <!-- List Group Start -->
-                  <ul class="list-group list-group-flush py-2"></ul>
-                  <!-- List Group End -->
-                </div>
+    <!-- Modal 4 :: Notifications -->
+    <!-- 알리창, 이걸로 채팅 메세지 왔다 표현 가능 -->
+    <div
+      class="modal modal-lg-fullscreen fade"
+      id="notificationModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="notificationModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog-zoom">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="notificationModalLabel">Notifications</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body p-0 hide-scrollbar">
+            <div class="row">
+              <div class="col-12">
+                <!-- List Group Start -->
+                <ul class="list-group list-group-flush py-2">
+                  <!-- List Group Item Start -->
+                  <li class="list-group-item">
+                    <div class="media">
+                      <div class="btn btn-primary btn-icon rounded-circle text-light mr-2">
+                        <!-- Default :: Inline SVG -->
+                        <svg class="hw-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                          />
+                        </svg>
+
+                        <!-- Alternate :: External File link -->
+                        <!-- <img class="injectable hw-24" src="./../assets/media/heroicons/outline/user-add.svg" alt=""> -->
+                      </div>
+
+                      <div class="media-body">
+                        <h6><a href="#">Catherine richardson</a> send you a friend request</h6>
+
+                        <p class="text-muted mb-0">5 mins ago</p>
+                      </div>
+                    </div>
+                    <!--주석, 평상시 hide하다가, 클릭 시 show로 바꾸기, 아직 구현 안함 -->
+                    <div class="d-flex justify-content-center mt-2">
+                      <button type="button" class="btn btn-outline-danger mx-1">Reject</button>
+                      <button type="button" class="btn btn-primary mx-1">Accept</button>
+                    </div>
+                  </li>
+                  <!-- List Group Item End -->
+                </ul>
+                <!-- List Group End -->
               </div>
             </div>
-            <div class="modal-footer justify-content-center">
-              <button type="button" class="btn btn-link text-muted">Clear all</button>
-            </div>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <!-- 주석, 누루면 알람 다 지우게 만들기, 아직 구현 안함 -->
+            <button type="button" class="btn btn-link text-muted">Clear all</button>
           </div>
         </div>
       </div>
-      <!-- All Modals End -->
     </div>
+    <!-- All Modals End -->
     <!-- Main Layout End -->
-
-    <!-- 주석, 챗format을 만들어서 채팅 기능을 구현할 예정 -->
-    <div class="message chatFormat">
-      <div class="message-wrapper">
-        <div class="message-content">
-          <span><!-- 주석, 채팅 입력을 표현 --></span>
-        </div>
-      </div>
-      <div class="message-options">
-        <!-- 채팅 입력 시간 받아서 넣기 -->
-        <span class="message-date"></span>
-
-        <div class="dropdown">
-          <a
-            class="text-muted"
-            href="#"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            <!-- Default :: Inline SVG -->
-            <svg class="hw-18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
-              />
-            </svg>
-
-            <!-- Alternate :: External File link -->
-            <!-- <img class="injectable hw-18" src="./../assets/media/heroicons/outline/dots-horizontal.svg" alt="message options"> -->
-          </a>
-
-          <div class="dropdown-menu">
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <!-- Default :: Inline SVG -->
-              <svg class="hw-18 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
-                />
-              </svg>
-
-              <!-- Alternate :: External File link -->
-              <!-- <img class="injectable hw-18 mr-2" src="./../assets/media/heroicons/outline/download.svg" alt="download"> -->
-              <span>Download</span>
-            </a>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <!-- Default :: Inline SVG -->
-              <svg class="hw-18 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
-                />
-              </svg>
-
-              <!-- Alternate :: External File link -->
-              <!-- <img class="injectable hw-18 mr-2" src="./../assets/media/heroicons/outline/reply.svg" alt="message replay"> -->
-              <span>Replay</span>
-            </a>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <!-- Default :: Inline SVG -->
-              <svg
-                class="hw-18 rotate-y mr-2"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
-                />
-              </svg>
-
-              <!-- Alternate :: External File link -->
-              <!-- <img class="injectable rotate-y hw-18 mr-2" src="./../assets/media/heroicons/outline/reply.svg" alt="message forward"> -->
-              <span>Forward</span>
-            </a>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <!-- Default :: Inline SVG -->
-              <svg class="hw-18 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                />
-              </svg>
-
-              <!-- Alternate :: External File link -->
-              <!-- <img class="injectable hw-18 mr-2" src="./../assets/media/heroicons/outline/star.svg" alt="message favourite"> -->
-              <span>Favourite</span>
-            </a>
-            <a class="dropdown-item d-flex align-items-center text-danger" href="#">
-              <!-- Default :: Inline SVG -->
-              <svg class="hw-18 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                />
-              </svg>
-
-              <!-- Alternate :: External File link -->
-              <!-- <img class="injectable hw-18 mr-2" src="./../assets/media/heroicons/outline/trash.svg" alt="message delete"> -->
-              <span>Delete</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Javascript Files -->
     <!-- <script src="./../../server.js"></script> -->
@@ -1193,31 +1213,43 @@
 
     <!-- notice-board -->
     <script src="../../public/js/functions.js"></script>
-<!--     <script
+    <script
       id="noticeboard"
-      src="../../public/js/notice-board.js?v=<%= Math.floor(Math.random() * 1000000) %>"
-    ></script> -->
+      src="../../public/js/notice-board.js"
+    ></script>
 
- <!--    <script src="../../public/js/community2.js"></script> -->
+    <script src="../../public/js/community2.js"></script>
+
+    <!-- Footer Scripts -->
+    <script src="../../public/js/functions.js"></script>
 
     <!-- notice-write -->
     <!-- JavaScripts-->
     <script src="../../public/js/jquery.js"></script>
     <script src="../../public/js/plugins.min.js"></script>
     <!-- TinyMCE Plugin -->
-<!--     <script src="../../public/js/components/tinymce/tinymce.min.js"></script> -->
- <!--    <script src="../../public/js/notice-write.js"></script> -->
+    <script src="../../public/js/components/tinymce/tinymce.min.js"></script>
+    <script src="../../public/js/notice-write.js"></script>
     <!-- Footer Scripts -->
     <script src="../../public/js/functions.js"></script>
     <!-- somin -->
-    <script src="../../public/js/sominjs/reprofile.js"></script>
+    <script src="../../public/js/sominjs/profile.js"></script>
 
+    <!-- profile -->
     <script>
-
+      jQuery(document).ready(function () {
+        tinymce.init({
+          selector: '#wysiwyg-editor',
+          setup: function (editor) {
+            editor.on('change', function (e) {
+              editor.save();
+            });
+          },
+        });
+      });
       window.onload = function() {
     document.getElementById('calls-tab').click();
 };
     </script>
-    <script src="../../public/js/notice.js"></script>
   </body>
 </html>

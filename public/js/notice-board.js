@@ -219,7 +219,21 @@ searchbtn.addEventListener("click", function (searchevent) {
           if (data == "") {
             alert("검색 결과가 없습니다.");
             //새로고침
-            location.reload();
+            //location.reload();
+            getData()
+              .then((data) => {
+                totalPage = data.length;
+                localStorage.setItem("totalPage", totalPage);
+                console.log("getTotalPage : ", totalPage);
+                console.log("getData : ", data);
+
+                // 데이터 로드가 완료된 후에 출력 및 페이지네이션 블록 출력 처리
+                post_data_print(select_block);
+                block_print(current_block);
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
           }
           console.log("getDataByTitle : ", data);
           totalPage = data.length;
@@ -241,8 +255,20 @@ searchbtn.addEventListener("click", function (searchevent) {
           //데이터가 없을 때
           if (data == "") {
             alert("검색 결과가 없습니다.");
-            //새로고침
-            location.reload();
+            getData()
+              .then((data) => {
+                totalPage = data.length;
+                localStorage.setItem("totalPage", totalPage);
+                console.log("getTotalPage : ", totalPage);
+                console.log("getData : ", data);
+
+                // 데이터 로드가 완료된 후에 출력 및 페이지네이션 블록 출력 처리
+                post_data_print(select_block);
+                block_print(current_block);
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+              });
           }
           console.log("getDataByDetails : ", data);
           totalPage = data.length;
@@ -392,15 +418,9 @@ if (isAdmin) {
   console.log("isAdmin?? : ", isAdmin);
   writebutton.style.display = "inline-block";
   writebutton.onmouseover = function () {
-    accessToken = getCookie("accessToken");
-    decoded = parseJwt(accessToken);
-    isAdminCheck();
-    if (isAdmin) {
-      localStorage.setItem("select_block", select_block);
-      localStorage.setItem("post_mode", "write");
-    } else {
-      alert("권한이 없습니다.");
-    }
+    localStorage.setItem("select_block", select_block);
+    localStorage.setItem("post_mode", "write");
+    console.log("post_mode : ", localStorage.getItem("post_mode"));
   };
 } else {
   console.log("isAdmin???  : ", isAdmin);
@@ -623,9 +643,6 @@ function createPostElement(data, i) {
   readMoreAnchor.classList.add("more-link");
   readMoreAnchor.textContent = "자세히 보기";
   readMoreAnchor.onmouseover = function () {
-    accessToken = getCookie("accessToken");
-    decoded = parseJwt(accessToken);
-    isAdminCheck();
     localStorage.setItem("select_block", select_block);
     localStorage.setItem("post_id", data[i - 1].ID_PK);
   };
@@ -641,7 +658,7 @@ function createPostElement(data, i) {
   if (isAdmin) {
     const modifyaAnchor = document.createElement("a");
     modifyaAnchor.target = "_self";
-    modifyaAnchor.href = "#calls-content";
+    modifyaAnchor.href = "#calls-content"; //안되는 곳
     modifyaAnchor.classList.add("btn", "btn-primary");
     modifyaAnchor.textContent = "수정";
     modifyaAnchor.onmouseover = function () {
@@ -687,4 +704,22 @@ function createPostElement(data, i) {
   gridInnerDiv.appendChild(readMoreDiv);
   gridInnerDiv.appendChild(br);
   gridInnerDiv.appendChild(entryButtonDiv);
+}
+
+//noticeinit
+function noticeInit() {
+  getData()
+    .then((data) => {
+      totalPage = data.length;
+      localStorage.setItem("totalPage", totalPage);
+      console.log("getTotalPage : ", totalPage);
+      console.log("getData : ", data);
+
+      // 데이터 로드가 완료된 후에 출력 및 페이지네이션 블록 출력 처리
+      post_data_print(select_block);
+      block_print(current_block);
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }
