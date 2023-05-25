@@ -16,7 +16,7 @@ router.get('/', checkTokens, async(req, res) => {
 // http://localhost:8080/review-group
 router.post('/', checkTokens, async (req, res) => {
     try {
-        let AT =  req.headers.authorization.split('Bearer ')[1];
+        let AT =  req.headers.cookie.split('Bearer ')[1];
         let user = jwt.decode(AT, process.env.secret);
         let pk = await client.signIn.getUserPKById(user.id);
         
@@ -71,7 +71,7 @@ router.get('/update', checkTokens, async(req, res) => {
 router.post('/update', checkTokens, async(req, res) => {
     let classification = Object.values(req.query.position);
 
-    let AT =  req.headers.authorization.split('Bearer ')[1];
+    let AT =  req.headers.cookie.split('Bearer ')[1];
     let user = jwt.decode(AT, process.env.secret);
     let pk = await client.signIn.getUserPKById(user.id);
 

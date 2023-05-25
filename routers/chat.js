@@ -15,7 +15,7 @@ require('express-session');
 router.get('/', checkTokens, async(req, res) => {
 
     //로그인 정보
-    let AT =  req.headers.authorization.split('Bearer ')[1];
+    let AT =  req.headers.cookie.split('Bearer ')[1];
     let user = jwt.decode(AT, process.env.secret);
     
     await chat.getChatRoomsList(user.id)

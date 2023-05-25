@@ -9,10 +9,11 @@ module.exports = {
          * access token 자체가 없는 경우엔 에러(401)를 반환
          * 클라이언트측에선 401을 응답받으면 로그인 페이지로 이동시킴
          */
-        if((!req.headers.authorization))
+        if((!req.headers.cookie))
             return res.status(500).json({ message : "Internal Server Error" });
         
-        let AT =  req.headers.authorization.split('Bearer ')[1];
+        let temp = req.headers.cookie
+        let AT = temp.toString().slice(12);
 
         let Tokens = await getTokens(AT);
 

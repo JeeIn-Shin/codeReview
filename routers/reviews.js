@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 
 // http://localhost:8080/reviews
 router.get('/', checkTokens, async(req, res) => {
-    let AT =  req.headers.authorization.split('Bearer ')[1];
+    let AT =  req.headers.cookie.split('Bearer ')[1];
     let user = jwt.decode(AT, process.env.secret);
     let fk = await client.signIn.getUserPKById(user.id);
     /// ?????
