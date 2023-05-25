@@ -6,7 +6,8 @@ const jwt = require('jsonwebtoken');
 
 // http://localhost:8080/settings/profile
 router.get('/profile', checkTokens, async(req, res) => {
-    let AT =  req.headers.cookie.split('Bearer ')[1];
+    console.log(req.header);
+    let AT =  req.headers.Authorization.split('Bearer ')[1];
     let user = jwt.decode(AT, process.env.secret);
 
     let result = await settings.getByLoginInfo(user.id);
@@ -17,7 +18,7 @@ router.get('/profile', checkTokens, async(req, res) => {
 // http://localhost:8080/settings/profile
 router.post('/profile', checkTokens, async(req, res) => {
 
-    let AT =  req.headers.cookie.split('Bearer ')[1];
+    let AT =  req.headers.Authorization.split('Bearer ')[1];
     let user = jwt.decode(AT, process.env.secret);
     
     let updateInfo = {
