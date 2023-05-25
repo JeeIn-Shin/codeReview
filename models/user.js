@@ -202,7 +202,6 @@ const user = {
         },
 
         setTokens: (id, tokens) => {
-            console.log(id, tokens)
             return new Promise((resolve, reject) => {
                 db.getConnection((err, connection) => {
                     if(!err)    {

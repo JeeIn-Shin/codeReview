@@ -189,10 +189,10 @@ function postData(Data) {
       console.log("notice:", notice);
       window.onbeforeunload = null;
       localStorage.setItem("post_id", notice.insertId);
-      location.href = "notice.html";
+      location.href = "../../views/notic/notice.html";
     })
     .then((json) => console.log(json))
-    .catch((err) => console.error(err), alert("글쓰기에 실패하였습니다."));
+    .catch((err) => console.error(err));
 }
 
 function putData(data) {

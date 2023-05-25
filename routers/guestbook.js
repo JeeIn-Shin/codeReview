@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken');
 // 작성된 후기 보러가기 - 리뷰어만
 // http://localhost:8080/guestbook
 router.get('/', checkTokens, async(req, res) => {
-    let AT =  req.headers.authorization.split('Bearer ')[1];
+    let AT =  req.headers.Authorization.split('Bearer ')[1];
     let user = jwt.decode(AT, process.env.secret);
     let reviewer = await client.signIn.getUserPKById(user.id);
 
@@ -22,7 +22,7 @@ router.get('/', checkTokens, async(req, res) => {
 // 후기 작성하러가기 - 리뷰이만
 // http://localhost:8080/guestbook/?reviewer=
 router.post('/', checkTokens, async(req, res) => {
-    let AT =  req.headers.authorization.split('Bearer ')[1];
+    let AT =  req.headers.Authorization.split('Bearer ')[1];
     let user = jwt.decode(AT, process.env.secret);
     //작성하는 사람
     let reviewee = await client.signIn.getUserPKById(user.id);

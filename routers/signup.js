@@ -10,7 +10,7 @@ const setProfileImage = require('../others/setProfileImage');
 
 // http://localhost:8080/signup
 router.get('/', async (req, res) => {
-    res.render('signup/signup');
+    res.render('signup/signup.html');
 })
 
 //test admin 생성용

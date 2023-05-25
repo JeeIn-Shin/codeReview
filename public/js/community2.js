@@ -59,7 +59,7 @@ const commentsNumber = document.getElementById("comments-number");
 window.onload = function () {
   if (!accessToken) {
     alert("로그인이 필요합니다.");
-    location.href = "http://localhost:8080/views/login/login.html"; //경로 수정
+    location.href = "../../views/login/login.html"; //경로 수정
   }
 };
 

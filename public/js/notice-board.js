@@ -641,7 +641,7 @@ function createPostElement(data, i) {
   if (isAdmin) {
     const modifyaAnchor = document.createElement("a");
     modifyaAnchor.target = "_self";
-    modifyaAnchor.href = "notice-write.html";
+    modifyaAnchor.href = "#calls-content";
     modifyaAnchor.classList.add("btn", "btn-primary");
     modifyaAnchor.textContent = "수정";
     modifyaAnchor.onmouseover = function () {

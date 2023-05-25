@@ -44,14 +44,12 @@ const matching = {
         return new Promise((resolve, reject) => {
             let enroll = Object.values(enrollInfo);
             let plan = Object.values(additionalData);
-            let prefer = Object.values(preferData);
 
             db.getConnection((err, connection) => {
                 connection.beginTransaction((err) => {
                     if (!err) {
                         let sql1 = `INSERT INTO QUEUE_TB VALUES ( ? )`;
                         let sql2 = `INSERT INTO SCHEDULE_TB VALUES ( ? )`;
-                        let sql3 = `INSERT INTO REVIEWEE_PREFER_TB VALUES ( ? )`;
 
                         connection.query(sql1, [enroll], (err, res) => {
                             if (err)
@@ -60,10 +58,6 @@ const matching = {
                             connection.query(sql2, [plan], (err, res) => {
                                 if (err)
                                     return connection.rollback(() => { throw err });
-
-                                connection.query(sql3, [prefer], (err, res) => {
-                                    if(err)
-                                        return connection.rollback(() => { throw err });
                                     
                                     connection.commit((err) => {
                                         if (err)
@@ -72,7 +66,6 @@ const matching = {
                                         resolve(res);
                                 })
                             })
-                        })
                     }
                     else {
                         console.log("connection error" + err)
@@ -126,7 +119,7 @@ const matching = {
                                ON SCHEDULE_TB.ID_PK = REVIEWEE_PREFER_TB.REVIEWEE_ID_FK
                                SET
                                SCHEDULE_TB.MON = ?, SCHEDULE_TB.TUE = ?, SCHEDULE_TB.WED = ?, SCHEDULE_TB.THURS = ?, SCHEDULE_TB.FRI = ?,
-                               REVIEWEE_PREFER_TB.LANGUAGE = ?, REVIEWEE_PREFER_TB.ACTIVITY = ?
+                               REVIEWEE_PREFER_TB.LANGUAGE = ?
                                WHERE SCHEDULE_TB.ID_PK LIKE ${id};`;
 
                     connection.query(sql, scheduleInfo, (err, res) => {
@@ -259,7 +252,7 @@ const matching = {
         return new Promise((resolve, reject) => {
             db.getConnection((err, connection) => {
                 if (!err) {
-                    let sql = `DELETE FROM queue, schedule, prefer
+                    let sql = `DELETE FROM queue, schedule
                                USING SCHEDULE_TB AS schedule
                                INNER JOIN REVIEWEE_PREFER_TB AS prefer
                                ON schedule.ID_PK = prefer.REVIEWEE_ID_FK
