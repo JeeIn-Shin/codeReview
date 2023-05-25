@@ -549,7 +549,7 @@ function createPostElement(data, i) {
   const heading = document.createElement("h2");
   const titleAnchor = document.createElement("a");
   titleAnchor.target = "_self";
-  titleAnchor.href = "notice.html"; // 게시글 링크
+  titleAnchor.href = "../../views/notic/notice.html"; // 게시글 링크
   titleAnchor.textContent = data[i - 1].TITLE; // 게시글 제목
 
   titleAnchor.onmouseover = function () {
@@ -619,7 +619,7 @@ function createPostElement(data, i) {
 
   const readMoreAnchor = document.createElement("a");
   readMoreAnchor.target = "_self";
-  readMoreAnchor.href = "notice.html";
+  readMoreAnchor.href = "../../views/notic/notice.html";
   readMoreAnchor.classList.add("more-link");
   readMoreAnchor.textContent = "자세히 보기";
   readMoreAnchor.onmouseover = function () {
