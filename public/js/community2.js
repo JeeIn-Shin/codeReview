@@ -51,14 +51,6 @@ commentsUser.innerHTML = username;
 
 const commentsNumber = document.getElementById("comments-number");
 
-//실행될 때 액세스 토큰이 없으면 로그인 페이지로 이동
-window.onload = function () {
-  if (!accessToken) {
-    alert("로그인이 필요합니다.");
-    location.href = "../../views/login/login.html"; //경로 수정
-  }
-};
-
 // author input과 password input, comment textarea, submit button을 가져온다.
 const commentTextarea = document.getElementById("comment");
 const submitButton = document.getElementById("submit-button");
