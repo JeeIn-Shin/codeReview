@@ -7,10 +7,10 @@ function getCookie(name) {
   if (parts.length === 2) return parts.pop().split(";").shift();
 }
 
-//let accessToken = getCookie('accessToken'); //accessToken
+accessToken = getCookie("accessToken"); //accessToken
 console.log("accessToken: ", accessToken);
 
-//let decoded = parseJwt(accessToken);
+decoded = parseJwt(accessToken);
 console.log("decoded: ", decoded);
 
 function parseJwt(accessToken) {
@@ -87,6 +87,7 @@ let YearMonthDate = year + "-" + month + "-" + day; //ex) 2021-10-07
 if (post_mode === "write") {
   document.querySelector("h1").textContent = "공지사항";
   date.textContent = YearMonthDate;
+  writebtn.textContent = "게시";
 
   writebtn.addEventListener("click", function (submitevent) {
     if (title.value == "") {

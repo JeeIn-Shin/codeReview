@@ -292,85 +292,61 @@
 
         <!-- notice -->
         <div class="calls px-0 py-2 p-xl-3">
-          <div class="stretched">
-            <div id="wrapper" class="clearfix">
-              <!-- Page Title-->
-              <section id="page-title">
-                <div class="container clearfix">
-                  <h1 class="center">공지사항</h1>
-                </div>
-              </section>
-              <!-- #page-title end -->
-              <!-- Content-->
-              <section id="content">
-                <div class="content-wrap">
-                  <div class="container clearfix">
-                    <div class="single-post mb-0 mw-sm mx-auto">
-                      <!-- Single Post-->
-                      <div class="entry clearfix">
-                        <!-- Entry Title-->
-                        <div class="entry-title center">
-                          <h2 id="noticetitle"></h2>
+            <div class="stretched" >
+                <div id="wrapper" class="clearfix">
+                  <section id="page-title">
+                    <div class="container clearfix">
+                      <h1 class="center">공지사항</h1>
+                    </div>
+                  </section>
+                  <!-- #page-title end -->
+    
+                  <!-- Content
+                          ============================================= -->
+                  <section id="content">
+                    <div class="content-wrap">
+                      <div class="container clearfix">
+                        <p><i class="icon-calendar3"></i> <span id="date"></span></p>
+                        <div class="col-12 bottommargin-sm">
+                          <label for="writer"><i class="icon-user"></i> admin</label>
+                          <!-- <input type="text" id="writer" name="writer" value="" class="form-control required" placeholder="직책을 입력하십시오." /> -->
                         </div>
-                        <!-- .entry-title end -->
-
-                        <div class="row align-items-center mt-2">
-                          <div class="col-md-2">
-                            <!-- Entry Meta-->
-                            <div>
-                              <ul class="d-flex flex-column entry-meta no-separator">
-                                <li class="me-0">
-                                  <i id="noticedate" class="icon-calendar3"> </i>
-                                </li>
-                                <li class="me-0">
-                                  <i id="noticewriter" class="icon-user"> </i>
-                                </li>
-                              </ul>
-                            </div>
-                            <!-- .entry-meta end -->
-                          </div>
+                        <div class="col-12 bottommargin-sm">
+                          <label for="title">제목<small class="text-danger">*</small></label>
+                          <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            value=""
+                            class="form-control required"
+                            placeholder="제목을 입력하십시오."
+                          />
                         </div>
-                        <!-- Entry Content-->
-                        <div id="noticedetails" class="entry-content mt-3 line"></div>
+    
+                        <textarea id="wysiwyg-editor"></textarea>
+                        <!-- <a href="notice-board.html" id="back" class="button button-border button-rounded button-fill fill-from-right button-blue" title="작성을 취소하고 돌아갑니다"><span>목록</span></a> -->
+                        <!-- 주석, 링크 수정, 앵커타면 새 탭으로 열림 -->
+                        <a
+                          href="../noticeboard/noticeboard.html"
+                          target="_self"
+                          id="backs"
+                          class="button button-border button-rounded button-fill fill-from-right button-blue"
+                          title="작성을 취소하고 돌아갑니다"
+                          ><span>목록</span></a
+                        >
+                        <button
+                          id="writebtn"
+                          class="button button-border button-rounded button-fill button-red float-end"
+                        >
+                          <span>게시</span>
+                        </button>
                       </div>
-                      <!-- .entry end -->
                     </div>
-                    <div class="center">
-                      <!-- 수정, 기능 제대로 수행 되면 display: none 추가하기, -->
-                      <!-- 주석, 경로 수정, 목록페이지로 이동 시키기 -->
-                      <!-- onclick="goWirte()" -->
-                      <a
-                        href="../noticewrite/noticewrite.html"
-                        target="_self"
-                        id="put"
-                        style="display: none"
-                        class="button button-border button-rounded button-fill fill-from-right button-green"
-                        ><span>수정</span></a
-                      >
-                      <!-- 목록 -->
-                      <a
-                        href="../noticeboard/noticeboard.html"
-                        id="backs"
-                        class="button button-border button-rounded button-fill fill-from-right button-blue"
-                        title="돌아갑니다"
-                        ><span>목록</span></a
-                      >
-                      <!-- <a href="../mainLayout/index.html" target="#chats-content" title="돌아갑니다"><span>목록</span></a> -->
-                      <!-- 삭제 -->
-                      <a
-                        id="delete"
-                        style="display: none"
-                        class="button button-border button-rounded button-fill fill-from-right button-red"
-                        ><span>삭제</span></a
-                      >
-                    </div>
-                  </div>
+                  </section>
+                  <!-- #content end -->
                 </div>
-              </section>
-              <!-- #content end -->
-            </div>
-            <div id="gotoTop" class="icon-angle-up"></div>
-          </div>
+                <div id="gotoTop" class="icon-angle-up"></div>
+              </div>
           <!-- 주석, 페이지 마다 네비 넣어서, 기능 활성화 하기 -->
           <div class="navigation navbar navbar-light bg-primary noshow">
             <!-- Small Nav Start -->
@@ -1193,10 +1169,10 @@
 
     <!-- notice-board -->
     <script src="../../public/js/functions.js"></script>
-<!--     <script
+    <script
       id="noticeboard"
       src="../../public/js/notice-board.js?v=<%= Math.floor(Math.random() * 1000000) %>"
-    ></script> -->
+    ></script>
 
  <!--    <script src="../../public/js/community2.js"></script> -->
 
@@ -1205,19 +1181,27 @@
     <script src="../../public/js/jquery.js"></script>
     <script src="../../public/js/plugins.min.js"></script>
     <!-- TinyMCE Plugin -->
-<!--     <script src="../../public/js/components/tinymce/tinymce.min.js"></script> -->
- <!--    <script src="../../public/js/notice-write.js"></script> -->
+    <script src="../../public/js/components/tinymce/tinymce.min.js"></script>
+    <script src="../../public/js/notice-write.js"></script>
     <!-- Footer Scripts -->
     <script src="../../public/js/functions.js"></script>
     <!-- somin -->
     <script src="../../public/js/sominjs/reprofile.js"></script>
 
     <script>
-
+		jQuery(document).ready( function(){
+			tinymce.init({
+				selector: '#wysiwyg-editor',
+				setup: function(editor) {
+					editor.on('change', function(e) {
+						editor.save();
+					});
+				}
+			});
+		})
       window.onload = function() {
     document.getElementById('calls-tab').click();
 };
     </script>
-    <script src="../../public/js/notice.js"></script>
   </body>
 </html>

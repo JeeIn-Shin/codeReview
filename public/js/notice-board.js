@@ -412,7 +412,7 @@ function block_print(front_block) {
   }
 }
 //관리자만 글쓰기 기능을 이용하게 하기
-const writebutton = document.getElementById("write");
+const writebutton = document.getElementById("writes");
 console.log("isAdmin? : ", isAdmin);
 if (isAdmin) {
   console.log("isAdmin?? : ", isAdmin);
@@ -482,7 +482,10 @@ function deleteDataById(post_id) {
       })
       .then((response) => response.json())
       .then((json) => alert("삭제되었습니다."))
-      .then((json) => location.reload());
+      .then(
+        (json) =>
+          (window.location.href = "../../views/noticeboard/noticeboard.html")
+      );
   } catch (error) {
     alert("삭제에 실패하였습니다.");
     console.log("error : ", error);
@@ -658,7 +661,7 @@ function createPostElement(data, i) {
   if (isAdmin) {
     const modifyaAnchor = document.createElement("a");
     modifyaAnchor.target = "_self";
-    modifyaAnchor.href = "#calls-content"; //안되는 곳
+    modifyaAnchor.href = "../../views/noticewrite/noticewrite.html";
     modifyaAnchor.classList.add("btn", "btn-primary");
     modifyaAnchor.textContent = "수정";
     modifyaAnchor.onmouseover = function () {
