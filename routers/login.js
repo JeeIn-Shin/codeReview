@@ -37,9 +37,7 @@ router.route('/')
         await client.signIn.setTokens(pk.ID_PK, tokens); 
 
         res.cookie('accessToken', accessToken, { httpOnly : true });
-
         res.json(accessToken);
-        //res.render('MainLayout/index.html', accessToken);
     }
     catch(err)  {
         next(err);

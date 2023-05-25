@@ -1,0 +1,76 @@
+table {
+    border-collapse: collapse;
+    
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 8px;
+    width: 80px;
+  }
+
+  .time-slot {
+    position: relative;
+
+  }
+
+  .time-slot input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .time-slot label {
+    display: block;
+    padding: 10px;
+    background-color: #F2F2F2;
+    cursor: pointer;
+  }
+
+  .time-slot input[type="checkbox"]:checked + label {
+    background-color: #0D5FA6;
+  }
+
+  .time-slot input[type="checkbox"]:checked + label::after {
+    content: "✔";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .scheduleTable {
+    padding: 8px;
+    position: absolute;
+  }
+
+
+
+.mtstart2 {
+    display: inline-block;
+    padding: 30px 50px;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-color: #f0f0f0;
+    color: #333333;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* 버튼 호버 효과 */
+  .mtstart2:hover {
+    background-color: #F2F2F2;
+  }
+  
+  /* 버튼 활성화 효과 */
+  .mtstart2:active {
+    background-color: #0D5FA6;
+  }
+  
+  .selectbt {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }

@@ -49,6 +49,7 @@ app.use(cookieParser(process.env.secret));
 
 app.use(methodOverride('_method'));
 
+const mainRouter = require('./routers/main');
 const settingsRouter = require('./routers/settings');
 const signupRouter = require("./routers/signup");
 const matchingRouter = require("./routers/matching");
@@ -68,6 +69,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine','html');
 app.engine('html', require('ejs').__express);
 
+app.use('/', mainRouter);
 app.use('/settings', settingsRouter);
 app.use('/signup', signupRouter);
 app.use('/review-group', matchingRouter);

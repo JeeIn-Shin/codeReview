@@ -1,0 +1,55 @@
+@media (min-width: 1200px){
+	.container {
+		max-width: 1200px;
+	}
+}
+
+@media (max-width: 576px) {
+	
+	.survey-progress-bar .step p {
+	    font-size: 12px;
+	}
+	.survey-from-full h2.title {
+	    font-size: 18px;
+	}
+	.survey-from-full-bg-overly {
+	    padding-top: 50px;
+	    padding-bottom: 50px;
+	}
+}
+
+@media (max-width: 450px) {
+	.survey-from-full .header-survey {
+	    padding: 20px 10px;
+	}
+	.survy-form-outer-full {
+	    padding: 20px 20px;
+	}
+	.survy-form-outer form .page .field.btns .button1 {
+	    padding: 15px 20px;
+	    font-size: 13px;
+	    display: inline-block;
+	}
+	.survy-form-outer .title strong {
+	    font-size: 14px;
+	}
+	.survy-form-outer form .page .field.btns .button1.submit {
+	    margin-top: 20px;
+	}
+	.from-successfull-complete-done h3 {
+	    margin-bottom: 5px;
+	    font-size: 18px;
+	    line-height: 25px;
+	}
+	.section-headding.font-samll h2 {
+	    font-size: 30px;
+	}
+}
+@media (max-width: 350px) {
+	.survey-progress-bar .step p {
+	    font-size: 9px;
+	}
+	.survey-from-full h2.title {
+	    font-size: 16px;
+	}
+}
