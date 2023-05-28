@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Multistep Form HTML5 CSS Bootstrap5 Template</title>
+    <link rel="icon" href="../../public/images/sominimg/icon.png" type="image/gif" sizes="16x16" />
+    <link rel="icon" href="../../public/images/sominimg/icon.png" type="image/gif" sizes="18x18" />
+    <link rel="icon" href="../../public/images/sominimg/icon.png" type="image/gif" sizes="20x20" />
+
+    <link rel="stylesheet" href="../../public/css/somincss/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/fontawesome.all.min.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/nice-select.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/normalize.css" />
+    <link rel="stylesheet" href="../../public/css/sominSyle.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/responsive.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/signup.css" />
+    <link rel="stylesheet" href="../../public/css/somincss/login.css" />
+  </head>
+  <body>
+    <div class="preloader" id="preloader">
+      <svg id="loader" width="100%" height="100%">
+        <path id="corners" d="m 0 12.5 l 0 -12.5 l 50 0 l 0 50 l -50 0 l 0 -37.5" />
+        <path id="L" d="m 18 9 l 0 30 l 16 0" />
+      </svg>
+    </div>
+    <!-- Start Servey From Section -->
+    <section class="survey-from-full" style="background-image: url('')">
+      <div class="survey-from-full-bg-overly">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 align-self-center">
+              <div class="survey-from-full-main">
+                <div class="header-survey">
+                  <h2 class="title">회원가입</h2>
+                  <div class="survey-progress-bar">
+                    <div class="step">
+                      <p>회원정보</p>
+                      <div class="bullet">
+                        <span>1</span>
+                      </div>
+                    </div>
+                    <div class="step">
+                      <p>프로필</p>
+                      <div class="bullet">
+                        <span>2</span>
+                      </div>
+                    </div>
+                    <div class="step">
+                      <p>언어 선택</p>
+                      <div class="bullet">
+                        <span>3</span>
+                      </div>
+                    </div>
+                    <div class="step">
+                      <p>가입 완료</p>
+                      <div class="bullet">
+                        <span>4</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="survy-form-outer-full">
+                  <div class="survy-form-outer">
+                    <form id="contact-form" action="http://localhost:8082/signup" method="post">
+                      <div class="page slide-page">
+                        <div class="title"><strong>회원가입 정보를 입력해주세요.</strong></div>
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <div class="single-field">
+                              <label for="id">아이디(학번)</label>
+                              <input
+                                type="text"
+                                oninput="this.value=this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                id="joinnum"
+                                name="id"
+                                placeholder="ex) 2071018"
+                                maxlength="7"
+                                autocomplete="on"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6">
+                            <div class="single-field">
+                              <label for="nickname">닉네임</label>
+                              <input
+                                type="text"
+                                id="last_name"
+                                name="nickname"
+                                placeholder="10글자 이하로 입력"
+                                maxlength="8"
+                                autocomplete="off"
+                                required
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6">
+                            <div class="single-field">
+                              <label for="password">비밀번호</label>
+                              <input
+                                type="password"
+                                id="pwd"
+                                name="pwd"
+                                oninput="validatePassword()"
+                                required
+                                placeholder="8~16자리 영문 대소문자,숫자,특수문자 조합"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6">
+                            <div class="single-field">
+                              <label for="passwordch">비밀번호확인</label>
+                              <input
+                                type="password"
+                                id="passwordch"
+                                name="passwordch"
+                                oninput="validatePassword()"
+                                required
+                                placeholder="동일하게 입력"
+                              />
+                              <div id="message"></div>
+                            </div>
+                          </div>
+
+                          <div class="col-sm-6">
+                            <div class="single-field">
+                              <label for="email">이메일</label>
+                              <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="codereivew @ hansung.ac.kr"
+                                required
+                              />
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="single-field">
+                              <label for="github">깃허브</label>
+                              <input
+                                type="text"
+                                id="github"
+                                name="github"
+                                required
+                                placeholder="https://github.com/"
+                              />
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="single-field mb-20">
+                          <button type="submit" class="firstNext button1 next">
+                            다음 <i class="fas fa-angle-double-right"></i>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div class="page">
+                        <div class="title">
+                          <strong>프로필을 선택해주세요.</strong>
+                        </div>
+
+                        <div class="profile_select">
+                          <div class="profile01">
+                            <button class="button" type="button" onclick="select(event)">
+                              <img
+                                src="../../public/images/sominimg/profile1.png"
+                                alt="img error"
+                              />
+                            </button>
+                          </div>
+
+                          <div class="profile02">
+                            <button class="button" type="button" onclick="select(event)">
+                              <img
+                                src="../../public/images/sominimg/profile2.png"
+                                alt="img error"
+                              />
+                            </button>
+                          </div>
+
+                          <div class="profile03">
+                            <button class="button" type="button" onclick="select(event)">
+                              <img
+                                src="../../public/images/sominimg/profile3.png"
+                                alt="img error"
+                              />
+                            </button>
+                          </div>
+
+                          <div class="profile04">
+                            <button class="button" type="button" onclick="select(event)">
+                              <img
+                                src="../../public/images/sominimg/profile4.png"
+                                alt="img error"
+                              />
+                            </button>
+                          </div>
+                          <input value="" type="hidden" name="profileImgNumber" />
+                        </div>
+
+                        <div class="field_btns">
+                          <button class="prev-1 button1 mr-20 bg prev">
+                            <i class="fas fa-angle-double-left"></i> 이전
+                          </button>
+                          <button class="next-1 button1 next">
+                            다음 <i class="fas fa-angle-double-right"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="page">
+                        <div class="language_select">
+                          <p>
+                            <strong
+                              ><span style="color: rgb(255, 81, 81)">언어 설정</span>을 선택
+                              해주세요.</strong
+                            >
+                          </p>
+                          <div class="listselect1">
+                            <p><strong>- 개발 경험이 많은 언어</strong></p>
+                            <div class="radiobox">
+                              <input type="radio" name="c" id="c" checked value="2" />
+                              <label for="c">C</label>
+                              <input type="radio" name="cPlus" id="cPlus" value="2" />
+                              <label for="cPlus">C++</label>
+                              <input type="radio" name="cSharp" id="cSharp" value="2" />
+                              <label for="cSharp">C#</label>
+                              <input type="radio" name="java" id="java" value="2" />
+                              <label for="java">JAVA</label>
+                              <input type="radio" name="kotlin" id="kotlin" value="2" />
+                              <label for="kotlin">Kotiln</label>
+                              <input type="radio" name="swift" id="swift" value="2" />
+                              <label for="swift">Swift</label>
+                              <input type="radio" name="python" id="python" value="2" />
+                              <label for="python">Python</label>
+                              <input type="radio" name="go" id="go" value="2" />
+                              <label for="go">GO</label>
+                              <input type="radio" name="javascript" id="javaScript" value="2" />
+                              <label for="javaScript">JavaScript</label>
+                              <input type="radio" name="rust" id="rust" value="2" />
+                              <label for="rust">Rust</label>
+                              <input type="radio" name="ruby" id="ruby" value="2" />
+                              <label for="ruby">Ruby</label>
+                            </div>
+                          </div>
+
+                          <div class="listselect2">
+                            <p><strong>- 개발 경험이 있는 언어</strong></p>
+                            <input type="radio" name="c" id="c2" value="1" />
+                            <label for="c2">C</label>
+                            <input type="radio" name="cPlus" id="cPlus2" value="1" />
+                            <label for="cPlus2">C++</label>
+                            <input type="radio" name="cSharp" id="cSharp2" value="1" />
+                            <label for="cSharp2">C#</label>
+                            <input type="radio" name="java" id="java2" value="1" />
+                            <label for="java2">JAVA</label>
+                            <input type="radio" name="kotlin" id="kotlin2" value="1" />
+                            <label for="kotlin2">Kotiln</label>
+                            <input type="radio" name="swift" id="swift2" value="1" />
+                            <label for="swift2">Swift</label>
+                            <input type="radio" name="python" id="python2" value="1" />
+                            <label for="python2">Python</label>
+                            <input type="radio" name="go" id="go2" value="1" />
+                            <label for="go2">GO</label>
+                            <input type="radio" name="javascript" id="javaScript2" value="1" />
+                            <label for="javaScript2">JavaScript</label>
+                            <input type="radio" name="rust" id="rust2" value="1" />
+                            <label for="rust2">Rust</label>
+                            <input type="radio" name="ruby" id="ruby2" value="1" />
+                            <label for="ruby2">Ruby</label>
+                          </div>
+                          <div class="listselect3">
+                            <p><strong>- 개발 경험이 없는 언어</strong></p>
+                            <input type="radio" name="c" id="c3" value="0" />
+                            <label for="c3">C</label>
+                            <input type="radio" name="cPlus" id="cPlus3" value="0" />
+                            <label for="cPlus3">C++</label>
+                            <input type="radio" name="cSharp" id="cSharp3" value="0" />
+                            <label for="cSharp3">C#</label>
+                            <input type="radio" name="java" id="java3" value="0" />
+                            <label for="java3">JAVA</label>
+                            <input type="radio" name="kotlin" id="kotlin3" value="0" />
+                            <label for="kotlin3">Kotiln</label>
+                            <input type="radio" name="swift" id="swift3" value="0" />
+                            <label for="swift3">Swift</label>
+                            <input type="radio" name="python" id="python3" value="0" />
+                            <label for="python3">Python</label>
+                            <input type="radio" name="go" id="go3" value="0" />
+                            <label for="go3">GO</label>
+                            <input type="radio" name="javascript" id="javaScript3" value="0" />
+                            <label for="javaScript3">JavaScript</label>
+                            <input type="radio" name="rust" id="rust3" value="0" />
+                            <label for="rust3">Rust</label>
+                            <input type="radio" name="ruby" id="ruby3" value="0" />
+                            <label for="ruby3">Ruby</label>
+                          </div>
+                        </div>
+
+                        <div class="language_select">
+                          <div class="active_selectone">
+                            <p>
+                              <strong
+                                ><span style="color: rgb(255, 81, 81)">활동 설정</span>을 선택
+                                해주세요.</strong
+                              >
+                            </p>
+                            <input
+                              type="checkbox"
+                              name="codereview"
+                              value="1"
+                              id="codereview"
+                              onclick="is_checked()"
+                            />
+                            <input
+                              type="hidden"
+                              name="codereview"
+                              value="0"
+                              id="codereview_hidden"
+                              onclick="is_checked()"
+                            />
+                            <label for="codereivew">코드 리뷰</label>
+                            <input
+                              type="checkbox"
+                              name="refactoring"
+                              value="1"
+                              id="refactoring"
+                              onclick="is_checked()"
+                            />
+                            <input
+                              type="hidden"
+                              name="refactoring"
+                              value="0"
+                              id="refactoring_hidden"
+                              onclick="is_checked()"
+                            />
+                            <label for="refactoring">코드 수정</label>
+                            <input
+                              type="checkbox"
+                              name="qa"
+                              value="1"
+                              id="qa"
+                              onclick="is_checked()"
+                            />
+                            <input
+                              type="hidden"
+                              name="qa"
+                              value="0"
+                              id="qa_hidden"
+                              onclick="is_checked()"
+                            />
+                            <label for="qa">코드 검증</label>
+                          </div>
+                        </div>
+                        <div class="field_btns">
+                          <button class="prev-2 button1 mr-20 bg prev">
+                            <i class="fas fa-angle-double-left"></i> 이전
+                          </button>
+                          <button class="next-2 button1 next">
+                            다음 <i class="fas fa-angle-double-right"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <div class="page success">
+                        <div class="success-survy-page">
+                          <i class="far fa-check-circle"></i>
+                          <div class="np-btn-success">
+                            <strong
+                              >감사합니다 !<br />앞에 입력하신 정보로 가입하시겠습니까?</strong
+                            >
+                            <div class="field btns np-btn-success">
+                              <button class="prev-3 button1 mr-20 bg prev">
+                                <i class="fas fa-angle-double-left"></i> 이전
+                              </button>
+                              <button type="submit" class="button1">가입하기</button>
+                            </div>
+                            <div class="ajax-response"></div>
+                          </div>
+                          <div class="from-successfull-complete-done">
+                            <h3>가입 완료</h3>
+                            <strong>감사합니다 !</strong>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Servey From Section -->
+
+    <!-- Js File -->
+    <script src="../../public/js/sominjs/modernizr.min.js"></script>
+    <script src="../../public/js/sominjs/jquery-3.6.0.min.js"></script>
+    <script src="../../public/js/sominjs/popper.min.js"></script>
+    <script src="../../public/js/sominjs/bootstrap.min.js"></script>
+    <script src="../../public/js/sominjs/jquery.nice-select.min.js"></script>
+    <script src="../../public/js/sominjs/script.js"></script>
+    <script src="../../public/js/sominjs/multifrom.js"></script>
+    <script src="../../public/js/sominjs/profile.js"></script>
+  </body>
+</html>
